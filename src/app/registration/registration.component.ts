@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { PlatformLocation } from '@angular/common';
 
 @Component({
     selector: 'app-registration',
@@ -7,7 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistrationComponent implements OnInit {
     title = 'Create an Account';
-    constructor() { }
+    name: string;
+    email: string;
+    username: string;
+    password: string;
+    passwordHash = (pw: string): string => {
+        return pw;
+    }
+    constructor(private http: HttpClient, private location: PlatformLocation) { }
 
     ngOnInit() { }
+
+
 }

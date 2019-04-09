@@ -1,11 +1,16 @@
-<div class="container">
+<h1>{{title}}</h1>
+<div class="form">
     <mat-form-field>
-        <input matInput placeholder="Input">
+        <input matInput placeholder="Name" [(ngModel)]="name">
     </mat-form-field>
-
     <mat-form-field>
-        <mat-select placeholder="Select">
-            <mat-option value="option">Option</mat-option>
-        </mat-select>
+        <input matInput placeholder="Email" [(ngModel)]="email">
     </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Username" [(ngModel)]="username">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="password">
+    </mat-form-field>
+    <button mat-raised-button color="primary" style="margin-top: 10px">Register</button>
 </div>
