@@ -4,16 +4,17 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-
-import { MaterialModule } from './material-module/material-module.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { RegistrationComponent } from './registration/registration.component';
+import { MaterialModule } from './material/material.module';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
