@@ -1,5 +1,22 @@
-<mat-toolbar color="primary">
-    <span>RecipIO</span>
-</mat-toolbar>
+<div style="width: 100%; position: sticky; top: 0; z-index: 9;">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <button mat-raised-button type="button" color="primary" (click)="drawer.toggle()">
+                <i class="fas fa-bars fa-2x"></i>
+            </button>
+            <span style="margin-left: 20px;">RecipIO</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+<mat-drawer-container style="height: 100%;">
+    <mat-drawer #drawer mode="over" style="width: 300px; height: 100%;">
+        <mat-action-list>
+            <button mat-list-item (click)="drawer.toggle()" routerLink="/">View Recipies</button>
+            <button mat-list-item (click)="drawer.toggle()" routerLink="/login">Login</button>
+            <button mat-list-item (click)="drawer.toggle()" routerLink="/registration">Create an Account</button>
+        </mat-action-list>
+    </mat-drawer>
 
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>
+
+</mat-drawer-container>
