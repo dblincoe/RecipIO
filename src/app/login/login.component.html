@@ -1,29 +1,11 @@
-<mat-card class="login-card">
-  <mat-card-header>
-    <mat-card-title>{{title}}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form class="login-form">
-      <table class="login-full-width" cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field class="login-full-width">
-              <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field class="login-full-width">
-              <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button (click)="login()" color="primary">Login</button>
-    <button mat-raised-button (click)="gotoRegistration()" color="primary">Register</button>
-  </mat-card-actions>
-</mat-card>
+<h1 class="mat-display-1">{{title}}</h1>
+<div class="form">
+    <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="email">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="password">
+    </mat-form-field>
+    <button mat-raised-button color="primary">Login</button>
+    <button mat-raised-button color="primary" routerLink="/registration">Sign Up</button>
+</div>

@@ -10,12 +10,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlatformModule } from '@angular/cdk/platform';
+import { RecipeListComponent } from './recipe-list/recipe-list.component';
+import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        RegistrationComponent
+        RegistrationComponent,
+        RecipeListComponent,
+        RecipeDetailComponent
     ],
     imports: [
         BrowserModule,

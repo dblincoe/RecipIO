@@ -2,33 +2,33 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: [
+        './login.component.css'
+    ]
 })
 export class LoginComponent implements OnInit {
-  title = 'Login';
+    title = 'Login';
 
-  username: string;
-  password: string;
-  
-  constructor(
-      private router: Router
-  ) { }
+    username: string;
+    password: string;
 
-  ngOnInit() {
-  }
+    constructor(private router: Router) {}
 
-  login(): void {
-    if (this.username == 'password' && this.password == 'username')
-    {
-      alert('You have logged in!');
-    } else {
-      alert('Invalid Credentials!');
+    ngOnInit() {}
+
+    login(): void {
+        if (this.username === 'password' && this.password === 'username') {
+            alert('You have logged in!');
+        } else {
+            alert('Invalid Credentials!');
+        }
     }
-  }
 
-  gotoRegistration(): void {
-      this.router.navigate(['/registration']);
-  }
+    gotoRegistration(): void {
+        this.router.navigate([
+            '/registration'
+        ]);
+    }
 }

@@ -1,17 +1,27 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+
+/* Light Mode w/ blue navbar */
+/* @import '~@angular/material/prebuilt-themes/indigo-pink.css'; */
+
+/* Dark Mode w/ pink navbar */
+/* @import '~@angular/material/prebuilt-themes/pink-bluegrey.css'; */
+
+/* Dark Mode w/ purple navbar*/
+@import '~@angular/material/prebuilt-themes/purple-green.css';
 
 /* You can add global styles to this file, and also import other style files */
-@media (min-width: 992px){
+@media (min-width: 992px) {
     .navbar li {
-        margin-left : 1em;
-        margin-right : 1em;
+        margin-left: 1em;
+        margin-right: 1em;
     }
 }
 
-  h1, h2, .wrapper, .table {
-     
-      margin: 30px 30px 30px 30px;
-  }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+body {
+    font-family: Roboto, Noto, sans-serif;
+}

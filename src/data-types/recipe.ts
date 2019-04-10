@@ -1,3 +1,6 @@
 export interface Recipe {
-    placeholder: string;
+    id: number;
+    title: string;
+    description: string;
+    timestamp: Date;
 }

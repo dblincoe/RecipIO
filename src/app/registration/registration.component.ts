@@ -6,17 +6,19 @@ import { User } from '../../data-types/user';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
-    styleUrls: ['./registration.component.css']
+    styleUrls: [
+        './registration.component.css'
+    ]
 })
 export class RegistrationComponent implements OnInit {
     title = 'Create an Account';
     user: User;
 
-    constructor(private http: HttpClient, private location: PlatformLocation) { }
+    constructor(private http: HttpClient, private location: PlatformLocation) {}
 
-    ngOnInit() { }
+    ngOnInit() {}
 
-    register(user: User): void {
+    register(user?: User): void {
+        this.http.post(this.location.getBaseHrefFromDOM() + 'addUser', this.user).subscribe();
     }
-
 }

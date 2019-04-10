@@ -1,4 +1,4 @@
-<h1>{{title}}</h1>
+<h1 class="mat-display-1">{{title}}</h1>
 <div class="form">
     <mat-form-field>
         <input matInput placeholder="Name" [(ngModel)]="name">
@@ -9,5 +9,6 @@
     <mat-form-field>
         <input matInput type="password" placeholder="Password" [(ngModel)]="password">
     </mat-form-field>
-    <button mat-raised-button color="primary" style="margin-top: 10px">Register</button>
+    <button mat-raised-button color="primary">Sign Up</button>
+    <button mat-raised-button color="primary" routerLink="/login">Login</button>
 </div>
