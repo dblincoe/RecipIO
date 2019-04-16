@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: [
-        './login.component.css'
-    ]
+    styleUrls: [ './login.component.css' ]
 })
 export class LoginComponent implements OnInit {
     title = 'Login';
@@ -27,8 +25,6 @@ export class LoginComponent implements OnInit {
     }
 
     gotoRegistration(): void {
-        this.router.navigate([
-            '/registration'
-        ]);
+        this.router.navigate([ '/registration' ]);
     }
 }

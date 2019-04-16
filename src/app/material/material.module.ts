@@ -41,7 +41,7 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTreeModule,
+    MatTreeModule
 } from '@angular/material';
 
 @NgModule({
@@ -87,7 +87,7 @@ import {
         MatTooltipModule,
         MatTreeModule,
         PortalModule,
-        ScrollingModule,
+        ScrollingModule
     ]
 })
-export class MaterialModule { }
+export class MaterialModule {}

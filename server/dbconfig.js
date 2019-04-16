@@ -1,10 +1,10 @@
 import { Pool } from 'mysql';
 
 const connectionPool = new Pool({
-	user: 'abc123',
-	database: 'group14',
+	user: 'team_14',
+	database: 'team_14',
 	port: 3306,
-	password: 'password'
+	password: 'b3e84b91'
 });
 
 export default connectionPool;
