@@ -10,5 +10,6 @@ export interface Recipe {
     steps: RecipeStep[];
     comments: Comment[];
     voteCount: number;
+    viewCount: number;
     timestamp: Date;
 }
