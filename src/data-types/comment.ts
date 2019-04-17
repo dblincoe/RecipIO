@@ -6,5 +6,5 @@ export interface Comment {
     author: User;
     text: string;
     voteCount: number;
-    timestamp: Date;
+    timestamp?: Date;
 }

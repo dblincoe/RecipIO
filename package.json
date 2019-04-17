@@ -21,6 +21,7 @@
         "@angular/platform-browser": "~7.2.12",
         "@angular/platform-browser-dynamic": "~7.2.12",
         "@angular/router": "~7.2.12",
+        "body-parser": "^1.18.3",
         "core-js": "^2.5.4",
         "express": "^4.16.4",
         "mysql": "^2.16.0",

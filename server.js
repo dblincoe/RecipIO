@@ -1,13 +1,15 @@
-// Get dependencies
-import express, { static } from 'express';
-import { join } from 'path';
-import { createServer } from 'http';
-import { json, urlencoded } from 'body-parser';
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
 
-// Get our API routes
-import { api } from './server/routes/api';
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const app = express();
+var routes = require('./server/api')(app);
+
+var server = app.listen(3000, function() {
+    console.log('Listening on port %s...', server.address().port);
+});
 
 // Parsers for POST data
 app.use(json());
@@ -23,17 +25,6 @@ app.use('/api', api);
 app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'dist/index.html'));
 });
-
-/**
- * Get port from environment and store in Express.
- */
-const port = process.env.PORT || '3000';
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-const server = createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
