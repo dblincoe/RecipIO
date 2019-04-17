@@ -4,5 +4,6 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    savedRecipes: Recipe[];
+    password?: string;
+    savedRecipes?: Recipe[];
 }

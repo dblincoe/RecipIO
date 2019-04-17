@@ -6,6 +6,6 @@
     <mat-form-field>
         <input matInput type="password" placeholder="Password" [(ngModel)]="password">
     </mat-form-field>
-    <button mat-raised-button color="primary">Login</button>
+    <button mat-raised-button color="primary" (click)="login()">Login</button>
     <button mat-raised-button color="primary" routerLink="/registration">Sign Up</button>
 </div>

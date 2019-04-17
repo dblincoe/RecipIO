@@ -10,8 +10,13 @@
     <mat-drawer #drawer mode="over">
         <mat-action-list>
             <button mat-list-item (click)="drawer.toggle()" routerLink="/recipeList">View Recipies</button>
-            <button mat-list-item (click)="drawer.toggle()" routerLink="/login">Login</button>
-            <button mat-list-item (click)="drawer.toggle()" routerLink="/registration">Create an Account</button>
+            <div *ngIf="!auth.canAccess()">
+                <button mat-list-item (click)="drawer.toggle()" routerLink="/login">Login</button>
+                <button mat-list-item (click)="drawer.toggle()" routerLink="/registration">Create an Account</button>
+            </div>
+            <div *ngIf="auth.canAccess()">
+                <button mat-list-item (click)="auth.logout()" routerLink="/recipeList">Logout</button>
+            </div>
         </mat-action-list>
     </mat-drawer>
     <div style="width: 100%; display: flex; justify-content: center;">
