@@ -9,7 +9,7 @@
 <mat-sidenav-container>
     <mat-drawer #drawer mode="over">
         <mat-action-list>
-            <button mat-list-item (click)="drawer.toggle()" routerLink="/recipeList">View Recipies</button>
+            <button mat-list-item (click)="drawer.toggle()" routerLink="/recipeList">View Recipes</button>
             <div *ngIf="!auth.canAccess()">
                 <button mat-list-item (click)="drawer.toggle()" routerLink="/login">Login</button>
                 <button mat-list-item (click)="drawer.toggle()" routerLink="/registration">Create an Account</button>
