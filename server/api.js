@@ -40,10 +40,20 @@ app.get('/recipe/:authorId', (req, res) => {
 });
 
 /**
+ * gets user by email
+ */
+app.get('/auth/:email', (req, res) => {
+    pool.query("SELECT * FROM Users WHERE email = '" + req.params.email + "'", (err, resultsSet) => {
+        res.json(resultsSet);
+        console.log(resultsSet);
+    });
+});
+
+/**
  * retrieve a JSON object containing a Recipe and list of Steps
  */
 app.get('/recipe/:id', (req, res) => {});
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log('Server running on http://localhost:3000');
 });

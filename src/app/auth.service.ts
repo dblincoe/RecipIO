@@ -1,24 +1,39 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    constructor() {}
+    constructor(private http: HttpClient, private router: Router) {}
 
-    login(email: string): void {
-        localStorage.setItem('access', email);
+    login(email: string, password: string): void {
+        this.http.get('http://localhost:3001/auth/' + email).subscribe((auth) => {
+            if (Object.keys(auth).length > 0 && auth[0].password_hash === password) {
+                localStorage.setItem('access_email', email);
+                localStorage.setItem('access_password', password);
+
+                this.router.navigate([ '/recipeList' ]);
+            } else {
+                alert('Invalid Credentials');
+            }
+        });
     }
 
     logout(): void {
-        localStorage.removeItem('access');
+        localStorage.removeItem('access_email');
+        localStorage.removeItem('access_password');
     }
 
     canAccess(): boolean {
-        return localStorage.getItem('access') != null;
-    }
-
-    getEmail(): string {
-        return localStorage.getItem('access');
+        const email = localStorage.getItem('access_email');
+        const password = localStorage.getItem('access_password');
+        if (email != null) {
+            this.http.get('http://localhost:3001/auth/' + email).subscribe((auth) => {
+                return auth[0].password_hash === password;
+            });
+        }
+        return false;
     }
 }

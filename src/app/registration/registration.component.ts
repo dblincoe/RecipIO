@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit {
 
     register(user?: User): void {
         //this.http.post(this.location.getBaseHrefFromDOM() + 'addUser', this.user).subscribe();
-        this.auth.login(this.email);
+        this.auth.login(this.email, this.password);
         this.router.navigate([ '/recipeList' ]);
     }
 }
