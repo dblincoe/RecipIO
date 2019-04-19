@@ -9,6 +9,12 @@ var pool = mysql.createPool({
     password: 'b3e84b91'
 });
 
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
 app.get('/', (req, res) => {
     pool.query('SELECT * FROM Users', (err, resultsSet) => {
         res.json(resultsSet);
