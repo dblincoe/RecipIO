@@ -36,4 +36,10 @@ export class AuthService {
         }
         return false;
     }
+
+    checkAuth(): boolean {
+        const email = localStorage.getItem('access_email');
+        const password = localStorage.getItem('access_password');
+        return email != null && password != null;
+    }
 }
