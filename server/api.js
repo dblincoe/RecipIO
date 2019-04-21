@@ -42,8 +42,8 @@ app.get('/recipe/:authorId', (req, res) => {
 /**
  * gets user by email
  */
-app.get('/auth/:email', (req, res) => {
-    pool.query("SELECT * FROM Users WHERE email = '" + req.params.email + "'", (err, resultsSet) => {
+app.get('/auth/:userId', (req, res) => {
+    pool.query('SELECT * FROM Users WHERE email = ' + req.params.userId, (err, resultsSet) => {
         res.json(resultsSet);
         console.log(resultsSet);
     });
