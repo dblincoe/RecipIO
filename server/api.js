@@ -34,19 +34,39 @@ app.get('/recipe', (req, res) => {
  * get all recipes from a specified user
  */
 app.get('/recipe/:authorId', (req, res) => {
-    pool.query('SELECT * FROM Recipes WHERE author_id = ${authorId}', (err, resultsSet) => {
+    pool.query(`SELECT * FROM Recipes WHERE author_id = ${authorId}`, (err, resultsSet) => {
         res.json(resultsSet);
     });
 });
 
 /**
- * gets user by email
+ * Authorizes a user
  */
-app.get('/auth/:userId', (req, res) => {
-    pool.query('SELECT * FROM Users WHERE email = ' + req.params.userId, (err, resultsSet) => {
+app.get('/auth/:userEmail/:userPassword', (req, res) => {
+    pool.query(`CALL User_authenticate('${req.params.userEmail}', '${req.params.userPassword}')`, (err, resultsSet) => {
         res.json(resultsSet);
-        console.log(resultsSet);
     });
+});
+
+/**
+ * Checks that an email is unique
+ */
+app.get('/checkEmail/:userEmail', (req, res) => {
+    pool.query(`CALL User_check_email('${req.params.userEmail}')`, (err, resultsSet) => {
+        res.json(resultsSet);
+    });
+});
+
+/**
+ * Inserts a new user
+ */
+app.get('/register/:userName/:userEmail/:userPassword', (req, res) => {
+    pool.query(
+        `CALL User_INSERT('${req.params.userName}', '${req.params.userEmail}', '${req.params.userPassword}')`,
+        (err, resultsSet) => {
+            res.json(resultsSet);
+        }
+    );
 });
 
 /**

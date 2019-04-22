@@ -27,8 +27,12 @@ export class RegistrationComponent implements OnInit {
     ngOnInit() {}
 
     register(user?: User): void {
-        //this.http.post(this.location.getBaseHrefFromDOM() + 'addUser', this.user).subscribe();
-        this.auth.login(this.email, this.password);
-        this.router.navigate([ '/recipeList' ]);
+        this.http.get(`http://localhost:3000/checkEmail/${this.email}`).subscribe((checkEmail) => {
+            if (+checkEmail[0][0].user_exists === 0) {
+                this.auth.register(this.name, this.email, this.password);
+            } else {
+                alert('Email is already taken');
+            }
+        });
     }
 }

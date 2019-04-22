@@ -9,9 +9,8 @@ export class AuthService {
     constructor(private http: HttpClient, private router: Router) {}
 
     login(email: string, password: string): void {
-        this.http.get('http://localhost:3000/auth/' + email).subscribe((auth) => {
-            if (Object.keys(auth).length > 0 && auth[0].password_hash === password) {
-                localStorage.setItem('access_id', auth[0].id);
+        this.http.get(`http://localhost:3000/auth/${email}/${password}`).subscribe((auth) => {
+            if (+auth[0][0].authenticated === 1) {
                 localStorage.setItem('access_email', email);
                 localStorage.setItem('access_password', password);
 
@@ -22,29 +21,35 @@ export class AuthService {
         });
     }
 
-    getId(): number {
-        return +localStorage.getItem('access_id');
+    register(name: string, email: string, password: string): void {
+        this.http.get(`http://localhost:3000/register/${name}/${email}/${password}`).subscribe((auth) => {
+            this.login(email, password);
+            this.router.navigate([ '/recipeList' ]);
+        });
+    }
+
+    getEmail(): number {
+        return +localStorage.getItem('access_email');
     }
 
     logout(): void {
-        localStorage.removeItem('access_id');
         localStorage.removeItem('access_email');
         localStorage.removeItem('access_password');
     }
 
     canAccess(): boolean {
-        const id = localStorage.getItem('access_id');
+        const email = localStorage.getItem('access_email');
         const password = localStorage.getItem('access_password');
-        if (id != null) {
-            this.http.get('http://localhost:3000/auth/' + id).subscribe((auth) => {
-                return auth[0].password_hash === password;
+        if (email != null) {
+            this.http.get(`http://localhost:3000/auth/${email}/${password}`).subscribe((auth) => {
+                return +auth[0][0].authenticated === 1;
             });
         }
         return false;
     }
 
     checkAuth(): boolean {
-        const id = localStorage.getItem('access_id');
-        return id != null;
+        const email = localStorage.getItem('access_email');
+        return email != null;
     }
 }
