@@ -13,8 +13,7 @@ export class AuthService {
             if (+auth[0][0].authenticated === 1) {
                 localStorage.setItem('access_email', email);
                 localStorage.setItem('access_password', password);
-
-                this.router.navigate([ '/recipeList' ]);
+                this.router.navigate([ '/allRecipes' ]);
             } else {
                 alert('Invalid Credentials');
             }
@@ -24,7 +23,7 @@ export class AuthService {
     register(name: string, email: string, password: string): void {
         this.http.get(`http://localhost:3000/register/${name}/${email}/${password}`).subscribe((auth) => {
             this.login(email, password);
-            this.router.navigate([ '/recipeList' ]);
+            this.router.navigate([ '/allRecipes' ]);
         });
     }
 

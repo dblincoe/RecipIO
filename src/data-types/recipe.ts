@@ -2,13 +2,13 @@ import { RecipeStep } from './recipe-step';
 import { Comment } from './comment';
 import { User } from './user';
 
-export interface Recipe {
+export class Recipe {
     id: number;
     author: User;
     title: string;
     description: string;
-    steps: RecipeStep[];
-    comments: Comment[];
+    steps?: RecipeStep[];
+    comments?: Comment[];
     voteCount: number;
     viewCount: number;
     timestamp: Date;

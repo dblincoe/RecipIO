@@ -51,7 +51,7 @@ app.get('/auth/:userEmail/:userPassword', (req, res) => {
 /**
  * Checks that an email is unique
  */
-app.get('/checkEmail/:userEmail', (req, res) => {
+app.get('/register/:userEmail', (req, res) => {
     pool.query(`CALL User_check_email('${req.params.userEmail}')`, (err, resultsSet) => {
         res.json(resultsSet);
     });

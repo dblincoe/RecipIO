@@ -1,4 +1,3 @@
-<h1 class="mat-display-1">{{title}}</h1>
 <mat-accordion style="margin: 20px;">
     <mat-expansion-panel *ngFor="let recipe of recipeList" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
         <mat-expansion-panel-header>
@@ -7,8 +6,8 @@
             </mat-panel-title>
             <mat-panel-description>
                 {{recipe.description}}
-                <button (click)="toggleUpvote()">Like</button>
-                <button (click)="toggleDownvote()">Dislike</button>
+                <button (click)="toggleUpvote()">Upvote</button>
+                <button (click)="toggleDownvote()">Downvote</button>
             </mat-panel-description>
         </mat-expansion-panel-header>
 

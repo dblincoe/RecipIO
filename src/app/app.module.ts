@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlatformModule } from '@angular/cdk/platform';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
+import { SavedRecipesComponent } from './saved-recipes/saved-recipes.component';
+import { AllRecipesComponent } from './all-recipes/all-recipes.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +21,9 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
         LoginComponent,
         RegistrationComponent,
         RecipeListComponent,
-        RecipeDetailComponent
+        RecipeDetailComponent,
+        SavedRecipesComponent,
+        AllRecipesComponent
     ],
     imports: [
         BrowserModule,

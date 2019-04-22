@@ -9,13 +9,16 @@
 <mat-sidenav-container>
     <mat-drawer #drawer mode="over">
         <mat-action-list>
-            <button mat-list-item (click)="drawer.toggle()" routerLink="/recipeList">View Recipes</button>
+            <button mat-list-item (click)="drawer.toggle()" routerLink="/allRecipes">All
+                Recipes</button>
             <div *ngIf="!auth.checkAuth()">
                 <button mat-list-item (click)="drawer.toggle()" routerLink="/login">Login</button>
                 <button mat-list-item (click)="drawer.toggle()" routerLink="/registration">Create an Account</button>
             </div>
             <div *ngIf="auth.checkAuth()">
-                <button mat-list-item (click)="auth.logout()" routerLink="/recipeList">Logout</button>
+                <button mat-list-item (click)="drawer.toggle()" routerLink="/savedRecipes">Saved
+                    Recipes</button>
+                <button mat-list-item (click)="auth.logout(); drawer.toggle();" routerLink="/allRecipes">Logout</button>
             </div>
         </mat-action-list>
     </mat-drawer>

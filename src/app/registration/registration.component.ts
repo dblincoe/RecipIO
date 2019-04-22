@@ -27,7 +27,7 @@ export class RegistrationComponent implements OnInit {
     ngOnInit() {}
 
     register(user?: User): void {
-        this.http.get(`http://localhost:3000/checkEmail/${this.email}`).subscribe((checkEmail) => {
+        this.http.get(`http://localhost:3000/register/${this.email}`).subscribe((checkEmail) => {
             if (+checkEmail[0][0].user_exists === 0) {
                 this.auth.register(this.name, this.email, this.password);
             } else {
