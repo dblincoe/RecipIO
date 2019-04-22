@@ -9,6 +9,10 @@ var pool = mysql.createPool({
     password: 'b3e84b91'
 });
 
+/**
+ * allow XSS for separate API functionality
+ * TODO: DISABLE THIS FOR ACTUAL PRODUCTION
+ */
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -26,15 +30,6 @@ app.get('/', (req, res) => {
  */
 app.get('/recipe', (req, res) => {
     pool.query('SELECT * FROM Recipes', (err, resultsSet) => {
-        res.json(resultsSet);
-    });
-});
-
-/**
- * get all recipes from a specified user
- */
-app.get('/recipe/:authorId', (req, res) => {
-    pool.query(`SELECT * FROM Recipes WHERE author_id = ${authorId}`, (err, resultsSet) => {
         res.json(resultsSet);
     });
 });
@@ -70,9 +65,23 @@ app.get('/register/:userName/:userEmail/:userPassword', (req, res) => {
 });
 
 /**
- * retrieve a JSON object containing a Recipe and list of Steps
+ * retrieve the steps for a recipe with a given id
  */
-app.get('/recipe/:id', (req, res) => {});
+app.get('/recipe/:id/steps', (req, res) => {
+    pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
+        console.log(resultsSet);
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
+ * Get a list of recipes by an author with a given id
+ */
+app.get('/recipe/:id/author', (req, res) => {
+    pool.query(`SELECT id, title FROM Recipes WHERE author_id=${req.params.id}`, (err, resultsSet) => {
+        res.json(resultsSet);
+    });
+});
 
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
