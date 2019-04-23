@@ -15,7 +15,6 @@ import { AuthService } from '../auth.service';
 export class RecipeListComponent implements OnInit {
     title = 'Recipes';
     recipeList: Recipe[];
-    selectedRecipe: Recipe;
     API_BASE: string;
     @Input() endpoint: string;
     constructor(private http: HttpClient, private location: PlatformLocation, private auth: AuthService) {

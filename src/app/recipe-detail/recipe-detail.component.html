@@ -1,3 +1,6 @@
-<p>
-  recipe-detail works!
-</p>
+<div *ngFor="let step of recipe.steps">
+  <label>Step {{step.stepNum}}:</label>
+  <p style="width: 750px;">
+    {{step.text}}
+  </p>
+</div>

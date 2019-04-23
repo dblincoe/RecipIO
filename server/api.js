@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
+
+/**
+ * database connection info
+ */
 var pool = mysql.createPool({
     user: 'team_14',
     host: 'eecslab-9.case.edu',
@@ -40,6 +44,7 @@ app.get('/recipe', (req, res) => {
 app.get('/recipe/:id/steps', (req, res) => {
     pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
+        console.log(resultsSet[0]);
     });
 });
 

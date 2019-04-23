@@ -2,15 +2,14 @@
     <mat-expansion-panel *ngFor="let recipe of recipeList" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                {{recipe.name}}
+                <strong>{{recipe.name}}</strong>
             </mat-panel-title>
             <mat-panel-description>
                 {{recipe.description}}
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <app-recipe-detail [recipe]="selectedRecipe">
-
+        <app-recipe-detail [recipe]="recipe">
         </app-recipe-detail>
     </mat-expansion-panel>
 </mat-accordion>
