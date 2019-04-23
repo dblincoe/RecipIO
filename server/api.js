@@ -66,8 +66,8 @@ app.get('/recipe/:id/views', (req, res) => {
  */
 app.get('/recipe/:id/ingredients', (req, res) => {
     pool.query(
-        `SELECT * FROM Ingredients
-    INNER JOIN RecipeIngredients ON RecipeIngredients.ingredient_id = Ingredients.id
+        `SELECT * FROM Ingredients i
+    INNER JOIN RecipeIngredients ri ON ri.ingredient_id = i.id
     WHERE recipe_id = ${req.params.id}`,
         (err, resultsSet) => {
             res.json(resultsSet);
@@ -85,11 +85,25 @@ app.get('/user/:userId', (req, res) => {
 });
 
 /**
+ * Select a specific user
+ */
+app.get('/user/:id/savedRecipes', (req, res) => {
+    pool.query(
+        `SELECT * FROM SavedRecipes sr
+    INNER JOIN Recipes r ON sr.recipe_id = r.id
+    WHERE sr.user_id = ${req.params.id}`,
+        (err, resultsSet) => {
+            res.json(resultsSet);
+        }
+    );
+});
+
+/**
  * Authorizes a user
  */
 app.get('/auth/:userEmail/:userPassword', (req, res) => {
     pool.query(`CALL User_authenticate('${req.params.userEmail}', '${req.params.userPassword}')`, (err, resultsSet) => {
-        res.json(resultsSet);
+        res.json(resultsSet[0]);
     });
 });
 
@@ -98,7 +112,7 @@ app.get('/auth/:userEmail/:userPassword', (req, res) => {
  */
 app.get('/register/:userEmail', (req, res) => {
     pool.query(`CALL User_check_email('${req.params.userEmail}')`, (err, resultsSet) => {
-        res.json(resultsSet);
+        res.json(resultsSet[0]);
     });
 });
 

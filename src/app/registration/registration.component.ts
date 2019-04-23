@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit {
 
     register(user?: User): void {
         this.http.get(`http://localhost:3000/register/${this.email}`).subscribe((checkEmail) => {
-            if (+checkEmail[0][0].user_exists === 0) {
+            if (+checkEmail[0].user_exists === 0) {
                 this.auth.register(this.name, this.email, this.password);
             } else {
                 alert('Email is already taken');

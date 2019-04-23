@@ -5,6 +5,7 @@ import { PlatformLocation } from '@angular/common';
 import { User } from 'src/data-types/user';
 import { RecipeStep } from 'src/data-types/recipe-step';
 import { RecipeIngredient } from 'src/data-types/recipe-ingredient';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-recipe-list',
@@ -17,16 +18,30 @@ export class RecipeListComponent implements OnInit {
     selectedRecipe: Recipe;
     API_BASE: string;
     @Input() endpoint: string;
-    constructor(private http: HttpClient, private location: PlatformLocation) {
+    constructor(private http: HttpClient, private location: PlatformLocation, private auth: AuthService) {
         this.API_BASE = 'http://localhost:3000';
     }
 
     ngOnInit() {
         this.recipeList = [];
-        this.getRecipes();
+        console.log();
+        if (this.endpoint === 'savedRecipes') {
+            this.getSavedRecipes();
+        } else {
+            this.getAllRecipes();
+        }
     }
 
-    getRecipes(): void {
+    getSavedRecipes(): void {
+        this.http.get<any[]>(`${this.API_BASE}/user/${this.auth.getId()}/savedRecipes`).subscribe((recipesResponse) => {
+            recipesResponse.forEach((recipeResponse) => {
+                recipeResponse.id = recipeResponse.recipe_id;
+                this.getAuthor(recipeResponse);
+            });
+        });
+    }
+
+    getAllRecipes(): void {
         this.http.get<any[]>(`${this.API_BASE}/recipe/`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
                 this.getAuthor(recipeResponse);
@@ -65,7 +80,6 @@ export class RecipeListComponent implements OnInit {
                 response.ingredients.push(new RecipeIngredient(ingredientResponse));
             });
             this.recipeList.push(new Recipe(response));
-            console.log(this.recipeList);
         });
     }
 }

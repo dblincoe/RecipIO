@@ -10,7 +10,9 @@ export class AuthService {
 
     login(email: string, password: string): void {
         this.http.get(`http://localhost:3000/auth/${email}/${password}`).subscribe((auth) => {
-            if (+auth[0][0].authenticated === 1) {
+            console.log(auth);
+            if (+auth[0].authenticated === 1) {
+                localStorage.setItem('access_id', auth[0].id);
                 localStorage.setItem('access_email', email);
                 localStorage.setItem('access_password', password);
                 this.router.navigate([ '/allRecipes' ]);
@@ -27,11 +29,12 @@ export class AuthService {
         });
     }
 
-    getEmail(): number {
-        return +localStorage.getItem('access_email');
+    getId(): number {
+        return +localStorage.getItem('access_id');
     }
 
     logout(): void {
+        localStorage.removeItem('access_id');
         localStorage.removeItem('access_email');
         localStorage.removeItem('access_password');
     }
@@ -48,7 +51,7 @@ export class AuthService {
     }
 
     checkAuth(): boolean {
-        const email = localStorage.getItem('access_email');
-        return email != null;
+        const id = localStorage.getItem('access_id');
+        return id != null;
     }
 }
