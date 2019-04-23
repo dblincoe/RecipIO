@@ -1,6 +1,11 @@
+<h1>Ingredients:</h1>
+<div *ngFor="let ingredient of recipe.ingredients">
+    <li style="margin-left: 18px">{{ingredient.quantity}} {{ingredient.ingredient.name}}</li>
+</div>
+
+<h1>Steps:</h1>
 <div *ngFor="let step of recipe.steps">
-  <label>Step {{step.stepNum}}:</label>
   <p style="width: 750px;">
-    {{step.text}}
+    {{step.stepNum}}. {{step.text}}
   </p>
 </div>
