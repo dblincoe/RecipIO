@@ -85,9 +85,10 @@ app.get('/recipe/:id/ingredients', (req, res) => {
  */
 app.get('/recipe/:recipeId/:userId/vote', (req, res) => {
     pool.query(
-        `SELECT vote_value FROM RecipeVotes WHERE vrecipe_id = '${recipeId}' AND user_id = '${userId}'`,
+        `SELECT vote_value FROM RecipeVotes WHERE recipe_id = '${req.params.recipeId}' AND user_id = '${req.params
+            .userId}'`,
         (err, resultsSet) => {
-            res.json(resultsSet[0]);
+            res.json(resultsSet[0].vote_value);
         }
     );
 });
