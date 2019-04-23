@@ -31,6 +31,10 @@ export class RecipeListComponent implements OnInit {
         }
     }
 
+    recipeClicked(recipeId: number) {
+        this.http.get(`${this.API_BASE}/recipe/${recipeId}/view`).subscribe();
+    }
+
     getSavedRecipes(): void {
         this.http.get<any[]>(`${this.API_BASE}/user/${this.auth.getId()}/savedRecipes`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
