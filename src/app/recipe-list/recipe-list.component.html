@@ -1,8 +1,8 @@
 <mat-accordion style="margin: 20px;">
-    <mat-expansion-panel *ngFor="let recipe of recipeList" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+    <mat-expansion-panel *ngFor="let recipe of recipeList">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <strong>{{recipe.name}}</strong>
+                {{recipe.title}}
             </mat-panel-title>
             <mat-panel-description>
                 {{recipe.description}}
