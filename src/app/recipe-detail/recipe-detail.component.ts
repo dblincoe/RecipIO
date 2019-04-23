@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from 'src/data-types/recipe';
 import { AuthService } from '../auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-recipe-detail',
@@ -9,11 +10,18 @@ import { AuthService } from '../auth.service';
 })
 export class RecipeDetailComponent implements OnInit {
     @Input() recipe: Recipe;
-    constructor(private auth: AuthService) {}
+    API_BASE: string;
+    constructor(private auth: AuthService, private http: HttpClient) {
+        this.API_BASE = 'http://localhost:3000';
+    }
 
     ngOnInit() {}
 
-    getRecipeSteps(): void {}
+    upvote(): void {
+        this.http.get(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/1`).subscribe();
+    }
 
-    getIngredients(): void {}
+    downvote(): void {
+        this.http.get(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/0`).subscribe();
+    }
 }

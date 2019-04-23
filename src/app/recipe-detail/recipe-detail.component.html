@@ -15,7 +15,7 @@
 <mat-action-row>
     <button mat-raised-button *ngIf="recipe.isAuthor(auth.getId())"><mat-icon>settings</mat-icon></button>
     <button mat-raised-button *ngIf="auth.checkAuth()"><mat-icon>save</mat-icon></button>
-    <button mat-raised-button><mat-icon>comment</mat-icon></button>
-    <button mat-raised-button><mat-icon>arrow_upward</mat-icon></button>
-    <button mat-raised-button><mat-icon>arrow_downward</mat-icon></button>
+    <button mat-raised-button ><mat-icon>comment</mat-icon></button>
+    <button mat-raised-button (click)="upvote()" ><mat-icon>arrow_upward</mat-icon></button>
+    <button mat-raised-button (click)="downvote()" ><mat-icon>arrow_downward</mat-icon></button>
 </mat-action-row>
