@@ -97,12 +97,9 @@ app.get('/recipe/:recipeId/:userId/vote', (req, res) => {
  * Votes on a recipe
  */
 app.get('/recipe/:recipeId/:userId/:vote', (req, res) => {
-    pool.query(
-        `CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`,
-        (err, resultsSet) => {
-            res.json(resultsSet[0]);
-        }
-    );
+    pool.query(`CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`, () => {
+        res.send(200);
+    });
 });
 
 /**
