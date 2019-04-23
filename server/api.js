@@ -97,8 +97,20 @@ app.get('/recipe/:recipeId/:userId/vote', (req, res) => {
  * Votes on a recipe
  */
 app.get('/recipe/:recipeId/:userId/:vote', (req, res) => {
-    pool.query(`CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`, () => {
-        res.send(200);
+    pool.query(
+        `CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`,
+        (err, resultsSet) => {
+            res.json(resultsSet);
+        }
+    );
+});
+
+/**
+ * View a recipe
+ */
+app.get('/recipe/:recipeId/view', (req, res) => {
+    pool.query(`CALL PageView_INSERT(${req.params.recipeId})`, (err, resultsSet) => {
+        res.json(resultsSet);
     });
 });
 
