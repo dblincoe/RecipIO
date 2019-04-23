@@ -1,7 +1,6 @@
-
 <h1>Ingredients:</h1>
 <div *ngFor="let ingredient of recipe.ingredients">
-    <li style="margin-left: 18px">{{ingredient.quantity}} {{ingredient.ingredient.name}}</li>
+  <li style="margin-left: 18px">{{ingredient.quantity}} {{ingredient.ingredient.name}}</li>
 </div>
 
 <h1>Steps:</h1>
@@ -13,9 +12,19 @@
 
 
 <mat-action-row>
-    <button mat-raised-button *ngIf="recipe.isAuthor(auth.getId())"><mat-icon>settings</mat-icon></button>
-    <button mat-raised-button *ngIf="auth.checkAuth()"><mat-icon>save</mat-icon></button>
-    <button mat-raised-button ><mat-icon>comment</mat-icon></button>
-    <button mat-raised-button (click)="upvote()" ><mat-icon>arrow_upward</mat-icon></button>
-    <button mat-raised-button (click)="downvote()" ><mat-icon>arrow_downward</mat-icon></button>
+  <button mat-raised-button color="primary" *ngIf="recipe.isAuthor(auth.getId())">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button mat-raised-button color="primary" *ngIf="auth.checkAuth()">
+    <mat-icon>save</mat-icon>
+  </button>
+  <button mat-raised-button color="primary">
+    <mat-icon>comment</mat-icon>
+  </button>
+  <button mat-raised-button [color]="getColor(1)" (click)="vote(1)">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
+  <button mat-raised-button [color]="getColor(-1)" (click)="vote(-1)">
+    <mat-icon>arrow_downward</mat-icon>
+  </button>
 </mat-action-row>

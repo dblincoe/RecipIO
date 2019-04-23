@@ -10,18 +10,27 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RecipeDetailComponent implements OnInit {
     @Input() recipe: Recipe;
-    API_BASE: string;
-    constructor(private auth: AuthService, private http: HttpClient) {
-        this.API_BASE = 'http://localhost:3000';
+    API_BASE = 'http://localhost:3000';
+    voteValue: number;
+    constructor(private auth: AuthService, private http: HttpClient) {}
+
+    ngOnInit() {
+        this.getVote();
     }
 
-    ngOnInit() {}
-
-    upvote(): void {
-        this.http.get(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/1`).subscribe();
+    getVote(): void {
+        this.http
+            .get<number>(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/vote`)
+            .subscribe((voteValue) => (this.voteValue = voteValue));
     }
 
-    downvote(): void {
-        this.http.get(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/0`).subscribe();
+    getColor(buttonId: number): string {
+        return this.voteValue === buttonId ? 'accent' : 'primary';
+    }
+
+    vote(voteValue: number): void {
+        this.http
+            .get<number>(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/${voteValue}`)
+            .subscribe(() => this.getVote());
     }
 }
