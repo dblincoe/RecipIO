@@ -81,14 +81,25 @@ app.get('/recipe/:id/ingredients', (req, res) => {
 });
 
 /**
+ * Checks vote on a recipe
+ */
+app.get('/recipe/:recipeId/:userId/vote', (req, res) => {
+    pool.query(
+        `SELECT vote_value FROM RecipeVotes WHERE vrecipe_id = '${recipeId}' AND user_id = '${userId}'`,
+        (err, resultsSet) => {
+            res.json(resultsSet[0]);
+        }
+    );
+});
+
+/**
  * Votes on a recipe
  */
 app.get('/recipe/:recipeId/:userId/:vote', (req, res) => {
-    console.log(`CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`);
     pool.query(
         `CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`,
         (err, resultsSet) => {
-            res.json(resultsSet);
+            res.json(resultsSet[0]);
         }
     );
 });
