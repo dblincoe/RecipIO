@@ -35,6 +35,15 @@ app.get('/recipe', (req, res) => {
 });
 
 /**
+ * Select a specific user
+ */
+app.get('/user/:userId', (req, res) => {
+    pool.query(`SELECT * FROM Users WHERE id = ${req.params.userId}`, (err, resultsSet) => {
+        res.json(resultsSet);
+    });
+});
+
+/**
  * Authorizes a user
  */
 app.get('/auth/:userEmail/:userPassword', (req, res) => {

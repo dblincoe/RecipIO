@@ -12,4 +12,12 @@ export class Recipe {
     voteCount: number;
     viewCount: number;
     timestamp: Date;
+
+    constructor(response) {
+        this.id = response.id;
+        this.author = response.author;
+        this.title = response.title;
+        this.description = response.description;
+        this.timestamp = response.timestamp;
+    }
 }

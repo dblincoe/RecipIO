@@ -6,4 +6,10 @@ export class User {
     email: string;
     password?: string;
     savedRecipes?: Recipe[];
+
+    constructor(userResponse: any) {
+        this.id = userResponse.id;
+        this.name = userResponse.user_name;
+        this.email = userResponse.email;
+    }
 }
