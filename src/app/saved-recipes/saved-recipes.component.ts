@@ -1,4 +1,6 @@
+import { AuthService } from '../auth.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-saved-recipes',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SavedRecipesComponent implements OnInit {
     title = 'Saved Recipes';
-    constructor() {}
+    constructor(private auth: AuthService, private router: Router) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (!this.auth.checkAuth()) {
+            this.router.navigate([ '/allRecipes' ]);
+        }
+    }
 }

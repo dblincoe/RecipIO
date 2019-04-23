@@ -34,4 +34,8 @@ export class Recipe {
         this.viewCount = response.viewCount;
         this.timestamp = response.time_created;
     }
+
+    isAuthor(id: number): boolean {
+        return id === this.author.id;
+    }
 }

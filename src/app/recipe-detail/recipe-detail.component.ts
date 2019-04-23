@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from 'src/data-types/recipe';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-recipe-detail',
@@ -8,7 +9,7 @@ import { Recipe } from 'src/data-types/recipe';
 })
 export class RecipeDetailComponent implements OnInit {
     @Input() recipe: Recipe;
-    constructor() {}
+    constructor(private auth: AuthService) {}
 
     ngOnInit() {}
 
