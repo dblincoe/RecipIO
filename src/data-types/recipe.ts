@@ -1,13 +1,15 @@
 import { RecipeStep } from './recipe-step';
 import { Comment } from './comment';
 import { User } from './user';
+import { RecipeIngredient } from './recipe-ingredient';
 
 export class Recipe {
     id: number;
     author: User;
     title: string;
     description: string;
-    steps?: RecipeStep[];
+    ingredients: RecipeIngredient[];
+    steps: RecipeStep[];
     comments?: Comment[];
     voteCount: number;
     viewCount: number;
@@ -18,6 +20,9 @@ export class Recipe {
         this.author = response.author;
         this.title = response.title;
         this.description = response.description;
-        this.timestamp = response.timestamp;
+        this.ingredients = response.ingredients;
+        this.steps = response.steps;
+        this.viewCount = response.viewCount;
+        this.timestamp = response.time_created;
     }
 }

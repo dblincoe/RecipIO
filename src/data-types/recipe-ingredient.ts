@@ -1,7 +1,11 @@
 import { Ingredient } from './ingredient';
-import { Recipe } from './recipe';
 
-export interface RecipeIngredient {
+export class RecipeIngredient {
     ingredient: Ingredient;
     quantity: string;
+
+    constructor(response: any) {
+        this.ingredient = new Ingredient(response);
+        this.quantity = response.amountText;
+    }
 }

@@ -35,6 +35,47 @@ app.get('/recipe', (req, res) => {
 });
 
 /**
+ * Select steps for a recipeId
+ */
+app.get('/recipe/:id/steps', (req, res) => {
+    pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
+ * Select steps for a recipeId
+ */
+app.get('/recipe/:id/votes', (req, res) => {
+    pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
+ * Select steps for a recipeId
+ */
+app.get('/recipe/:id/views', (req, res) => {
+    pool.query(`SELECT view_count FROM PageViews WHERE recipe_id = (${req.params.id})`, (err, resultsSet) => {
+        res.json(resultsSet);
+    });
+});
+
+/**
+ * Select steps for a recipeId
+ */
+app.get('/recipe/:id/ingredients', (req, res) => {
+    pool.query(
+        `SELECT * FROM Ingredients
+    INNER JOIN RecipeIngredients ON RecipeIngredients.ingredient_id = Ingredients.id
+    WHERE recipe_id = ${req.params.id}`,
+        (err, resultsSet) => {
+            res.json(resultsSet);
+        }
+    );
+});
+
+/**
  * Select a specific user
  */
 app.get('/user/:userId', (req, res) => {
@@ -71,25 +112,6 @@ app.get('/register/:userName/:userEmail/:userPassword', (req, res) => {
             res.json(resultsSet);
         }
     );
-});
-
-/**
- * retrieve the steps for a recipe with a given id
- */
-app.get('/recipe/:id/steps', (req, res) => {
-    pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
-        console.log(resultsSet);
-        res.json(resultsSet[0]);
-    });
-});
-
-/**
- * Get a list of recipes by an author with a given id
- */
-app.get('/recipe/:id/author', (req, res) => {
-    pool.query(`SELECT id, title FROM Recipes WHERE author_id=${req.params.id}`, (err, resultsSet) => {
-        res.json(resultsSet);
-    });
 });
 
 app.listen(3000, () => {
