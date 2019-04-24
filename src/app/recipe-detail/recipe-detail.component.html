@@ -1,6 +1,6 @@
 <h1>Ingredients:</h1>
 <div *ngFor="let ingredient of recipe.ingredients">
-  <li style="margin-left: 18px">{{ingredient.quantity}} {{ingredient.ingredient.name}}</li>
+  <li style="margin-left: 18px">{{ingredient.ingredient.name}} - {{ingredient.quantity}}</li>
 </div>
 
 <h1>Steps:</h1>
@@ -11,20 +11,20 @@
 </div>
 
 <mat-action-row>
-  <button mat-raised-button color="primary" *ngIf="recipe.isAuthor(auth.getId())">
+  <button mat-raised-button matTooltip="Edit Recipe" color="primary" *ngIf="recipe.isAuthor(auth.getId())">
     <mat-icon>settings</mat-icon>
   </button>
-  <button mat-raised-button [color]="getSaveColor()" *ngIf="auth.checkAuth()" (click)="save()">
+  <button mat-raised-button matTooltip="Save Recipe" [color]="getSaveColor()" *ngIf="auth.checkAuth()" (click)="save()">
     <mat-icon>save</mat-icon>
   </button>
-  <button mat-raised-button color="primary" (click)="openComments()">
+  <button mat-raised-button matTooltip="View Comments" color="primary" (click)="openComments()">
     <mat-icon>comment</mat-icon>
   </button>
-  <button mat-raised-button [color]="getVoteColor(1)" (click)="vote(1)">
+  <button mat-raised-button matTooltip="Upvote" [color]="getVoteColor(1)" (click)="vote(1)">
     <mat-icon>arrow_upward</mat-icon>
   </button>
   <p>{{recipe.voteCount}}</p>
-  <button mat-raised-button [color]="getVoteColor(-1)" (click)="vote(-1)">
+  <button mat-raised-button matTooltip="Downvote" [color]="getVoteColor(-1)" (click)="vote(-1)">
     <mat-icon>arrow_downward</mat-icon>
   </button>
 </mat-action-row>
