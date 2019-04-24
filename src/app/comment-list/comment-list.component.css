@@ -1,0 +1,9 @@
+.comment-list-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-list-header button {
+    max-height: 40px;
+    margin-top: 20px;
+}

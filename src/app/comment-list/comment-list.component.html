@@ -1,4 +1,12 @@
-<h1>Comments: </h1>
+<div class="comment-list-header">
+    <h1>Comments: </h1>
+    <button mat-raised-button color="accent" (click)="newComment()">
+        <mat-icon>add_comment</mat-icon>
+    </button>
+</div>
+<div *ngIf="dummyCommentFlag">
+    <app-comment-detail [comment]="dummyComment" [newComment]="true" [recipe]="recipe"></app-comment-detail>
+</div>
 <div *ngFor="let comment of commentList">
-    <app-comment-detail [comment]="comment"></app-comment-detail>
+    <app-comment-detail [comment]="comment" [newComment]="false" [recipe]="recipe"></app-comment-detail>
 </div>

@@ -33,7 +33,7 @@ export class RecipeDetailComponent implements OnInit {
         const dialogRef = this.dialog.open(CommentListComponent, {
             height: '750px',
             width: '750px',
-            data: { recipeId: this.recipe.id }
+            data: { recipe: this.recipe }
         });
     }
 

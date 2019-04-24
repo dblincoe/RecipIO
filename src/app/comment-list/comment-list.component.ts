@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { Comment } from '../../data-types/comment';
 import { User } from '../../data-types/user';
+import { Recipe } from 'src/data-types/recipe';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-comment-list',
@@ -10,16 +12,20 @@ import { User } from '../../data-types/user';
     styleUrls: [ './comment-list.component.css' ]
 })
 export class CommentListComponent implements OnInit {
-    recipeId: number;
+    recipe: Recipe;
     API_BASE: string;
     commentList: Comment[];
+
+    dummyComment: Comment;
+    dummyCommentFlag = false;
 
     constructor(
         public dialogRef: MatDialogRef<CommentListComponent>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
+        private auth: AuthService,
         private http: HttpClient
     ) {
-        this.recipeId = data.recipeId;
+        this.recipe = data.recipe;
         this.API_BASE = 'http://localhost:3000';
     }
 
@@ -28,8 +34,20 @@ export class CommentListComponent implements OnInit {
         this.getComments();
     }
 
+    newComment() {
+        this.dummyCommentFlag = true;
+        this.dummyComment = new Comment({
+            id: -1,
+            recipe_id: this.recipe.id,
+            author: this.auth.getId(),
+            comment_text: '',
+            vote_value: 0,
+            time_posted: Date.now()
+        });
+    }
+
     getComments(): void {
-        this.http.get<any[]>(`${this.API_BASE}/comment/${this.recipeId}`).subscribe((commentsResponse) => {
+        this.http.get<any[]>(`${this.API_BASE}/comment/${this.recipe.id}`).subscribe((commentsResponse) => {
             commentsResponse.forEach((commentResponse) => {
                 this.getAuthor(commentResponse);
             });
@@ -45,5 +63,5 @@ export class CommentListComponent implements OnInit {
 }
 
 export interface DialogData {
-    recipeId: number;
+    recipe: Recipe;
 }

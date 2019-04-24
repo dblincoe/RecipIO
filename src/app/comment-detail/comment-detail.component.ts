@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Comment } from '../../data-types/comment';
+import { Recipe } from '../../data-types/recipe';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class CommentDetailComponent implements OnInit {
     @Input() comment: Comment;
+    @Input() newComment: boolean;
+    @Input() recipe: Recipe;
     voteValue: number;
     API_BASE = 'http://localhost:3000';
     updateComment: boolean;
@@ -19,13 +22,24 @@ export class CommentDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getVote();
+        this.updateComment = this.newComment;
+        if (!this.newComment) {
+            this.getVote();
+        } else {
+            this.voteValue = 0;
+        }
     }
 
     saveUpdatedComment(): void {
-        this.http
-            .get(`${this.API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
-            .subscribe((response) => (this.updateComment = !this.updateComment));
+        if (this.newComment) {
+            this.http
+                .get(`${this.API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/'${this.comment.text}'`)
+                .subscribe((response) => (this.updateComment = !this.updateComment));
+        } else {
+            this.http
+                .get(`${this.API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
+                .subscribe((response) => (this.updateComment = !this.updateComment));
+        }
     }
 
     getVote(): void {

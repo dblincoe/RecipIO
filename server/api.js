@@ -161,6 +161,18 @@ app.get('/comment/update/:id/:text', (req, res) => {
 });
 
 /**
+ * Insert new comment
+ */
+app.get('/comment/insert/:recipeId/:userId/:text', (req, res) => {
+    pool.query(
+        `CALL Comments_INSERT(${req.params.recipeId},${req.params.userId},${req.params.text})`,
+        (err, resultsSet) => {
+            res.json(resultsSet[0]);
+        }
+    );
+});
+
+/**
  * Checks votes for a comment
  */
 app.get('/comment/:commentId/voteCount', (req, res) => {
