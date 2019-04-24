@@ -23,8 +23,6 @@ export class CommentDetailComponent implements OnInit {
     }
 
     saveUpdatedComment(): void {
-        this.comment.text = this.comment.text.split(`'`).join(`\\'`);
-        console.log(this.comment.text);
         this.http
             .get(`${this.API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
             .subscribe((response) => (this.updateComment = !this.updateComment));
