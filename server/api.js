@@ -92,14 +92,9 @@ app.get('/recipe/:id/views', (req, res) => {
  * Select steps for a recipeId
  */
 app.get('/recipe/:id/ingredients', (req, res) => {
-    pool.query(
-        `SELECT * FROM Ingredients i
-    INNER JOIN RecipeIngredients ri ON ri.ingredient_id = i.id
-    WHERE recipe_id = ${req.params.id}`,
-        (err, resultsSet) => {
-            res.json(resultsSet);
-        }
-    );
+    pool.query(`CALL Ingredients_SELECT_by_recipe (${req.params.id})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
 });
 
 /**
