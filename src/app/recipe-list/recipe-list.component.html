@@ -1,5 +1,5 @@
 <mat-accordion style="margin: 20px;">
-    <mat-expansion-panel *ngFor="let recipe of recipeList" (click)="recipeClicked(recipe.id)">
+    <mat-expansion-panel *ngFor="let recipe of recipeList">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 {{recipe.title}}
@@ -8,7 +8,9 @@
                 {{recipe.description}}
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-recipe-detail [recipe]="recipe">
-        </app-recipe-detail>
+        <ng-template matExpansionPanelContent>
+            <app-recipe-detail [recipe]="recipe">
+            </app-recipe-detail>
+        </ng-template>
     </mat-expansion-panel>
 </mat-accordion>

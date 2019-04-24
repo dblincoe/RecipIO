@@ -24,7 +24,7 @@ export class RecipeListComponent implements OnInit {
     ngOnInit() {
         this.recipeList = [];
         console.log();
-        if (this.endpoint === 'savedRecipes') {
+        if (this.endpoint === 'user/save') {
             this.getSavedRecipes();
         } else {
             this.getAllRecipes();
@@ -36,7 +36,7 @@ export class RecipeListComponent implements OnInit {
     }
 
     getSavedRecipes(): void {
-        this.http.get<any[]>(`${this.API_BASE}/user/${this.auth.getId()}/savedRecipes`).subscribe((recipesResponse) => {
+        this.http.get<any[]>(`${this.API_BASE}/user/save/${this.auth.getId()}`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
                 recipeResponse.id = recipeResponse.recipe_id;
                 this.getAuthor(recipeResponse);

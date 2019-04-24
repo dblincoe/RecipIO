@@ -10,21 +10,20 @@
   </p>
 </div>
 
-
-<mat-action-row>
+<mat-action-row *ngIf="auth.checkAuth()">
   <button mat-raised-button color="primary" *ngIf="recipe.isAuthor(auth.getId())">
     <mat-icon>settings</mat-icon>
   </button>
-  <button mat-raised-button color="primary" *ngIf="auth.checkAuth()">
+  <button mat-raised-button [color]="getSaveColor()" (click)="save()">
     <mat-icon>save</mat-icon>
   </button>
   <button mat-raised-button color="primary">
     <mat-icon>comment</mat-icon>
   </button>
-  <button mat-raised-button [color]="getColor(1)" (click)="vote(1)">
+  <button mat-raised-button [color]="getVoteColor(1)" (click)="vote(1)">
     <mat-icon>arrow_upward</mat-icon>
   </button>
-  <button mat-raised-button [color]="getColor(-1)" (click)="vote(-1)">
+  <button mat-raised-button [color]="getVoteColor(-1)" (click)="vote(-1)">
     <mat-icon>arrow_downward</mat-icon>
   </button>
 </mat-action-row>

@@ -85,10 +85,12 @@ app.get('/recipe/:id/ingredients', (req, res) => {
  */
 app.get('/recipe/:recipeId/:userId/vote', (req, res) => {
     pool.query(
-        `SELECT vote_value FROM RecipeVotes WHERE recipe_id = '${req.params.recipeId}' AND user_id = '${req.params
-            .userId}'`,
+        `SELECT vote_value
+        FROM RecipeVotes
+        WHERE recipe_id = ${req.params.recipeId}
+        AND user_id = ${req.params.userId}`,
         (err, resultsSet) => {
-            res.json(resultsSet[0].vote_value);
+            res.json(resultsSet[0]);
         }
     );
 });
@@ -124,26 +126,35 @@ app.get('/user/:userId', (req, res) => {
 });
 
 /**
- * Select a specific user
+ * Save a recipe to a user's personal list
  */
-app.get('/user/:id/savedRecipes', (req, res) => {
+app.get('/user/save/:userId/:recipeId/', (req, res) => {
+    pool.query(`CALL SavedRecipes_SAVE(${req.params.recipeId}, ${req.params.userId})`, (err, resultsSet) => {
+        res.json(resultsSet[0][0]);
+    });
+});
+
+/**
+ * Save a recipe to a user's personal list
+ */
+app.get('/user/save/:userId/:recipeId/check', (req, res) => {
+    pool.query(`CALL SavedRecipes_SELECT(${req.params.recipeId}, ${req.params.userId})`, (err, resultsSet) => {
+        res.json(resultsSet[0][0]);
+    });
+});
+
+/**
+ * Get a user's saved recipes
+ */
+app.get('/user/save/:userId', (req, res) => {
     pool.query(
         `SELECT * FROM SavedRecipes sr
     INNER JOIN Recipes r ON sr.recipe_id = r.id
-    WHERE sr.user_id = ${req.params.id}`,
+    WHERE sr.user_id = ${req.params.userId}`,
         (err, resultsSet) => {
             res.json(resultsSet);
         }
     );
-});
-
-/**
- * Authorizes a user
- */
-app.get('/auth/:userEmail/:userPassword', (req, res) => {
-    pool.query(`CALL User_authenticate('${req.params.userEmail}', '${req.params.userPassword}')`, (err, resultsSet) => {
-        res.json(resultsSet[0]);
-    });
 });
 
 /**
@@ -165,6 +176,15 @@ app.get('/register/:userName/:userEmail/:userPassword', (req, res) => {
             res.json(resultsSet);
         }
     );
+});
+
+/**
+ * Authorizes a user
+ */
+app.get('/auth/:userEmail/:userPassword', (req, res) => {
+    pool.query(`CALL User_authenticate('${req.params.userEmail}', '${req.params.userPassword}')`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
 });
 
 app.listen(3000, () => {
