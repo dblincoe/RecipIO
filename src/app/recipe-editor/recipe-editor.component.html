@@ -1,0 +1,17 @@
+<h1 class="mat-display-1">{{pageTitle}}</h1>
+<div class="form">
+  <mat-form-field>
+    <input matInput type="text" placeholder="Recipe Title" [(ngModel)]="title">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Recipe Tags" [(ngModel)]="tags">
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Recipe Description"></textarea>
+  </mat-form-field>
+  <mat-form-field *ngFor="let step of steps; let i = index;">
+    <label>Step {{i}}</label>
+    <textarea matInput placeholder="Recipe Description"></textarea>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="login()">Submit Recipe</button>
+</div>

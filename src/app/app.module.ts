@@ -16,6 +16,7 @@ import { SavedRecipesComponent } from './saved-recipes/saved-recipes.component';
 import { AllRecipesComponent } from './all-recipes/all-recipes.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentDetailComponent } from './comment-detail/comment-detail.component';
+import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { CommentDetailComponent } from './comment-detail/comment-detail.componen
         SavedRecipesComponent,
         AllRecipesComponent,
         CommentListComponent,
-        CommentDetailComponent
+        CommentDetailComponent,
+        RecipeEditorComponent
     ],
     imports: [
         BrowserModule,

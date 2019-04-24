@@ -30,6 +30,30 @@ app.get('/', (req, res) => {
 });
 
 /**
+ * insert a tag with a given name -- will ignore duplicates
+ */
+app.get('/tag/:name', (req, res) => {
+    pool.query(`CALL Recipes_INSERT('${req.params.name}')`, (err, resultsSet) => {
+        res.json(resultsSet[0].name);
+    });
+});
+
+/**
+ * get a list of all tags
+ */
+app.get('/tag', (req, res) => {
+    pool.query('CALL Tags_SELECT()', (err, resultsSet) => {
+        const tags = [];
+        console.log(resultsSet[0]);
+        for (let x in resultsSet[0]) {
+            tags.push(x.name);
+        }
+
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
  * return list of all recipes
  */
 app.get('/recipe', (req, res) => {
