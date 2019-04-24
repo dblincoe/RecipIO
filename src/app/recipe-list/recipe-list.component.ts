@@ -61,7 +61,7 @@ export class RecipeListComponent implements OnInit {
 
     getViewCount(response: any) {
         this.http.get(`${this.API_BASE}/recipe/${response.id}/views`).subscribe((viewResponse) => {
-            response.viewCount = viewResponse[0].view_count;
+            response.view_count = viewResponse[0].view_count;
             this.getRecipeSteps(response);
         });
     }

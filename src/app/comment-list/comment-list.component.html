@@ -1,3 +1,4 @@
-<p>
-  Hello!
-</p>
+<h1>Comments: </h1>
+<div *ngFor="let comment of commentList">
+    <app-comment-detail [comment]="comment"></app-comment-detail>
+</div>

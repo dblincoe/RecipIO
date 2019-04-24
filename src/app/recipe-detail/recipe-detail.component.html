@@ -23,6 +23,7 @@
   <button mat-raised-button [color]="getVoteColor(1)" (click)="vote(1)">
     <mat-icon>arrow_upward</mat-icon>
   </button>
+  <p>{{recipe.voteCount}}</p>
   <button mat-raised-button [color]="getVoteColor(-1)" (click)="vote(-1)">
     <mat-icon>arrow_downward</mat-icon>
   </button>

@@ -33,8 +33,8 @@ app.get('/', (req, res) => {
  * return list of all recipes
  */
 app.get('/recipe', (req, res) => {
-    pool.query('SELECT * FROM Recipes', (err, resultsSet) => {
-        res.json(resultsSet);
+    pool.query('CALL Recipes_SELECT()', (err, resultsSet) => {
+        res.json(resultsSet[0]);
     });
 });
 

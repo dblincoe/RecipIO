@@ -15,23 +15,15 @@ export class Recipe {
     viewCount: number;
     timestamp: Date;
 
-    constructor(response: {
-        id: number;
-        author: User;
-        title: string;
-        description: string;
-        ingredients: RecipeIngredient[];
-        steps: RecipeStep[];
-        viewCount: number;
-        time_created: Date;
-    }) {
+    constructor(response: any) {
         this.id = response.id;
         this.author = response.author;
         this.title = response.title;
         this.description = response.description;
         this.ingredients = response.ingredients;
         this.steps = response.steps;
-        this.viewCount = response.viewCount;
+        this.viewCount = response.view_count;
+        this.voteCount = response.vote_count;
         this.timestamp = response.time_created;
     }
 

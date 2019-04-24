@@ -1,3 +1,11 @@
-<p>
-  comment-detail works!
-</p>
+<p>{{comment.author.name}}</p>
+<h3>{{comment.text}}</h3>
+<mat-action-row >
+    <button mat-raised-button>
+        <mat-icon>arrow_upward</mat-icon>
+    </button>
+    <p>{{comment.voteCount}}</p>
+    <button mat-raised-button>
+        <mat-icon>arrow_downward</mat-icon>
+    </button>
+</mat-action-row>
