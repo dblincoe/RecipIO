@@ -2,11 +2,11 @@
     <button mat-raised-button color="primary" *ngIf="comment.isAuthor(auth.getId())">
         <mat-icon>settings</mat-icon>
     </button>
-    <button mat-raised-button color="primary">
+    <button mat-raised-button [color]="getVoteColor(1)" (click)="vote(1)">
         <mat-icon>arrow_upward</mat-icon>
     </button>
     <p class="vote_count">{{comment.voteCount}}</p>
-    <button mat-raised-button color="primary">
+    <button mat-raised-button [color]="getVoteColor(-1)" (click)="vote(-1)">
         <mat-icon>arrow_downward</mat-icon>
     </button>
 </mat-action-row>

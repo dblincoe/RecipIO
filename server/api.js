@@ -44,7 +44,6 @@ app.get('/tag/:name', (req, res) => {
 app.get('/tag', (req, res) => {
     pool.query('CALL Tags_SELECT()', (err, resultsSet) => {
         const tags = [];
-        console.log(resultsSet[0]);
         for (let x in resultsSet[0]) {
             tags.push(x.name);
         }
@@ -109,7 +108,6 @@ app.get('/recipe/:id/ingredients', (req, res) => {
 app.get('/recipe/:recipeId/voteCount', (req, res) => {
     pool.query(`CALL RecipeVotes_SELECT(${req.params.recipeId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
-        console.log(resultsSet[0]);
     });
 });
 
@@ -156,6 +154,42 @@ app.get('/comment/:recipeId', (req, res) => {
     pool.query(`CALL Comments_SELECT_by_recipe(${req.params.recipeId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
+});
+
+/**
+ * Checks votes for a comment
+ */
+app.get('/comment/:commentId/voteCount', (req, res) => {
+    pool.query(`CALL CommentVotes_SELECT(${req.params.commentId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
+ * Checks user vote on a comment
+ */
+app.get('/comment/:commentId/:userId/vote', (req, res) => {
+    pool.query(
+        `SELECT vote_value
+        FROM CommentVotes
+        WHERE comment_id = ${req.params.commentId}
+        AND user_id = ${req.params.userId}`,
+        (err, resultsSet) => {
+            res.json(resultsSet[0]);
+        }
+    );
+});
+
+/**
+ * Votes on a comment
+ */
+app.get('/comment/:commentId/:userId/:vote', (req, res) => {
+    pool.query(
+        `CALL CommentVotes_SAVE(${req.params.commentId}, ${req.params.userId}, ${req.params.vote})`,
+        (err, resultsSet) => {
+            res.json(resultsSet);
+        }
+    );
 });
 
 /**
