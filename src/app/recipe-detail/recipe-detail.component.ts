@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { CommentListComponent } from '../comment-list/comment-list.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-recipe-detail',
@@ -15,12 +16,18 @@ export class RecipeDetailComponent implements OnInit {
     API_BASE = 'http://localhost:3000';
     voteValue: number;
     isSaved: boolean;
-    constructor(private auth: AuthService, private http: HttpClient, public dialog: MatDialog) {}
+    constructor(
+        private auth: AuthService,
+        private http: HttpClient,
+        private router: Router,
+        public dialog: MatDialog
+    ) {}
 
     ngOnInit() {
         this.getVote();
         this.getSaved();
-        this.recipeClicked(this.recipe.id);
+        console.log(this.recipe);
+        this.recipeClicked();
     }
 
     openComments(): void {
@@ -31,15 +38,29 @@ export class RecipeDetailComponent implements OnInit {
         });
     }
 
-    recipeClicked(recipeId: number) {
-        this.http.get(`${this.API_BASE}/recipe/${recipeId}/view`).subscribe();
+    recipeClicked() {
+        this.http.get(`${this.API_BASE}/recipe/${this.recipe.id}/view`).subscribe();
     }
 
     getVote(): void {
         if (this.auth.checkAuth()) {
             this.http
                 .get<any>(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/vote`)
-                .subscribe((response: { vote_value: number }) => (this.voteValue = response.vote_value));
+                .subscribe((response: { vote_value: number }) => {
+                    this.voteValue = response.vote_value;
+                    this.updateVoteCount();
+                    console.log(this.recipe);
+                });
+        }
+    }
+
+    updateVoteCount(): void {
+        if (this.auth.checkAuth()) {
+            this.http
+                .get<any>(`${this.API_BASE}/recipe/${this.recipe.id}/voteCount`)
+                .subscribe((response: { vote_value: number }) => {
+                    this.recipe.voteCount = +response[0].vote_count;
+                });
         }
     }
 
@@ -53,7 +74,6 @@ export class RecipeDetailComponent implements OnInit {
 
     getSaveColor(): string {
         const result = this.isSaved ? 'accent' : 'primary';
-        console.log(result);
         return result;
     }
 
@@ -68,8 +88,12 @@ export class RecipeDetailComponent implements OnInit {
     }
 
     vote(voteValue: number): void {
-        this.http
-            .get<number>(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/${voteValue}`)
-            .subscribe(() => this.getVote());
+        if (this.auth.checkAuth()) {
+            this.http
+                .get<number>(`${this.API_BASE}/recipe/${this.recipe.id}/${this.auth.getId()}/${voteValue}`)
+                .subscribe(() => this.getVote());
+        } else {
+            this.router.navigate([ '/login' ]);
+        }
     }
 }

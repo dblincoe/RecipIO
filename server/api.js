@@ -104,7 +104,17 @@ app.get('/recipe/:id/ingredients', (req, res) => {
 });
 
 /**
- * Checks vote on a recipe
+ * Checks votes for a recipe
+ */
+app.get('/recipe/:recipeId/voteCount', (req, res) => {
+    pool.query(`CALL RecipeVotes_SELECT(${req.params.recipeId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+        console.log(resultsSet[0]);
+    });
+});
+
+/**
+ * Checks user vote on a recipe
  */
 app.get('/recipe/:recipeId/:userId/vote', (req, res) => {
     pool.query(
