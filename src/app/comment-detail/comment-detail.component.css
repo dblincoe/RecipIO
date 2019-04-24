@@ -2,3 +2,23 @@ button {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.vote_count {
+    margin-top: 8px;
+}
+
+.vote_row {
+    max-height: 35px;
+    padding-bottom: 5px;
+}
+
+.comment_author {
+    margin-top: 0px;
+    font-size: 0.9em;
+}
+
+.comment_text {
+    font-size: 1.5em;
+    font-weight: 400;
+    margin-top: 10px;
+}

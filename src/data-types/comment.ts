@@ -16,4 +16,8 @@ export class Comment {
         this.voteCount = response.vote_value;
         this.timestamp = response.time_posted;
     }
+
+    isAuthor(id: number): boolean {
+        return id === this.author.id;
+    }
 }

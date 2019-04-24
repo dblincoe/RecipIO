@@ -11,7 +11,7 @@
 </div>
 
 <mat-action-row>
-  <button mat-raised-button color="primary" *ngIf="recipe.isAuthor(auth.getId()) && auth.checkAuth()">
+  <button mat-raised-button color="primary" *ngIf="recipe.isAuthor(auth.getId())">
     <mat-icon>settings</mat-icon>
   </button>
   <button mat-raised-button [color]="getSaveColor()" *ngIf="auth.checkAuth()" (click)="save()">

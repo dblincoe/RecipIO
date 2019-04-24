@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Comment } from '../../data-types/comment';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-comment-detail',
@@ -8,7 +9,7 @@ import { Comment } from '../../data-types/comment';
 })
 export class CommentDetailComponent implements OnInit {
     @Input() comment: Comment;
-    constructor() {}
+    constructor(private auth: AuthService) {}
 
     ngOnInit() {}
 }

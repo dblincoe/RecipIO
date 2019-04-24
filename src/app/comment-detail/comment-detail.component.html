@@ -1,11 +1,14 @@
-<p>{{comment.author.name}}</p>
-<h3>{{comment.text}}</h3>
-<mat-action-row >
-    <button mat-raised-button>
+<mat-action-row class="vote_row">
+    <button mat-raised-button color="primary" *ngIf="comment.isAuthor(auth.getId())">
+        <mat-icon>settings</mat-icon>
+    </button>
+    <button mat-raised-button color="primary">
         <mat-icon>arrow_upward</mat-icon>
     </button>
-    <p>{{comment.voteCount}}</p>
-    <button mat-raised-button>
+    <p class="vote_count">{{comment.voteCount}}</p>
+    <button mat-raised-button color="primary">
         <mat-icon>arrow_downward</mat-icon>
     </button>
 </mat-action-row>
+<p class="comment_text">{{comment.text}}</p>
+<p class="comment_author">{{comment.author.name}} on {{comment.timestamp | date:'medium':'-0500'}}</p>
