@@ -22,6 +22,14 @@ export class CommentDetailComponent implements OnInit {
         this.getVote();
     }
 
+    saveUpdatedComment(): void {
+        this.comment.text = this.comment.text.split(`'`).join(`\\'`);
+        console.log(this.comment.text);
+        this.http
+            .get(`${this.API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
+            .subscribe((response) => (this.updateComment = !this.updateComment));
+    }
+
     getVote(): void {
         if (this.auth.checkAuth()) {
             this.http

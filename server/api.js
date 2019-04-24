@@ -152,6 +152,15 @@ app.get('/comment/:recipeId', (req, res) => {
 });
 
 /**
+ * Updated unique comment
+ */
+app.get('/comment/update/:id/:text', (req, res) => {
+    pool.query(`CALL Comments_UPDATE(${req.params.id},${req.params.text})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
  * Checks votes for a comment
  */
 app.get('/comment/:commentId/voteCount', (req, res) => {
