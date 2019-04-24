@@ -17,7 +17,7 @@
   <button mat-raised-button [color]="getSaveColor()" (click)="save()">
     <mat-icon>save</mat-icon>
   </button>
-  <button mat-raised-button color="primary">
+  <button mat-raised-button color="primary" (click)="openComments()">
     <mat-icon>comment</mat-icon>
   </button>
   <button mat-raised-button [color]="getVoteColor(1)" (click)="vote(1)">

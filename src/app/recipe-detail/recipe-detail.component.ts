@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from 'src/data-types/recipe';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material';
+import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
     selector: 'app-recipe-detail',
@@ -13,12 +15,20 @@ export class RecipeDetailComponent implements OnInit {
     API_BASE = 'http://localhost:3000';
     voteValue: number;
     isSaved: boolean;
-    constructor(private auth: AuthService, private http: HttpClient) {}
+    constructor(private auth: AuthService, private http: HttpClient, public dialog: MatDialog) {}
 
     ngOnInit() {
         this.getVote();
         this.getSaved();
         this.recipeClicked(this.recipe.id);
+    }
+
+    openComments(): void {
+        const dialogRef = this.dialog.open(CommentListComponent, {
+            height: '750px',
+            width: '750px',
+            data: { recipeId: this.recipe.id }
+        });
     }
 
     recipeClicked(recipeId: number) {

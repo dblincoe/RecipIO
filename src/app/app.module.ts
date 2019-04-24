@@ -14,6 +14,8 @@ import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { SavedRecipesComponent } from './saved-recipes/saved-recipes.component';
 import { AllRecipesComponent } from './all-recipes/all-recipes.component';
+import { CommentListComponent } from './comment-list/comment-list.component';
+import { CommentDetailComponent } from './comment-detail/comment-detail.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +25,9 @@ import { AllRecipesComponent } from './all-recipes/all-recipes.component';
         RecipeListComponent,
         RecipeDetailComponent,
         SavedRecipesComponent,
-        AllRecipesComponent
+        AllRecipesComponent,
+        CommentListComponent,
+        CommentDetailComponent
     ],
     imports: [
         BrowserModule,
@@ -35,6 +39,7 @@ import { AllRecipesComponent } from './all-recipes/all-recipes.component';
         PlatformModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    entryComponents: [ CommentListComponent ],
+    bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}

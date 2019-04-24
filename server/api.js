@@ -44,7 +44,6 @@ app.get('/recipe', (req, res) => {
 app.get('/recipe/:id/steps', (req, res) => {
     pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
-        console.log(resultsSet[0]);
     });
 });
 
@@ -113,6 +112,15 @@ app.get('/recipe/:recipeId/:userId/:vote', (req, res) => {
 app.get('/recipe/:recipeId/view', (req, res) => {
     pool.query(`CALL PageView_INSERT(${req.params.recipeId})`, (err, resultsSet) => {
         res.json(resultsSet);
+    });
+});
+
+/**
+ * Select all comments based on recipeId
+ */
+app.get('/comment/:recipeId', (req, res) => {
+    pool.query(`CALL Comments_SELECT_by_recipe(${req.params.recipeId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
     });
 });
 
