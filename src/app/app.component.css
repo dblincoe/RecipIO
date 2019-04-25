@@ -13,3 +13,8 @@ mat-drawer {
     width: 300px;
     height: 100%;
 }
+
+mat-toolbar-row {
+    display: flex;
+    justify-content: space-between;
+}
