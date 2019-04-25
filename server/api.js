@@ -24,7 +24,7 @@ app.use(function(req, res, next) {
     next();
 });*/
 
-var fakeAPI = '';
+var fakeAPI = '/api';
 
 app.get(fakeAPI + '/', (req, res) => {
     pool.query('SELECT * FROM Users', (err, resultsSet) => {
@@ -292,11 +292,10 @@ app.get(fakeAPI + '/auth/:userEmail/:userPassword', (req, res) => {
         res.json(resultsSet[0]);
     });
 });
-/*
-const port = 4200;
+
+const port = 3000;
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
-*/
 
 module.exports = app;
