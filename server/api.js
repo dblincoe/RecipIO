@@ -111,10 +111,11 @@ app.get('/recipe/:recipeId/voteCount', (req, res) => {
  */
 app.get('/recipe/:recipeId/:userId/vote', (req, res) => {
     pool.query(
-        `SELECT vote_value
-        FROM RecipeVotes
-        WHERE recipe_id = ${req.params.recipeId}
-        AND user_id = ${req.params.userId}`,
+        `SELECT IFNULL((
+            SELECT vote_value
+            FROM RecipeVotes
+            WHERE recipe_id = ${req.params.recipeId}
+            AND user_id = ${req.params.userId}),0) AS vote_value`,
         (err, resultsSet) => {
             res.json(resultsSet[0]);
         }
@@ -147,6 +148,15 @@ app.get('/recipe/:recipeId/view', (req, res) => {
  */
 app.get('/comment/:recipeId', (req, res) => {
     pool.query(`CALL Comments_SELECT_by_recipe(${req.params.recipeId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
+ * Delete comment
+ */
+app.get('/comment/delete/:id/', (req, res) => {
+    pool.query(`CALL Comments_DELETE(${req.params.id})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
 });
@@ -186,10 +196,11 @@ app.get('/comment/:commentId/voteCount', (req, res) => {
  */
 app.get('/comment/:commentId/:userId/vote', (req, res) => {
     pool.query(
-        `SELECT vote_value
-        FROM CommentVotes
-        WHERE comment_id = ${req.params.commentId}
-        AND user_id = ${req.params.userId}`,
+        `SELECT IFNULL((
+            SELECT vote_value
+            FROM CommentVotes
+            WHERE comment_id = ${req.params.commentId}
+            AND user_id = ${req.params.userId}),0) AS vote_value`,
         (err, resultsSet) => {
             res.json(resultsSet[0]);
         }
