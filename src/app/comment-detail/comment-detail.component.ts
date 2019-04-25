@@ -4,7 +4,7 @@ import { Recipe } from '../../data-types/recipe';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { API_BASE } from '../api-url';
 @Component({
     selector: 'app-comment-detail',
     templateUrl: './comment-detail.component.html',
@@ -16,7 +16,6 @@ export class CommentDetailComponent implements OnInit {
     @Output() deleted = new EventEmitter();
 
     voteValue: number;
-    API_BASE = 'http://localhost:3000';
     updateComment: boolean;
     constructor(private auth: AuthService, private http: HttpClient, private router: Router) {
         this.updateComment = false;
@@ -27,21 +26,19 @@ export class CommentDetailComponent implements OnInit {
     }
 
     deleteComment(): void {
-        this.http
-            .get(`${this.API_BASE}/comment/delete/${this.comment.id}`)
-            .subscribe((response) => this.deleted.emit());
+        this.http.get(`${API_BASE}/comment/delete/${this.comment.id}`).subscribe((response) => this.deleted.emit());
     }
 
     saveUpdatedComment(): void {
         this.http
-            .get(`${this.API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
+            .get(`${API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
             .subscribe((response) => (this.updateComment = !this.updateComment));
     }
 
     getVote(): void {
         if (this.auth.checkAuth()) {
             this.http
-                .get(`${this.API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/vote`)
+                .get(`${API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/vote`)
                 .subscribe((response: { vote_value: number }) => {
                     this.voteValue = response.vote_value;
                     this.updateVoteCount();
@@ -56,7 +53,7 @@ export class CommentDetailComponent implements OnInit {
     updateVoteCount(): void {
         if (this.auth.checkAuth()) {
             this.http
-                .get<any>(`${this.API_BASE}/comment/${this.comment.id}/voteCount`)
+                .get<any>(`${API_BASE}/comment/${this.comment.id}/voteCount`)
                 .subscribe((response: { vote_value: number }) => {
                     this.comment.voteCount = +response[0].vote_count;
                 });
@@ -66,7 +63,7 @@ export class CommentDetailComponent implements OnInit {
     vote(voteValue: number): void {
         if (this.auth.checkAuth()) {
             this.http
-                .get<number>(`${this.API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/${voteValue}`)
+                .get<number>(`${API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/${voteValue}`)
                 .subscribe(() => this.getVote());
         } else {
             this.router.navigate([ '/login' ]);

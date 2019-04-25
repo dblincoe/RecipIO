@@ -1,30 +1,38 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
+// Get dependencies
+const express = require('express');
+const path = require('path');
+const http = require('http');
+const bodyParser = require('body-parser');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-var routes = require('./server/api')(app);
-
-var server = app.listen(3000, function() {
-    console.log('Listening on port %s...', server.address().port);
-});
+// Get our API routes
+const api = require('./server/api');
+const app = express();
 
 // Parsers for POST data
-app.use(json());
-app.use(urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Point static path to dist
-app.use(static(join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set our api routes
 app.use('/api', api);
 
 // Catch all other routes and return the index file
-app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, 'dist/index.html'));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/EECS341-Project/index.html'));
 });
+
+/**
+ * Get port from environment and store in Express.
+ */
+const port = process.env.PORT || '3000';
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

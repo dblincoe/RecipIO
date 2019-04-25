@@ -5,7 +5,7 @@ import { Comment } from '../../data-types/comment';
 import { User } from '../../data-types/user';
 import { Recipe } from 'src/data-types/recipe';
 import { AuthService } from '../auth.service';
-
+import { API_BASE } from '../api-url';
 @Component({
     selector: 'app-comment-list',
     templateUrl: './comment-list.component.html',
@@ -13,7 +13,6 @@ import { AuthService } from '../auth.service';
 })
 export class CommentListComponent implements OnInit {
     recipe: Recipe;
-    API_BASE: string;
     commentList: Comment[];
 
     createCommentFlag = false;
@@ -26,7 +25,6 @@ export class CommentListComponent implements OnInit {
         private http: HttpClient
     ) {
         this.recipe = data.recipe;
-        this.API_BASE = 'http://localhost:3000';
     }
 
     ngOnInit() {
@@ -36,7 +34,7 @@ export class CommentListComponent implements OnInit {
 
     createComment() {
         this.http
-            .get(`${this.API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/'${this.createCommentText}'`)
+            .get(`${API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/'${this.createCommentText}'`)
             .subscribe((response) => {
                 this.createCommentFlag = !this.createCommentFlag;
                 this.commentList = [];
@@ -50,7 +48,7 @@ export class CommentListComponent implements OnInit {
     }
 
     getComments(): void {
-        this.http.get<any[]>(`${this.API_BASE}/comment/${this.recipe.id}`).subscribe((commentsResponse) => {
+        this.http.get<any[]>(`${API_BASE}/comment/${this.recipe.id}`).subscribe((commentsResponse) => {
             commentsResponse.forEach((commentResponse) => {
                 this.getAuthor(commentResponse);
             });
@@ -58,7 +56,7 @@ export class CommentListComponent implements OnInit {
     }
 
     getAuthor(response: any) {
-        this.http.get(`${this.API_BASE}/user/${response.user_id}`).subscribe((authorResponse) => {
+        this.http.get(`${API_BASE}/user/${response.user_id}`).subscribe((authorResponse) => {
             response.author = new User(authorResponse[0]);
             this.commentList.push(new Comment(response));
         });
