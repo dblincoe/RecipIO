@@ -39,6 +39,7 @@ export class CommentListComponent implements OnInit {
             .get(`${this.API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/'${this.createCommentText}'`)
             .subscribe((response) => {
                 this.createCommentFlag = !this.createCommentFlag;
+                this.createCommentText = '';
                 this.commentList = [];
                 this.getComments();
             });
