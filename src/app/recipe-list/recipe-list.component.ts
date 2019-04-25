@@ -83,7 +83,6 @@ export class RecipeListComponent implements OnInit {
                 response.ingredients.push(new RecipeIngredient(ingredientResponse));
             });
             this.recipeList.push(new Recipe(response));
-            console.log(this.recipeList);
         });
     }
 }

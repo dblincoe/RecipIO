@@ -48,7 +48,6 @@ export class RecipeDetailComponent implements OnInit {
                 .subscribe((response: { vote_value: number }) => {
                     this.voteValue = response.vote_value;
                     this.updateVoteCount();
-                    console.log(this.recipe);
                 });
         }
     }
