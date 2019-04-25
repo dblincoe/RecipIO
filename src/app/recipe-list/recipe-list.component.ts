@@ -6,7 +6,7 @@ import { User } from 'src/data-types/user';
 import { RecipeStep } from 'src/data-types/recipe-step';
 import { RecipeIngredient } from 'src/data-types/recipe-ingredient';
 import { AuthService } from '../auth.service';
-
+import { API_BASE } from '../api-url';
 @Component({
     selector: 'app-recipe-list',
     templateUrl: './recipe-list.component.html',
@@ -15,11 +15,8 @@ import { AuthService } from '../auth.service';
 export class RecipeListComponent implements OnInit {
     title = 'Recipes';
     recipeList: Recipe[];
-    API_BASE: string;
     @Input() endpoint: string;
-    constructor(private http: HttpClient, private location: PlatformLocation, private auth: AuthService) {
-        this.API_BASE = 'http://localhost:3000';
-    }
+    constructor(private http: HttpClient, private location: PlatformLocation, private auth: AuthService) {}
 
     ngOnInit() {
         this.recipeList = [];
@@ -32,11 +29,11 @@ export class RecipeListComponent implements OnInit {
     }
 
     recipeClicked(recipeId: number) {
-        this.http.get(`${this.API_BASE}/recipe/${recipeId}/view`).subscribe();
+        this.http.get(`${API_BASE}/recipe/${recipeId}/view`).subscribe();
     }
 
     getSavedRecipes(): void {
-        this.http.get<any[]>(`${this.API_BASE}/user/save/${this.auth.getId()}`).subscribe((recipesResponse) => {
+        this.http.get<any[]>(`${API_BASE}/user/save/${this.auth.getId()}`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
                 recipeResponse.id = recipeResponse.recipe_id;
                 this.getAuthor(recipeResponse);
@@ -45,7 +42,7 @@ export class RecipeListComponent implements OnInit {
     }
 
     getAllRecipes(): void {
-        this.http.get<any[]>(`${this.API_BASE}/recipe/`).subscribe((recipesResponse) => {
+        this.http.get<any[]>(`${API_BASE}/recipe/`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
                 this.getAuthor(recipeResponse);
             });
@@ -53,21 +50,21 @@ export class RecipeListComponent implements OnInit {
     }
 
     getAuthor(response: any) {
-        this.http.get(`${this.API_BASE}/user/${response.author_id}`).subscribe((authorResponse) => {
+        this.http.get(`${API_BASE}/user/${response.author_id}`).subscribe((authorResponse) => {
             response.author = new User(authorResponse[0]);
             this.getViewCount(response);
         });
     }
 
     getViewCount(response: any) {
-        this.http.get(`${this.API_BASE}/recipe/${response.id}/views`).subscribe((viewResponse) => {
+        this.http.get(`${API_BASE}/recipe/${response.id}/views`).subscribe((viewResponse) => {
             response.view_count = viewResponse[0].view_count;
             this.getRecipeSteps(response);
         });
     }
 
     getRecipeSteps(response: any) {
-        this.http.get<any[]>(`${this.API_BASE}/recipe/${response.id}/steps/`).subscribe((stepsResponse) => {
+        this.http.get<any[]>(`${API_BASE}/recipe/${response.id}/steps/`).subscribe((stepsResponse) => {
             response.steps = [];
             stepsResponse.forEach((stepResponse) => {
                 response.steps.push(new RecipeStep(stepResponse));
@@ -77,7 +74,7 @@ export class RecipeListComponent implements OnInit {
     }
 
     getIngredients(response: any) {
-        this.http.get<any[]>(`${this.API_BASE}/recipe/${response.id}/ingredients/`).subscribe((ingredientsResponse) => {
+        this.http.get<any[]>(`${API_BASE}/recipe/${response.id}/ingredients/`).subscribe((ingredientsResponse) => {
             response.ingredients = [];
             ingredientsResponse.forEach((ingredientResponse) => {
                 response.ingredients.push(new RecipeIngredient(ingredientResponse));
