@@ -19,6 +19,9 @@
     <button mat-raised-button (click)="saveUpdatedComment()" color="accent">
         <mat-icon>save</mat-icon>
     </button>
+    <button mat-raised-button (click)="deleteComment()" color="accent">
+        <mat-icon>delete</mat-icon>
+    </button>
 </form>
 
 <p class="comment_author">{{comment.author.name}} on {{comment.timestamp | date:'medium':'-0500'}}</p>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Comment } from '../../data-types/comment';
 import { Recipe } from '../../data-types/recipe';
 import { AuthService } from '../auth.service';
@@ -12,8 +12,9 @@ import { Router } from '@angular/router';
 })
 export class CommentDetailComponent implements OnInit {
     @Input() comment: Comment;
-    @Input() newComment: boolean;
     @Input() recipe: Recipe;
+    @Output() deleted = new EventEmitter();
+
     voteValue: number;
     API_BASE = 'http://localhost:3000';
     updateComment: boolean;
@@ -22,24 +23,19 @@ export class CommentDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.updateComment = this.newComment;
-        if (!this.newComment) {
-            this.getVote();
-        } else {
-            this.voteValue = 0;
-        }
+        this.getVote();
+    }
+
+    deleteComment(): void {
+        this.http
+            .get(`${this.API_BASE}/comment/delete/${this.comment.id}`)
+            .subscribe((response) => this.deleted.emit());
     }
 
     saveUpdatedComment(): void {
-        if (this.newComment) {
-            this.http
-                .get(`${this.API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/'${this.comment.text}'`)
-                .subscribe((response) => (this.updateComment = !this.updateComment));
-        } else {
-            this.http
-                .get(`${this.API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
-                .subscribe((response) => (this.updateComment = !this.updateComment));
-        }
+        this.http
+            .get(`${this.API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
+            .subscribe((response) => (this.updateComment = !this.updateComment));
     }
 
     getVote(): void {
@@ -47,7 +43,6 @@ export class CommentDetailComponent implements OnInit {
             this.http
                 .get(`${this.API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/vote`)
                 .subscribe((response: { vote_value: number }) => {
-                    console.log(response);
                     this.voteValue = response.vote_value;
                     this.updateVoteCount();
                 });
@@ -63,7 +58,6 @@ export class CommentDetailComponent implements OnInit {
             this.http
                 .get<any>(`${this.API_BASE}/comment/${this.comment.id}/voteCount`)
                 .subscribe((response: { vote_value: number }) => {
-                    console.log(response[0].vote_count);
                     this.comment.voteCount = +response[0].vote_count;
                 });
         }

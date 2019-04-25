@@ -16,8 +16,8 @@ export class CommentListComponent implements OnInit {
     API_BASE: string;
     commentList: Comment[];
 
-    dummyComment: Comment;
-    dummyCommentFlag = false;
+    createCommentFlag = false;
+    createCommentText: string;
 
     constructor(
         public dialogRef: MatDialogRef<CommentListComponent>,
@@ -34,16 +34,19 @@ export class CommentListComponent implements OnInit {
         this.getComments();
     }
 
-    newComment() {
-        this.dummyCommentFlag = true;
-        this.dummyComment = new Comment({
-            id: -1,
-            recipe_id: this.recipe.id,
-            author: this.auth.getId(),
-            comment_text: '',
-            vote_value: 0,
-            time_posted: Date.now()
-        });
+    createComment() {
+        this.http
+            .get(`${this.API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/'${this.createCommentText}'`)
+            .subscribe((response) => {
+                this.createCommentFlag = !this.createCommentFlag;
+                this.commentList = [];
+                this.getComments();
+            });
+    }
+
+    deleteComment() {
+        this.commentList = [];
+        this.getComments();
     }
 
     getComments(): void {
