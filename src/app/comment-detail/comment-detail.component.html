@@ -1,27 +1,27 @@
-<mat-action-row class="vote_row">
-    <button mat-raised-button color="primary" *ngIf="comment.isAuthor(auth.getId())" (click)="updateComment = !updateComment">
-        <mat-icon>settings</mat-icon>
-    </button>
-    <button mat-raised-button [color]="getVoteColor(1)" (click)="vote(1)">
-        <mat-icon>arrow_upward</mat-icon>
-    </button>
-    <p class="vote_count">{{comment.voteCount}}</p>
-    <button mat-raised-button [color]="getVoteColor(-1)" (click)="vote(-1)">
-        <mat-icon>arrow_downward</mat-icon>
-    </button>
-</mat-action-row>
+
 <p class="comment_text" *ngIf="!updateComment">{{comment.text}}</p>
 
 <form class="comment-form" *ngIf="updateComment">
     <mat-form-field class="comment-text-form" appearance="outline">
         <textarea matInput [(ngModel)]="comment.text" name="comment-text"></textarea>
     </mat-form-field>
-    <button mat-raised-button (click)="saveUpdatedComment()" color="accent">
+    <button mat-raised-button matTooltip="Save" (click)="saveUpdatedComment()" color="accent">
         <mat-icon>save</mat-icon>
     </button>
-    <button mat-raised-button (click)="deleteComment()" color="accent">
+    <button mat-raised-button matTooltip="Delete" (click)="deleteComment()" color="accent">
         <mat-icon>delete</mat-icon>
     </button>
 </form>
-
 <p class="comment_author">{{comment.author.name}} on {{comment.timestamp | date:'medium':'-0500'}}</p>
+<mat-action-row class="vote_row">
+    <button mat-raised-button matTooltip="Edit" color="primary" *ngIf="comment.isAuthor(auth.getId())" (click)="updateComment = !updateComment">
+        <mat-icon>settings</mat-icon>
+    </button>
+    <button mat-raised-button matTooltip="Upvote" [color]="getVoteColor(1)" (click)="vote(1)">
+        <mat-icon>arrow_upward</mat-icon>
+    </button>
+    <p class="vote_count">{{comment.voteCount}}</p>
+    <button mat-raised-button matTooltip="Downvote" [color]="getVoteColor(-1)" (click)="vote(-1)">
+        <mat-icon>arrow_downward</mat-icon>
+    </button>
+</mat-action-row>
