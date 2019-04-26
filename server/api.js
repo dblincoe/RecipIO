@@ -13,18 +13,20 @@ var pool = mysql.createPool({
     password: 'b3e84b91'
 });
 
+var debug = false;
+var fakeAPI = debug ? '/api' : '';
+
 /**
  * allow XSS for separate API functionality
  * TODO: DISABLE THIS FOR ACTUAL PRODUCTION
  */
-/*
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});*/
-
-var fakeAPI = '/api';
+if (debug) {
+    app.use(function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        next();
+    });
+}
 
 app.get(fakeAPI + '/', (req, res) => {
     pool.query('SELECT * FROM Users', (err, resultsSet) => {
@@ -293,9 +295,11 @@ app.get(fakeAPI + '/auth/:userEmail/:userPassword', (req, res) => {
     });
 });
 
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+if (debug) {
+    const port = 3000;
+    app.listen(port, () => {
+        console.log(`Server running on http://localhost:${port}`);
+    });
+}
 
 module.exports = app;
