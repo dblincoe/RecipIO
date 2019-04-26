@@ -245,7 +245,7 @@ app.get(fakeAPI + '/user/save/:userId/:recipeId/', (req, res) => {
  * Save a recipe to a user's personal list
  */
 app.get(fakeAPI + '/user/save/:userId/:recipeId/check', (req, res) => {
-    pool.query(`CALL SavedRecipes_SELECT(${req.params.recipeId}, ${req.params.userId})`, (err, resultsSet) => {
+    pool.query(`CALL SavedRecipes_isSaved(${req.params.recipeId}, ${req.params.userId})`, (err, resultsSet) => {
         res.json(resultsSet[0][0]);
     });
 });
