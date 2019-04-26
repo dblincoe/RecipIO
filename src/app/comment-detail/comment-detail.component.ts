@@ -32,8 +32,9 @@ export class CommentDetailComponent implements OnInit {
     }
 
     saveUpdatedComment(): void {
+        const encodedText = encodeURIComponent(this.comment.text).replace(/[!'()*]/g, escape);
         this.http
-            .get(`${API_BASE}/comment/update/${this.comment.id}/'${this.comment.text}'`)
+            .get(`${API_BASE}/comment/update/${this.comment.id}/"${encodedText}"`)
             .subscribe((response) => (this.updateComment = !this.updateComment));
     }
 

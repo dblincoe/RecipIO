@@ -36,8 +36,9 @@ export class CommentListComponent implements OnInit {
     }
 
     createComment() {
+        const encodedText = encodeURIComponent(this.createCommentText).replace(/[!'()*]/g, escape);
         this.http
-            .get(`${API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/'${this.createCommentText}'`)
+            .get(`${API_BASE}/comment/insert/${this.recipe.id}/${this.auth.getId()}/"${encodedText}"`)
             .subscribe((response) => {
                 this.createCommentFlag = !this.createCommentFlag;
                 this.createCommentText = '';
