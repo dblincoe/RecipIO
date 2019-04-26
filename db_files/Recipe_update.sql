@@ -1,4 +1,5 @@
 DELIMITER ;;
+-- This procedure no longer exists.
 CREATE PROCEDURE Recipes_UPDATE
 (
 	IN vid INT
