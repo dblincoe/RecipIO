@@ -6,6 +6,8 @@ import { User } from '../../data-types/user';
 import { Recipe } from 'src/data-types/recipe';
 import { AuthService } from '../auth.service';
 import { API_BASE } from '../api-url';
+import { Router } from '@angular/router';
+
 @Component({
     selector: 'app-comment-list',
     templateUrl: './comment-list.component.html',
@@ -22,7 +24,8 @@ export class CommentListComponent implements OnInit {
         public dialogRef: MatDialogRef<CommentListComponent>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
         private auth: AuthService,
-        private http: HttpClient
+        private http: HttpClient,
+        private router: Router
     ) {
         this.recipe = data.recipe;
     }
@@ -41,6 +44,19 @@ export class CommentListComponent implements OnInit {
                 this.commentList = [];
                 this.getComments();
             });
+    }
+
+    openNewComment() {
+        if (this.auth.checkAuth()) {
+            this.createCommentFlag = !this.createCommentFlag;
+        } else {
+            this.closeModal();
+            this.router.navigate([ '/login' ]);
+        }
+    }
+
+    closeModal() {
+        this.dialogRef.close();
     }
 
     deleteComment() {

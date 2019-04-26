@@ -2,7 +2,7 @@
     <div class="comment-list-header">
         <h1>Comments: </h1>
         <button mat-raised-button matTooltip="New Comment" color="accent"
-            (click)="createCommentFlag = !createCommentFlag">
+            (click)="openNewComment()">
             <mat-icon>add_comment</mat-icon>
         </button>
     </div>
@@ -15,6 +15,6 @@
         </button>
     </div>
     <div *ngFor="let comment of commentList">
-        <app-comment-detail [comment]="comment" [recipe]="recipe" (deleted)="deleteComment()"></app-comment-detail>
+        <app-comment-detail [comment]="comment" [recipe]="recipe" (closeModal)="closeModal()" (deleted)="deleteComment()" ></app-comment-detail>
     </div>
 </div>

@@ -5,6 +5,7 @@ import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { API_BASE } from '../api-url';
+
 @Component({
     selector: 'app-comment-detail',
     templateUrl: './comment-detail.component.html',
@@ -14,6 +15,7 @@ export class CommentDetailComponent implements OnInit {
     @Input() comment: Comment;
     @Input() recipe: Recipe;
     @Output() deleted = new EventEmitter();
+    @Output() closeModal = new EventEmitter();
 
     voteValue: number;
     updateComment: boolean;
@@ -66,6 +68,7 @@ export class CommentDetailComponent implements OnInit {
                 .get<number>(`${API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/${voteValue}`)
                 .subscribe(() => this.getVote());
         } else {
+            this.closeModal.emit();
             this.router.navigate([ '/login' ]);
         }
     }
