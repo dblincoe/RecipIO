@@ -1,4 +1,3 @@
-
 <p class="comment_text" *ngIf="!updateComment">{{comment.text}}</p>
 
 <form class="comment-form" *ngIf="updateComment">
@@ -14,7 +13,8 @@
 </form>
 <p class="comment_author">{{comment.author.name}} on {{comment.timestamp | date:'medium':'-0500'}}</p>
 <mat-action-row class="vote_row">
-    <button mat-raised-button matTooltip="Edit" color="primary" *ngIf="comment.isAuthor(auth.getId())" (click)="updateComment = !updateComment">
+    <button mat-raised-button matTooltip="Edit" color="primary" *ngIf="comment.isAuthor(auth.getId())"
+        (click)="updateComment = !updateComment">
         <mat-icon>settings</mat-icon>
     </button>
     <button mat-raised-button matTooltip="Upvote" [color]="getVoteColor(1)" (click)="vote(1)">

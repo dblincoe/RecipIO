@@ -11,16 +11,31 @@ import { API_BASE } from '../api-url';
 })
 export class RecipeEditorComponent implements OnInit {
     pageTitle = 'Recipe Editor';
-
     title: string;
     description: string;
     tags: Tag[];
     steps: RecipeStep[];
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        this.steps = new Array<RecipeStep>();
+    }
 
     ngOnInit() {}
 
     getTags(): void {
         this.http.get<Tag[]>(`${API_BASE}/recipe/tag`).subscribe((tags) => (this.tags = tags));
+    }
+
+    addStep(): void {
+        this.steps.push(
+            new RecipeStep({
+                id: -1,
+                stepNum: this.steps.length,
+                text: ''
+            })
+        );
+    }
+
+    removeStep(): void {
+        this.steps.pop();
     }
 }
