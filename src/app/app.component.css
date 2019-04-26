@@ -9,12 +9,27 @@ mat-sidenav-container {
     height: 100%;
 }
 
+.sidenav-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 mat-drawer {
     width: 300px;
+    margin-top: 65px;
     height: 100%;
 }
 
 mat-toolbar-row {
     display: flex;
     justify-content: space-between;
+}
+
+.mat-drawer:not(.mat-drawer-side) {
+    position: fixed;
+}
+
+.mat-drawer-backdrop {
+    position: fixed !important;
 }
