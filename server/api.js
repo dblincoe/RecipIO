@@ -13,12 +13,11 @@ var pool = mysql.createPool({
     password: 'b3e84b91'
 });
 
-var debug = false;
+var debug = true;
 var fakeAPI = debug ? '/api' : '';
 
 /**
  * allow XSS for separate API functionality
- * TODO: DISABLE THIS FOR ACTUAL PRODUCTION
  */
 if (debug) {
     app.use(function(req, res, next) {
