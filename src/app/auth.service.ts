@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { API_BASE } from './api-url';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,7 @@ export class AuthService {
     constructor(private http: HttpClient, private router: Router) {}
 
     login(email: string, password: string): void {
-        this.http.get(`http://localhost:3000/auth/${email}/${password}`).subscribe((auth) => {
+        this.http.get(`${API_BASE}/auth/${email}/${password}`).subscribe((auth) => {
             console.log(auth);
             if (+auth[0].authenticated === 1) {
                 localStorage.setItem('access_id', auth[0].id);
@@ -23,7 +24,7 @@ export class AuthService {
     }
 
     register(name: string, email: string, password: string): void {
-        this.http.get(`http://localhost:3000/register/${name}/${email}/${password}`).subscribe((auth) => {
+        this.http.get(`${API_BASE}/register/${name}/${email}/${password}`).subscribe((auth) => {
             this.login(email, password);
             this.router.navigate([ '/allRecipes' ]);
         });
@@ -43,7 +44,7 @@ export class AuthService {
         const email = localStorage.getItem('access_email');
         const password = localStorage.getItem('access_password');
         if (email != null) {
-            this.http.get(`http://localhost:3000/auth/${email}/${password}`).subscribe((auth) => {
+            this.http.get(`${API_BASE}/auth/${email}/${password}`).subscribe((auth) => {
                 return +auth[0][0].authenticated === 1;
             });
         }

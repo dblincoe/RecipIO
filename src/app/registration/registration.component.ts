@@ -4,6 +4,7 @@ import { PlatformLocation } from '@angular/common';
 import { User } from '../../data-types/user';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { API_BASE } from '../api-url';
 
 @Component({
     selector: 'app-registration',
@@ -27,7 +28,7 @@ export class RegistrationComponent implements OnInit {
     ngOnInit() {}
 
     register(user?: User): void {
-        this.http.get(`http://localhost:3000/register/${this.email}`).subscribe((checkEmail) => {
+        this.http.get(`${API_BASE}/register/${this.email}`).subscribe((checkEmail) => {
             if (+checkEmail[0].user_exists === 0) {
                 this.auth.register(this.name, this.email, this.password);
             } else {
