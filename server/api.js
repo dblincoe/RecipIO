@@ -150,8 +150,8 @@ app.get(fakeAPI + '/recipe/:recipeId/view', (req, res) => {
 /**
  * Select all comments based on recipeId
  */
-app.get(fakeAPI + '/comment/:recipeId', (req, res) => {
-    pool.query(`CALL Comments_SELECT_by_recipe(${req.params.recipeId})`, (err, resultsSet) => {
+app.get(fakeAPI + '/comment/select/:recipeId/:userId', (req, res) => {
+    pool.query(`CALL Comments_SELECT_by_recipe(${req.params.recipeId},${req.params.userId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
 });
@@ -159,7 +159,7 @@ app.get(fakeAPI + '/comment/:recipeId', (req, res) => {
 /**
  * Delete comment
  */
-app.get(fakeAPI + '/comment/delete/:id/', (req, res) => {
+app.get(fakeAPI + '/comment/delete/:id', (req, res) => {
     pool.query(`CALL Comments_DELETE(${req.params.id})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
@@ -189,26 +189,10 @@ app.get(fakeAPI + '/comment/insert/:recipeId/:userId/:text', (req, res) => {
 /**
  * Checks votes for a comment
  */
-app.get(fakeAPI + '/comment/:commentId/voteCount', (req, res) => {
+app.get(fakeAPI + '/comment/voteCount/:commentId', (req, res) => {
     pool.query(`CALL CommentVotes_SELECT(${req.params.commentId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
-});
-
-/**
- * Checks user vote on a comment
- */
-app.get(fakeAPI + '/comment/:commentId/:userId/vote', (req, res) => {
-    pool.query(
-        `SELECT IFNULL((
-            SELECT vote_value
-            FROM CommentVotes
-            WHERE comment_id = ${req.params.commentId}
-            AND user_id = ${req.params.userId}),0) AS vote_value`,
-        (err, resultsSet) => {
-            res.json(resultsSet[0]);
-        }
-    );
 });
 
 /**

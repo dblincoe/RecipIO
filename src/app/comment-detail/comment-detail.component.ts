@@ -17,15 +17,12 @@ export class CommentDetailComponent implements OnInit {
     @Output() deleted = new EventEmitter();
     @Output() closeModal = new EventEmitter();
 
-    voteValue: number;
     updateComment: boolean;
     constructor(private auth: AuthService, private http: HttpClient, private router: Router) {
         this.updateComment = false;
     }
 
-    ngOnInit() {
-        this.getVote();
-    }
+    ngOnInit() {}
 
     deleteComment(): void {
         this.http.get(`${API_BASE}/comment/delete/${this.comment.id}`).subscribe((response) => this.deleted.emit());
@@ -38,36 +35,24 @@ export class CommentDetailComponent implements OnInit {
             .subscribe((response) => (this.updateComment = !this.updateComment));
     }
 
-    getVote(): void {
-        if (this.auth.checkAuth()) {
-            this.http
-                .get(`${API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/vote`)
-                .subscribe((response: { vote_value: number }) => {
-                    this.voteValue = response.vote_value;
-                    this.updateVoteCount();
-                });
-        }
-    }
-
     getVoteColor(buttonId: number): string {
-        return this.voteValue === buttonId ? 'accent' : 'primary';
+        return this.comment.userVote === buttonId ? 'accent' : 'primary';
     }
 
     updateVoteCount(): void {
         if (this.auth.checkAuth()) {
-            this.http
-                .get<any>(`${API_BASE}/comment/${this.comment.id}/voteCount`)
-                .subscribe((response: { vote_value: number }) => {
-                    this.comment.voteCount = +response[0].vote_count;
-                });
+            this.http.get<any>(`${API_BASE}/comment/voteCount/${this.comment.id}`).subscribe((response) => {
+                this.comment.voteCount = +response[0].vote_count;
+            });
         }
     }
 
     vote(voteValue: number): void {
         if (this.auth.checkAuth()) {
+            this.comment.userVote = this.comment.userVote == voteValue ? 0 : voteValue;
             this.http
                 .get<number>(`${API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/${voteValue}`)
-                .subscribe(() => this.getVote());
+                .subscribe(() => this.updateVoteCount());
         } else {
             this.closeModal.emit();
             this.router.navigate([ '/login' ]);
