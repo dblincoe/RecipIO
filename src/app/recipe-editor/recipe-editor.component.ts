@@ -51,6 +51,7 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     fillEditor() {
+        this.updateRecipe = JSON.parse(JSON.stringify(this.updateRecipe));
         this.title = this.updateRecipe.title;
         this.author = this.updateRecipe.author;
         this.description = this.updateRecipe.description;

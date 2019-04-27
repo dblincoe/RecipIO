@@ -4,10 +4,15 @@
     <input matInput type="text" placeholder="Recipe Title" [(ngModel)]="title">
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="text" placeholder="Recipe Tags" [(ngModel)]="tags">
+    <mat-chip-list #tagList>
+      <mat-chip>Temp</mat-chip>
+    </mat-chip-list>
+    <input matInput type="text" placeholder="Recipe Tags" [(ngModel)]="tags" [matChipInputFor]="tagList">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Recipe Description" [(ngModel)]="dcescription">
+    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
+      placeholder="Step {{i + 1}}" placeholder="Recipe Description" [(ngModel)]="description">
+    </textarea>
   </mat-form-field>
 </div>
 <div class="steps-header">
@@ -23,7 +28,9 @@
 </div>
 <div class="form">
   <mat-form-field *ngFor="let step of steps; let i = index;">
-    <input matInput placeholder="Step {{i + 1}}" [(ngModel)]="step.text">
+    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2"
+      placeholder="Step {{i + 1}}" [(ngModel)]="step.text">
+    </textarea>
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="submit()">Submit Recipe</button>
 </div>
