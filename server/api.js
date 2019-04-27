@@ -60,8 +60,8 @@ app.get(fakeAPI + '/tag', (req, res) => {
  * return list of all recipes
  */
 app.get(fakeAPI + '/recipe', (req, res) => {
-    pool.query('CALL Recipes_SELECT()', (err, resultsSet) => {
-        res.json(resultsSet[0]);
+    pool.query('SELECT * FROM RecipesWithVotes', (err, resultsSet) => {
+        res.json(resultsSet);
     });
 });
 

@@ -10,7 +10,6 @@ export class Recipe {
     description: string;
     ingredients: RecipeIngredient[];
     steps: RecipeStep[];
-    comments?: Comment[];
     voteCount: number;
     viewCount: number;
     timestamp: Date;
@@ -23,7 +22,7 @@ export class Recipe {
         this.ingredients = response.ingredients;
         this.steps = response.steps;
         this.viewCount = response.view_count;
-        this.voteCount = response.vote_count;
+        this.voteCount = response.vote_score;
         this.timestamp = response.time_created;
     }
 
