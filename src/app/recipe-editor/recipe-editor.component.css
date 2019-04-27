@@ -13,3 +13,12 @@ h1 {
 button {
     margin: 10px;
 }
+
+.steps-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.steps-header div {
+    margin-top: 22px;
+}

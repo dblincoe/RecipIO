@@ -7,15 +7,19 @@
     <input matInput type="text" placeholder="Recipe Tags" [(ngModel)]="tags">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Recipe Description" [(ngModel)]="description">
+    <input matInput placeholder="Recipe Description" [(ngModel)]="dcescription">
   </mat-form-field>
 </div>
-<h1 class="mat-display-1" *ngIf="steps.length > 0">Steps</h1>
+<div class="steps-header">
+    <h1 class="mat-display-1" *ngIf="steps.length > 0">Steps</h1>
+    <div>
+        <button mat-raised-button color="primary" (click)="addStep()"><mat-icon>add</mat-icon></button>
+        <button mat-raised-button color="primary" (click)="removeStep()"><mat-icon>remove</mat-icon></button>
+    </div>
+</div>
 <div class="form">
   <mat-form-field *ngFor="let step of steps; let i = index;">
     <input matInput placeholder="Step {{i + 1}}" [(ngModel)]="step.text">
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="addStep()">Add a step</button>
-  <button mat-raised-button color="primary" (click)="removeStep()">Remove last step</button>
   <button mat-raised-button color="primary" (click)="submit()">Submit Recipe</button>
 </div>
