@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Recipe } from 'src/data-types/recipe';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RecipeStep } from 'src/data-types/recipe-step';
 import { Tag } from 'src/data-types/tag';
 import { HttpClient } from '@angular/common/http';
@@ -15,9 +16,9 @@ import { RecipeIngredient } from 'src/data-types/recipe-ingredient';
     styleUrls: [ './recipe-editor.component.css' ]
 })
 export class RecipeEditorComponent implements OnInit {
-    @Input() updateRecipe: Recipe;
-
     pageTitle = 'Recipe Editor';
+
+    updateRecipe: Recipe;
 
     title: string;
     author: User;
@@ -26,8 +27,14 @@ export class RecipeEditorComponent implements OnInit {
     steps: RecipeStep[];
     tags: Tag[];
 
-    constructor(private http: HttpClient, private auth: AuthService, private router: Router) {
-        this.steps = new Array<RecipeStep>();
+    constructor(
+        @Inject(MAT_DIALOG_DATA) public data: DialogData,
+        private dialogRef: MatDialogRef<RecipeEditorComponent>,
+        private auth: AuthService,
+        private http: HttpClient,
+        private router: Router
+    ) {
+        this.updateRecipe = this.data.recipe;
     }
 
     ngOnInit() {
@@ -39,6 +46,7 @@ export class RecipeEditorComponent implements OnInit {
             this.fillEditor();
         } else {
             this.getAuthor();
+            this.steps = new Array<RecipeStep>();
         }
     }
 
@@ -73,4 +81,8 @@ export class RecipeEditorComponent implements OnInit {
     removeStep(): void {
         this.steps.pop();
     }
+}
+
+export interface DialogData {
+    recipe: Recipe;
 }

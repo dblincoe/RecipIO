@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { CommentListComponent } from '../comment-list/comment-list.component';
 import { Router } from '@angular/router';
 import { API_BASE } from '../api-url';
+import { RecipeEditorComponent } from '../recipe-editor/recipe-editor.component';
 @Component({
     selector: 'app-recipe-detail',
     templateUrl: './recipe-detail.component.html',
@@ -30,6 +31,14 @@ export class RecipeDetailComponent implements OnInit {
 
     openComments(): void {
         const dialogRef = this.dialog.open(CommentListComponent, {
+            height: '750px',
+            width: '750px',
+            data: { recipe: this.recipe }
+        });
+    }
+
+    openEditor(): void {
+        const dialogRef = this.dialog.open(RecipeEditorComponent, {
             height: '750px',
             width: '750px',
             data: { recipe: this.recipe }

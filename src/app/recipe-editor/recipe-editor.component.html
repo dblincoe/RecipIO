@@ -7,7 +7,7 @@
     <input matInput type="text" placeholder="Recipe Tags" [(ngModel)]="tags">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Recipe Description">
+    <input matInput placeholder="Recipe Description" [(ngModel)]="description">
   </mat-form-field>
 </div>
 <h1 class="mat-display-1" *ngIf="steps.length > 0">Steps</h1>

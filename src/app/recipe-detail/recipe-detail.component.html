@@ -11,7 +11,7 @@
 </div>
 
 <mat-action-row>
-  <button mat-raised-button matTooltip="Edit Recipe" color="primary" *ngIf="recipe.isAuthor(auth.getId())">
+  <button mat-raised-button matTooltip="Edit Recipe" color="primary" *ngIf="recipe.isAuthor(auth.getId())" (click)="openEditor()">
     <mat-icon>settings</mat-icon>
   </button>
   <button mat-raised-button matTooltip="Save Recipe" [color]="getSaveColor()" *ngIf="auth.checkAuth()" (click)="save()">
