@@ -49,7 +49,7 @@ export class CommentDetailComponent implements OnInit {
 
     vote(voteValue: number): void {
         if (this.auth.checkAuth()) {
-            this.comment.userVote = this.comment.userVote == voteValue ? 0 : voteValue;
+            this.comment.userVote = this.comment.userVote === voteValue ? 0 : voteValue;
             this.http
                 .get<number>(`${API_BASE}/comment/${this.comment.id}/${this.auth.getId()}/${voteValue}`)
                 .subscribe(() => this.updateVoteCount());
