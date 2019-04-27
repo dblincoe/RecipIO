@@ -40,17 +40,6 @@ export class AuthService {
         localStorage.removeItem('access_password');
     }
 
-    canAccess(): boolean {
-        const email = localStorage.getItem('access_email');
-        const password = localStorage.getItem('access_password');
-        if (email != null) {
-            this.http.get(`${API_BASE}/auth/${email}/${password}`).subscribe((auth) => {
-                return +auth[0][0].authenticated === 1;
-            });
-        }
-        return false;
-    }
-
     checkAuth(): boolean {
         const id = localStorage.getItem('access_id');
         return id != null;
