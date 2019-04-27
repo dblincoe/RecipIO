@@ -11,11 +11,15 @@
   </mat-form-field>
 </div>
 <div class="steps-header">
-    <h1 class="mat-display-1" *ngIf="steps.length > 0">Steps</h1>
-    <div>
-        <button mat-raised-button color="primary" (click)="addStep()"><mat-icon>add</mat-icon></button>
-        <button mat-raised-button color="primary" (click)="removeStep()"><mat-icon>remove</mat-icon></button>
-    </div>
+  <h1 class="mat-display-1">Steps</h1>
+  <div>
+    <button mat-raised-button color="primary" (click)="addStep()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" (click)="removeStep()">
+      <mat-icon>remove</mat-icon>
+    </button>
+  </div>
 </div>
 <div class="form">
   <mat-form-field *ngFor="let step of steps; let i = index;">

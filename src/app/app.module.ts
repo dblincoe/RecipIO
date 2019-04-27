@@ -41,7 +41,7 @@ import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
         PlatformModule
     ],
     providers: [],
-    entryComponents: [ CommentListComponent ],
+    entryComponents: [ CommentListComponent, RecipeEditorComponent ],
     bootstrap: [ AppComponent ]
 })
 export class AppModule {}
