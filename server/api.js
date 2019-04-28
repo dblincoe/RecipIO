@@ -34,24 +34,28 @@ app.get(fakeAPI + '/', (req, res) => {
 });
 
 /**
- * insert a tag with a given name -- will ignore duplicates
- */
-app.get(fakeAPI + '/tag/:name', (req, res) => {
-    pool.query(`CALL Recipes_INSERT('${req.params.name}')`, (err, resultsSet) => {
-        res.json(resultsSet[0].name);
-    });
-});
-
-/**
  * get a list of all tags
  */
 app.get(fakeAPI + '/tag', (req, res) => {
     pool.query('CALL Tags_SELECT()', (err, resultsSet) => {
-        const tags = [];
-        for (let x in resultsSet[0]) {
-            tags.push(x.name);
-        }
+        res.json(resultsSet[0]);
+    });
+});
 
+/**
+ * insert a tag with a given name -- will ignore duplicates
+ */
+app.get(fakeAPI + '/tag/insert/:name', (req, res) => {
+    pool.query(`CALL Recipes_INSERT('${req.params.name}')`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
+ * select
+ */
+app.get(fakeAPI + '/recipeTag/:recipeId', (req, res) => {
+    pool.query(`CALL RecipeTags_SELECT(${req.params.recipeId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
 });
