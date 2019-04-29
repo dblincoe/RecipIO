@@ -74,7 +74,7 @@ app.get(fakeAPI + '/recipe/insert/ingredient/:recipeId/:ingredientValue/:ingredi
         `CALL RecipeIngredients_SAVE(${req.params.recipeId}, ${req.params.ingredientValue}, ${req.params
             .ingredientAmount})`,
         (err, resultsSet) => {
-            res.json(resultsSet[0]);
+            res.json(resultsSet);
         }
     );
 });
