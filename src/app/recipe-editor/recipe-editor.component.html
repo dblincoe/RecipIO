@@ -6,12 +6,8 @@
 </div>
 <div class="form">
     <mat-form-field>
-        <textarea matInput cdkTextareaAutosize
-            #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="2"
-            cdkAutosizeMaxRows="5"
-            placeholder="Recipe Description"
-            [(ngModel)]="description">
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5" placeholder="Recipe Description" [(ngModel)]="description">
         </textarea>
     </mat-form-field>
 </div>
@@ -23,8 +19,7 @@
             <ng-template matStepLabel>Input your ingredients:</ng-template>
             <form [formGroup]="ingredientFirstFormGroup">
                 <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
-                    <app-chip-autocomplete [placeholder]="ingredientPlaceholder"
-                        [(appliedChips)]="appliedIngredients"
+                    <app-chip-autocomplete [placeholder]="ingredientPlaceholder" [(appliedChips)]="appliedIngredients"
                         [(allChips)]="allIngredients">
                     </app-chip-autocomplete>
                 </div>
@@ -37,10 +32,8 @@
             <ng-template matStepLabel>Input your ingredient amounts:</ng-template>
             <form [formGroup]="ingredientSecondFormGroup">
                 <mat-form-field *ngFor="let ingredient of ingredients">
-                    <input matInput type="text"
-                        [placeholder]="ingredient.ingredient.name"
-                        [(ngModel)]="ingredient.quantity"
-                        [ngModelOptions]="{standalone: true}">
+                    <input matInput type="text" [placeholder]="ingredient.ingredient.name"
+                        [(ngModel)]="ingredient.quantity" [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
@@ -54,16 +47,17 @@
     <div class="steps-header">
         <h1 class="mat-display-1">Steps</h1>
         <div>
-            <button mat-raised-button color="primary" (click)="addStep()"><mat-icon>add</mat-icon></button>
-            <button mat-raised-button color="primary" (click)="removeStep()"><mat-icon>remove</mat-icon></button>
+            <button mat-raised-button color="primary" (click)="addStep()">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" (click)="removeStep()">
+                <mat-icon>remove</mat-icon>
+            </button>
         </div>
     </div>
     <mat-form-field *ngFor="let step of steps; let i = index;">
-        <textarea matInput cdkTextareaAutosize
-            #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="2"
-            placeholder="Step {{i + 1}}"
-            [(ngModel)]="step.text">
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2"
+            placeholder="Step {{i + 1}}" [(ngModel)]="step.text">
         </textarea>
     </mat-form-field>
 </div>
@@ -77,6 +71,6 @@
 </div>
 
 <div class="form">
-    <button mat-raised-button color="primary" (click)="insertRecipe()">Submit Recipe</button>
-    <button mat-raised-button color="primary" (click)="insertRecipe()" *ngIf="updateRecipe !== null">Delete Recipe</button>
+    <button mat-raised-button color="primary" (click)="addRecipe()">Submit Recipe</button>
+    <button mat-raised-button color="primary" (click)="addRecipe()" *ngIf="updateRecipe !== null">Delete Recipe</button>
 </div>

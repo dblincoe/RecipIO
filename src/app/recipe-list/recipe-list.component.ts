@@ -34,11 +34,13 @@ export class RecipeListComponent implements OnInit {
     }
 
     getPersonalRecipes(): void {
-        this.http.get<any[]>(`${API_BASE}/recipe/user/${this.auth.getId()}`).subscribe((recipesResponse) => {
-            recipesResponse.forEach((recipeResponse) => {
-                this.getAuthor(recipeResponse);
+        this.http
+            .get<any[]>(`${API_BASE}/recipe/user/${this.auth.getId()}/${this.auth.getId()}`)
+            .subscribe((recipesResponse) => {
+                recipesResponse.forEach((recipeResponse) => {
+                    this.getAuthor(recipeResponse);
+                });
             });
-        });
     }
 
     getSavedRecipes(): void {
@@ -50,7 +52,7 @@ export class RecipeListComponent implements OnInit {
     }
 
     getAllRecipes(): void {
-        this.http.get<any[]>(`${API_BASE}/recipe/`).subscribe((recipesResponse) => {
+        this.http.get<any[]>(`${API_BASE}/recipe/top/${this.auth.getId()}`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
                 this.getAuthor(recipeResponse);
             });

@@ -21,7 +21,6 @@ export class RecipeEditorComponent implements OnInit {
     pageTitle = 'Recipe Editor';
 
     updateRecipe: Recipe;
-
     recipeId: number;
     title: string;
     author: User;
@@ -72,10 +71,9 @@ export class RecipeEditorComponent implements OnInit {
     ngOnInit() {
         if (!this.auth.checkAuth()) {
             this.router.navigate([ '/allRecipes' ]);
-        }
-
-        if (this.updateRecipe != null) {
+        } else if (this.updateRecipe != null) {
             this.fillEditor();
+            this.recipeId = this.updateRecipe.id;
         } else {
             this.recipeId = -1;
             this.getAuthor();
@@ -85,7 +83,6 @@ export class RecipeEditorComponent implements OnInit {
 
     fillEditor() {
         this.updateRecipe = JSON.parse(JSON.stringify(this.updateRecipe));
-        this.recipeId = this.updateRecipe.id;
         this.title = this.updateRecipe.title;
         this.author = this.updateRecipe.author;
         this.description = this.updateRecipe.description;
@@ -95,11 +92,37 @@ export class RecipeEditorComponent implements OnInit {
         this.getAppliedIngredients();
     }
 
-    insertRecipe() {
+    addTags() {
+        this.appliedTags.forEach((tag) =>
+            this.http.get(`${API_BASE}/recipe/insert/tag/${this.recipeId}/"${this.escapeText(tag.name)}"/`)
+        );
+    }
+
+    escapeText(input: string): string {
+        return encodeURIComponent(input).replace(/[!'()*]/g, escape);
+    }
+
+    addIngredients() {
+        this.ingredients.forEach((ingredient) =>
+            this.http.get(
+                `${API_BASE}/recipe/insert/ingredient/${this.recipeId}/"${this.escapeText(
+                    ingredient.quantity
+                )}"/"${this.escapeText(ingredient.ingredient.name)}"`
+            )
+        );
+    }
+
+    addRecipe() {
         this.http
-            .get(`${API_BASE}/recipe/insert/${this.recipeId}/'${this.title}'/'${this.description}'/${this.author.id}`)
-            .subscribe((response) => {
-                this.recipeId = response[0].id;
+            .get(
+                `${API_BASE}/recipe/insert/${this.recipeId}/"${this.escapeText(this.title)}"/"${this.escapeText(
+                    this.description
+                )}"/${this.author.id}`
+            )
+            .subscribe((res: { id: number }) => {
+                this.recipeId = res.id;
+                this.addTags();
+                this.addIngredients();
             });
     }
 

@@ -43,19 +43,62 @@ app.get(fakeAPI + '/tag', (req, res) => {
 });
 
 /**
- * insert a tag with a given name -- will ignore duplicates
+ * select tags for a specified recipe
  */
-app.get(fakeAPI + '/tag/insert/:name', (req, res) => {
-    pool.query(`CALL Recipes_INSERT('${req.params.name}')`, (err, resultsSet) => {
+app.get(fakeAPI + '/tag/:recipeId', (req, res) => {
+    pool.query(`CALL RecipeTags_SELECT(${req.params.recipeId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
 });
 
 /**
- * select
+ * Delete all ingredient, tag, and step links to a specified recipe id
  */
-app.get(fakeAPI + '/recipeTag/:recipeId', (req, res) => {
-    pool.query(`CALL RecipeTags_SELECT(${req.params.recipeId})`, (err, resultsSet) => {
+app.get(fakeAPI + '/recipe/delete/:recipeId/attributes', (req, res) => {
+    pool.query(`CALL RecipeAttributes_DELETE(${req.params.recipeId})`, (err, resultsSet) => {
+        res.json(resultsSet);
+    });
+});
+
+/**
+ * Insert a new tag for a specified recipe id
+ */
+app.get(fakeAPI + '/recipe/insert/tag/:recipeId/:tagValue/', (req, res) => {
+    pool.query(`CALL RecipeTags_SAVE(${req.params.recipeId}, ${req.params.tagValue})`, (err, resultsSet) => {
+        res.json(resultsSet);
+    });
+});
+
+/**
+ * Insert a new step for a specified recipe id
+ */
+app.get(fakeAPI + '/recipe/insert/step/:recipeId/:stepNum/:stepText', (req, res) => {
+    pool.query(
+        `CALL RecipeTags_SAVE(${req.params.recipeId}, ${req.params.stepNum}, ${req.params.stepText})`,
+        (err, resultsSet) => {
+            res.json(resultsSet[0]);
+        }
+    );
+});
+
+/**
+ * Insert a new ingredient and amount for a specified recipe id
+ */
+app.get(fakeAPI + '/recipe/insert/ingredient/:recipeId/:ingredientValue/:ingredientAmount', (req, res) => {
+    pool.query(
+        `CALL RecipeIngredients_SAVE(${req.params.recipeId}, ${req.params.ingredientValue}, ${req.params
+            .ingredientAmount})`,
+        (err, resultsSet) => {
+            res.json(resultsSet[0]);
+        }
+    );
+});
+
+/**
+ * return list of all recipes
+ */
+app.get(fakeAPI + '/recipe/popular/:userId', (req, res) => {
+    pool.query(`CALL Recipes_SELECT_by_popular(${req.params.userId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
 });
@@ -63,17 +106,17 @@ app.get(fakeAPI + '/recipeTag/:recipeId', (req, res) => {
 /**
  * return list of all recipes
  */
-app.get(fakeAPI + '/recipe', (req, res) => {
-    pool.query('SELECT * FROM RecipesWithVotes', (err, resultsSet) => {
-        res.json(resultsSet);
+app.get(fakeAPI + '/recipe/top/:userId', (req, res) => {
+    pool.query(`CALL Recipes_SELECT_top(${req.params.userId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
     });
 });
 
 /**
  * return list of all recipes by a specific user
  */
-app.get(fakeAPI + '/recipe/user/:userId', (req, res) => {
-    pool.query(`CALL Recipes_SELECT_byuser(${req.params.userId},${req.params.userId})`, (err, resultsSet) => {
+app.get(fakeAPI + '/recipe/user/:userId/:authorId', (req, res) => {
+    pool.query(`CALL Recipes_SELECT_byuser(${req.params.userId},${req.params.authorId})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
 });
@@ -108,8 +151,8 @@ app.get(fakeAPI + '/recipe/:id/ingredients', (req, res) => {
 /**
  * Checks votes for a recipe
  */
-app.get(fakeAPI + '/recipe/:recipeId/voteCount', (req, res) => {
-    pool.query(`CALL RecipeVotes_SELECT(${req.params.recipeId})`, (err, resultsSet) => {
+app.get(fakeAPI + '/recipe/:id/voteCount', (req, res) => {
+    pool.query(`CALL RecipeVotes_SELECT(${req.params.id})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
 });
@@ -170,8 +213,7 @@ app.get(fakeAPI + '/recipe/insert/:recipeId/:title/:description/:userId', (req, 
             ${req.params.description},
             ${req.params.userId})`,
         (err, resultsSet) => {
-            res.json(resultsSet);
-            console.log(resultsSet[0]);
+            res.json(resultsSet[0]);
         }
     );
 });
