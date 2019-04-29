@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Recipe } from 'src/data-types/recipe';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RecipeStep } from 'src/data-types/recipe-step';
 import { Tag } from 'src/data-types/tag';
 import { HttpClient } from '@angular/common/http';
@@ -44,6 +44,7 @@ export class RecipeEditorComponent implements OnInit {
     isLinear: true;
 
     constructor(
+        public dialogRef: MatDialogRef<RecipeEditorComponent>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
         private auth: AuthService,
         private http: HttpClient,
@@ -70,6 +71,10 @@ export class RecipeEditorComponent implements OnInit {
         } else {
             this.getAuthor();
         }
+    }
+
+    closeEditor() {
+        this.dialogRef.close();
     }
 
     fillEditor() {
@@ -109,7 +114,6 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     addSteps() {
-        console.log(this.steps);
         this.steps.forEach((step) => {
             console.log(step);
             this.http
@@ -119,6 +123,7 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     addRecipe() {
+        this.closeEditor();
         this.updateIngredients();
         this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}/attributes`).subscribe(() => this.insertRecipe());
     }
@@ -139,6 +144,7 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     deleteRecipe() {
+        this.closeEditor();
         this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`).subscribe((response) => response);
     }
 
