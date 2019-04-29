@@ -15,7 +15,7 @@
 <div class="form">
     <h1 class="mat-display-1 ingredient-header">Ingredients</h1>
     <mat-vertical-stepper [linear]="isLinear" #stepper>
-        <mat-step [stepControl]="ingredientFirstFormGroup" [completed]="appliedIngredients.length > 0">
+        <mat-step [completed]="appliedIngredients.length > 0">
             <ng-template matStepLabel>Input your ingredients:</ng-template>
             <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
                 <app-chip-autocomplete [placeholder]="ingredientPlaceholder" [(appliedChips)]="appliedIngredients"
@@ -26,7 +26,7 @@
                 <button mat-raised-button color="accent" matStepperNext (click)="updateIngredients()">Next</button>
             </div>
         </mat-step>
-        <mat-step [stepControl]="ingredientSecondFormGroup">
+        <mat-step>
             <ng-template matStepLabel>Input your ingredient amounts:</ng-template>
             <mat-form-field *ngFor="let ingredient of ingredients">
                 <input matInput type="text" [placeholder]="ingredient.ingredient.name" [(ngModel)]="ingredient.quantity"
