@@ -152,6 +152,15 @@ app.get(fakeAPI + '/recipe/:recipeId/view', (req, res) => {
 });
 
 /**
+ * Deletes a recipe
+ */
+app.get(fakeAPI + '/recipe/delete/:recipeId', (req, res) => {
+    pool.query(`CALL Recipes_DELETE(${req.params.recipeId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
  * Create a new recipe
  */
 app.get(fakeAPI + '/recipe/insert/:recipeId/:title/:description/:userId', (req, res) => {
