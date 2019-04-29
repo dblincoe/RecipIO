@@ -37,7 +37,6 @@ export class RecipeListComponent implements OnInit {
     getPersonalRecipes(): void {
         this.http.get<any[]>(`${API_BASE}/recipe/user/${this.auth.getId()}`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
-                recipeResponse.id = recipeResponse.recipe_id;
                 this.getAuthor(recipeResponse);
             });
         });
@@ -60,6 +59,7 @@ export class RecipeListComponent implements OnInit {
     }
 
     getAuthor(response: any) {
+        console.log(response);
         this.http.get(`${API_BASE}/user/${response.author_id}`).subscribe((authorResponse) => {
             response.author = new User(authorResponse[0]);
             this.getViewCount(response);

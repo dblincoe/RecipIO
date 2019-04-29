@@ -74,7 +74,7 @@ app.get(fakeAPI + '/recipe', (req, res) => {
  */
 app.get(fakeAPI + '/recipe/user/:userId', (req, res) => {
     pool.query(`CALL Recipes_SELECT_byuser(${req.params.userId},${req.params.userId})`, (err, resultsSet) => {
-        res.json(resultsSet);
+        res.json(resultsSet[0]);
     });
 });
 
