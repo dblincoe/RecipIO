@@ -152,6 +152,21 @@ app.get(fakeAPI + '/recipe/:recipeId/view', (req, res) => {
 });
 
 /**
+ * Create a new recipe
+ */
+app.get(fakeAPI + '/recipe/insert/:recipeId/:title/:description/:userId', (req, res) => {
+    pool.query(
+        `CALL Recipes_SAVE(${req.params.recipeId},
+            ${req.params.title},
+            ${req.params.description},
+            ${req.params.userId})`,
+        (err, resultsSet) => {
+            res.json(resultsSet);
+        }
+    );
+});
+
+/**
  * Select all comments based on recipeId
  */
 app.get(fakeAPI + '/comment/select/:recipeId/:userId', (req, res) => {
