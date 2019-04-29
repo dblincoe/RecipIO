@@ -15,9 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-recipe-editor',
     templateUrl: './recipe-editor.component.html',
-    styleUrls: [
-        './recipe-editor.component.css'
-    ]
+    styleUrls: [ './recipe-editor.component.css' ]
 })
 export class RecipeEditorComponent implements OnInit {
     pageTitle = 'Recipe Editor';
@@ -66,9 +64,7 @@ export class RecipeEditorComponent implements OnInit {
 
     ngOnInit() {
         if (!this.auth.checkAuth()) {
-            this.router.navigate([
-                '/allRecipes'
-            ]);
+            this.router.navigate([ '/allRecipes' ]);
         } else if (this.updateRecipe != null) {
             this.fillEditor();
         } else {
@@ -123,7 +119,8 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     addRecipe() {
-        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`).subscribe(() => this.insertRecipe());
+        this.updateIngredients();
+        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}/attributes`).subscribe(() => this.insertRecipe());
     }
 
     insertRecipe() {

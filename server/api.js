@@ -107,6 +107,20 @@ app.get(fakeAPI + '/recipe/user/:userId/:authorId', (req, res) => {
 });
 
 /**
+ * Deletes a recipe
+ */
+app.get(fakeAPI + '/recipe/delete/:recipeId', (req, res) => {
+    pool.query(`CALL Recipes_DELETE(${req.params.recipeId})`, (err, resultsSet) => res.json(resultsSet));
+});
+
+/**
+ * Deletes a recipe's attributes
+ */
+app.get(fakeAPI + '/recipe/delete/:recipeId/attributes', (req, res) => {
+    pool.query(`CALL RecipeAttributes_DELETE(${req.params.recipeId})`, (err, resultsSet) => res.json(resultsSet));
+});
+
+/**
  * Select steps for a recipeId
  */
 app.get(fakeAPI + '/recipe/:id/steps', (req, res) => {
@@ -165,7 +179,7 @@ app.get(fakeAPI + '/recipe/:recipeId/:userId/:vote', (req, res) => {
     pool.query(
         `CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`,
         (err, resultsSet) => {
-            res.json(resultsSet[0]);
+            res.json(resultsSet);
         }
     );
 });
@@ -177,22 +191,6 @@ app.get(fakeAPI + '/recipe/:recipeId/view', (req, res) => {
     pool.query(`CALL PageView_INSERT(${req.params.recipeId})`, (err, resultsSet) => {
         res.json(resultsSet);
     });
-});
-
-/**
- * Deletes a recipe
- */
-app.get(fakeAPI + '/recipe/delete/:recipeId', (req, res) => {
-    console.log('deleting');
-    pool.query(`CALL Recipes_DELETE(${req.params.recipeId})`, (err, resultsSet) => res.json(resultsSet));
-});
-
-/**
- * Deletes a recipe's attributes
- */
-app.get(fakeAPI + '/recipe/delete/:recipeId/attributes', (req, res) => {
-    console.log('deleting' + req.params.recipeId);
-    pool.query(`CALL RecipeAttributes_DELETE(${req.params.recipeId})`, (err, resultsSet) => res.json(resultsSet));
 });
 
 /**
