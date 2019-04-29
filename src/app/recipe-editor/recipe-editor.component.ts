@@ -119,7 +119,7 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     addRecipe() {
-        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}/attributes`).subscribe(() => this.insertRecipe());
+        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`).subscribe(() => this.insertRecipe());
     }
 
     insertRecipe() {
@@ -131,7 +131,6 @@ export class RecipeEditorComponent implements OnInit {
             )
             .subscribe((res: any) => {
                 this.recipeId = res[0][0].id;
-                console.log(this.recipeId);
                 this.addTags();
                 this.addIngredients();
                 this.addSteps();
@@ -152,8 +151,8 @@ export class RecipeEditorComponent implements OnInit {
         this.steps.push(
             new RecipeStep({
                 id: -1,
-                stepNum: this.steps.length,
-                text: ''
+                step_num: this.steps.length + 1,
+                step_text: ''
             })
         );
     }
