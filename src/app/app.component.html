@@ -24,8 +24,8 @@
                 <button mat-list-item (click)="drawer.toggle()" routerLink="/registration">Create an Account</button>
             </div>
             <div *ngIf="auth.checkAuth()">
-                <button mat-list-item (click)="drawer.toggle()" routerLink="/savedRecipes">Saved
-                    Recipes</button>
+                <button mat-list-item (click)="drawer.toggle()" routerLink="/savedRecipes">Saved Recipes</button>
+                <button mat-list-item (click)="drawer.toggle()" routerLink="/personalRecipes">My Recipes</button>
                 <button mat-list-item (click)="auth.logout(); drawer.toggle();" routerLink="/allRecipes">Logout</button>
             </div>
         </mat-action-list>

@@ -23,6 +23,8 @@ export class RecipeListComponent implements OnInit {
         console.log();
         if (this.endpoint === 'user/save') {
             this.getSavedRecipes();
+        } else if (this.endpoint === 'user/recipes') {
+            this.getPersonalRecipes();
         } else {
             this.getAllRecipes();
         }
@@ -32,10 +34,18 @@ export class RecipeListComponent implements OnInit {
         this.http.get(`${API_BASE}/recipe/${recipeId}/view`).subscribe();
     }
 
+    getPersonalRecipes(): void {
+        this.http.get<any[]>(`${API_BASE}/recipe/user/${this.auth.getId()}`).subscribe((recipesResponse) => {
+            recipesResponse.forEach((recipeResponse) => {
+                recipeResponse.id = recipeResponse.recipe_id;
+                this.getAuthor(recipeResponse);
+            });
+        });
+    }
+
     getSavedRecipes(): void {
         this.http.get<any[]>(`${API_BASE}/user/save/${this.auth.getId()}`).subscribe((recipesResponse) => {
             recipesResponse.forEach((recipeResponse) => {
-                recipeResponse.id = recipeResponse.recipe_id;
                 this.getAuthor(recipeResponse);
             });
         });

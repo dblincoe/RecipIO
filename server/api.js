@@ -70,18 +70,18 @@ app.get(fakeAPI + '/recipe', (req, res) => {
 });
 
 /**
- * Select steps for a recipeId
+ * return list of all recipes by a specific user
  */
-app.get(fakeAPI + '/recipe/:id/steps', (req, res) => {
-    pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
-        res.json(resultsSet[0]);
+app.get(fakeAPI + '/recipe/user/:userId', (req, res) => {
+    pool.query(`CALL Recipes_SELECT_byuser(${req.params.userId},${req.params.userId})`, (err, resultsSet) => {
+        res.json(resultsSet);
     });
 });
 
 /**
  * Select steps for a recipeId
  */
-app.get(fakeAPI + '/recipe/:id/votes', (req, res) => {
+app.get(fakeAPI + '/recipe/:id/steps', (req, res) => {
     pool.query(`CALL RecipeSteps_SELECT(${req.params.id})`, (err, resultsSet) => {
         res.json(resultsSet[0]);
     });
@@ -242,14 +242,9 @@ app.get(fakeAPI + '/user/save/:userId/:recipeId/check', (req, res) => {
  * Get a user's saved recipes
  */
 app.get(fakeAPI + '/user/save/:userId', (req, res) => {
-    pool.query(
-        `SELECT * FROM SavedRecipes sr
-    INNER JOIN Recipes r ON sr.recipe_id = r.id
-    WHERE sr.user_id = ${req.params.userId}`,
-        (err, resultsSet) => {
-            res.json(resultsSet);
-        }
-    );
+    pool.query(`CALL SavedRecipes_SELECT(${req.params.userId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
 });
 
 /**

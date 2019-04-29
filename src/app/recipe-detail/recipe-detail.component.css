@@ -1,3 +1,8 @@
 button {
     margin: 0 10px 0 10px;
 }
+
+.recipe_author {
+    margin-top: 0px;
+    font-size: 0.9em;
+}
