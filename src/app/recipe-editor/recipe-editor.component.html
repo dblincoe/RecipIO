@@ -37,8 +37,10 @@
             <ng-template matStepLabel>Input your ingredient amounts:</ng-template>
             <form [formGroup]="ingredientSecondFormGroup">
                 <mat-form-field *ngFor="let ingredient of ingredients">
-                        <input matInput type="text" [(ngModel)]="ingredient.quantity" [ngModelOptions]="{standalone: true}">
-                        <p>{{ingredient.ingredient.name}}</p>
+                    <input matInput type="text"
+                        [placeholder]="ingredient.ingredient.name"
+                        [(ngModel)]="ingredient.quantity"
+                        [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
