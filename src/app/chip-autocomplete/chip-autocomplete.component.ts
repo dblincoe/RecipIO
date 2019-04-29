@@ -26,7 +26,7 @@ export class ChipAutocompleteComponent implements OnInit {
     ngOnInit() {
         this.filteredChips = this.formCtrl.valueChanges.pipe(
             startWith(null),
-            map((chip: string | null) => (chip ? this._filterChips(chip) : this.allChips.slice()))
+            map((chip: string | RecipeAttribute | null) => (chip ? this._filterChips(chip) : this.allChips.slice()))
         );
     }
 
@@ -76,7 +76,11 @@ export class ChipAutocompleteComponent implements OnInit {
         this.formCtrl.setValue(null);
     }
 
-    private _filterChips(value: string): RecipeAttribute[] {
-        return this.allChips.filter((chip) => chip.name.toLowerCase().includes(value.toLowerCase()));
+    private _filterChips(value: string | RecipeAttribute): RecipeAttribute[] {
+        if (typeof value === 'string') {
+            return this.allChips.filter((chip) => chip.name.toLowerCase().includes(value.toLowerCase()));
+        } else {
+            return this.allChips.filter((chip) => chip.name.toLowerCase().includes(value.name.toLowerCase()));
+        }
     }
 }

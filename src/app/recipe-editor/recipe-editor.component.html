@@ -16,6 +16,21 @@
     </mat-form-field>
 </div>
 <div class="form">
+    <h1 class="mat-display-1">Recipes</h1>
+    <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
+        <app-chip-autocomplete [placeholder]="ingredientPlaceholder"
+            [(appliedChips)]="appliedIngredients"
+            [(allChips)]="allIngredients">
+        </app-chip-autocomplete>
+    </div>
+    <mat-form-field *ngFor="let ingredient of ingredients">
+        <input matInput type="text" [(ngModel)]="ingredient.quantity">
+        <p>{{ingredient.ingredient.name}}</p>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="updateIngredients()">Submit Ingredients</button>
+</div>
+
+<div class="form">
     <div class="steps-header">
         <h1 class="mat-display-1">Steps</h1>
         <div>

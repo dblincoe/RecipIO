@@ -123,6 +123,26 @@ export class RecipeEditorComponent implements OnInit {
     getAppliedIngredients() {
         this.appliedIngredients = this.ingredients.map((e) => e.ingredient);
     }
+
+    updateIngredients() {
+        const tempIngredients = [];
+        this.appliedIngredients.forEach((appliedIngredient) => {
+            const ingredientElement = this.ingredients.filter((e) => e.ingredient.name === appliedIngredient.name);
+            if (ingredientElement.length === 0) {
+                tempIngredients.push(
+                    new RecipeIngredient({
+                        id: appliedIngredient.id,
+                        name: appliedIngredient.name,
+                        amountText: ''
+                    })
+                );
+            } else {
+                tempIngredients.push(ingredientElement[0]);
+            }
+        });
+        console.log(tempIngredients);
+        this.ingredients = tempIngredients;
+    }
 }
 
 export interface DialogData {
