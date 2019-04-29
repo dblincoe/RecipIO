@@ -120,7 +120,7 @@ export class RecipeEditorComponent implements OnInit {
                 )}"/${this.author.id}`
             )
             .subscribe((res: { id: number }) => {
-                this.recipeId = res.id;
+                this.recipeId = res[0].id;
                 this.addTags();
                 this.addIngredients();
             });
@@ -154,7 +154,7 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     getAppliedTags() {
-        this.http.get<Tag[]>(`${API_BASE}/recipeTag/${this.updateRecipe.id}`).subscribe((tags) => {
+        this.http.get<Tag[]>(`${API_BASE}/tag/${this.updateRecipe.id}`).subscribe((tags) => {
             this.appliedTags = tags;
             this.appliedTagsReady = true;
         });
