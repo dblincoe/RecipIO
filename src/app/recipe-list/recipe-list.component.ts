@@ -10,7 +10,9 @@ import { API_BASE } from '../api-url';
 @Component({
     selector: 'app-recipe-list',
     templateUrl: './recipe-list.component.html',
-    styleUrls: [ './recipe-list.component.css' ]
+    styleUrls: [
+        './recipe-list.component.css'
+    ]
 })
 export class RecipeListComponent implements OnInit {
     title = 'Recipes';
@@ -27,10 +29,6 @@ export class RecipeListComponent implements OnInit {
         } else {
             this.getAllRecipes();
         }
-    }
-
-    recipeClicked(recipeId: number) {
-        this.http.get(`${API_BASE}/recipe/${recipeId}/view`).subscribe();
     }
 
     getPersonalRecipes(): void {
@@ -62,13 +60,6 @@ export class RecipeListComponent implements OnInit {
     getAuthor(response: any) {
         this.http.get(`${API_BASE}/user/${response.author_id}`).subscribe((authorResponse) => {
             response.author = new User(authorResponse[0]);
-            this.getViewCount(response);
-        });
-    }
-
-    getViewCount(response: any) {
-        this.http.get(`${API_BASE}/recipe/${response.id}/views`).subscribe((viewResponse) => {
-            response.view_count = viewResponse[0].view_count;
             this.getRecipeSteps(response);
         });
     }

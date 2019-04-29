@@ -11,7 +11,6 @@ export class Recipe {
     ingredients: RecipeIngredient[];
     steps: RecipeStep[];
     voteCount: number;
-    viewCount: number;
     timestamp: Date;
 
     constructor(response: any) {
@@ -21,7 +20,6 @@ export class Recipe {
         this.description = response.description;
         this.ingredients = response.ingredients;
         this.steps = response.steps;
-        this.viewCount = response.view_count;
         this.voteCount = response.vote_score;
         this.timestamp = response.time_created;
     }

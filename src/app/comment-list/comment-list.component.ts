@@ -11,7 +11,9 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'app-comment-list',
     templateUrl: './comment-list.component.html',
-    styleUrls: [ './comment-list.component.css' ]
+    styleUrls: [
+        './comment-list.component.css'
+    ]
 })
 export class CommentListComponent implements OnInit {
     recipe: Recipe;
@@ -52,7 +54,9 @@ export class CommentListComponent implements OnInit {
             this.createCommentFlag = !this.createCommentFlag;
         } else {
             this.closeModal();
-            this.router.navigate([ '/login' ]);
+            this.router.navigate([
+                '/login'
+            ]);
         }
     }
 

@@ -15,30 +15,26 @@
 <div class="form">
     <h1 class="mat-display-1 ingredient-header">Ingredients</h1>
     <mat-vertical-stepper [linear]="isLinear" #stepper>
-        <mat-step [stepControl]="ingredientFirstFormGroup">
+        <mat-step [stepControl]="ingredientFirstFormGroup" [completed]="appliedIngredients.length > 0">
             <ng-template matStepLabel>Input your ingredients:</ng-template>
-            <form [formGroup]="ingredientFirstFormGroup">
-                <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
-                    <app-chip-autocomplete [placeholder]="ingredientPlaceholder" [(appliedChips)]="appliedIngredients"
-                        [(allChips)]="allIngredients">
-                    </app-chip-autocomplete>
-                </div>
-                <div>
-                    <button mat-button matStepperNext (click)="updateIngredients()">Next</button>
-                </div>
-            </form>
+            <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
+                <app-chip-autocomplete [placeholder]="ingredientPlaceholder" [(appliedChips)]="appliedIngredients"
+                    [(allChips)]="allIngredients">
+                </app-chip-autocomplete>
+            </div>
+            <div>
+                <button mat-raised-button color="accent" matStepperNext (click)="updateIngredients()">Next</button>
+            </div>
         </mat-step>
         <mat-step [stepControl]="ingredientSecondFormGroup">
             <ng-template matStepLabel>Input your ingredient amounts:</ng-template>
-            <form [formGroup]="ingredientSecondFormGroup">
-                <mat-form-field *ngFor="let ingredient of ingredients">
-                    <input matInput type="text" [placeholder]="ingredient.ingredient.name"
-                        [(ngModel)]="ingredient.quantity" [ngModelOptions]="{standalone: true}">
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                </div>
-            </form>
+            <mat-form-field *ngFor="let ingredient of ingredients">
+                <input matInput type="text" [placeholder]="ingredient.ingredient.name" [(ngModel)]="ingredient.quantity"
+                    [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <div>
+                <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            </div>
         </mat-step>
     </mat-vertical-stepper>
 </div>
@@ -72,5 +68,6 @@
 
 <div class="form">
     <button mat-raised-button color="primary" (click)="addRecipe()">Submit Recipe</button>
-    <button mat-raised-button color="primary" (click)="addRecipe()" *ngIf="updateRecipe !== null">Delete Recipe</button>
+    <button mat-raised-button color="primary" (click)="deleteRecipe()" *ngIf="updateRecipe !== null">Delete
+        Recipe</button>
 </div>

@@ -52,15 +52,6 @@ app.get(fakeAPI + '/tag/:recipeId', (req, res) => {
 });
 
 /**
- * Delete all ingredient, tag, and step links to a specified recipe id
- */
-app.get(fakeAPI + '/recipe/delete/:recipeId/attributes', (req, res) => {
-    pool.query(`CALL RecipeAttributes_DELETE(${req.params.recipeId})`, (err, resultsSet) => {
-        res.json(resultsSet);
-    });
-});
-
-/**
  * Insert a new tag for a specified recipe id
  */
 app.get(fakeAPI + '/recipe/insert/tag/:recipeId/:tagValue/', (req, res) => {
@@ -198,9 +189,7 @@ app.get(fakeAPI + '/recipe/:recipeId/view', (req, res) => {
  * Deletes a recipe
  */
 app.get(fakeAPI + '/recipe/delete/:recipeId', (req, res) => {
-    pool.query(`CALL Recipes_DELETE(${req.params.recipeId})`, (err, resultsSet) => {
-        res.json(resultsSet[0]);
-    });
+    pool.query(`CALL Recipes_DELETE(${req.params.recipeId})`, (err, resultsSet) => res.json(resultsSet));
 });
 
 /**
@@ -213,7 +202,7 @@ app.get(fakeAPI + '/recipe/insert/:recipeId/:title/:description/:userId', (req, 
             ${req.params.description},
             ${req.params.userId})`,
         (err, resultsSet) => {
-            res.json(resultsSet[0]);
+            res.json(resultsSet);
         }
     );
 });

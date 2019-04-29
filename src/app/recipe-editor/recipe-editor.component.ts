@@ -15,7 +15,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-recipe-editor',
     templateUrl: './recipe-editor.component.html',
-    styleUrls: [ './recipe-editor.component.css' ]
+    styleUrls: [
+        './recipe-editor.component.css'
+    ]
 })
 export class RecipeEditorComponent implements OnInit {
     pageTitle = 'Recipe Editor';
@@ -47,22 +49,13 @@ export class RecipeEditorComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
         private auth: AuthService,
         private http: HttpClient,
-        private router: Router,
-        private _formBuilder: FormBuilder
+        private router: Router
     ) {
         this.updateRecipe = this.data.recipe;
-
         this.allIngredients = [];
         this.appliedIngredients = [];
         this.allTags = [];
         this.appliedTags = [];
-
-        this.ingredientFirstFormGroup = this._formBuilder.group({
-            firstCtrl: [ '', Validators.required ]
-        });
-        this.ingredientSecondFormGroup = this._formBuilder.group({
-            secondCtrl: [ '', Validators.required ]
-        });
 
         this.getAllTags();
         this.getAllIngredients();
@@ -70,7 +63,9 @@ export class RecipeEditorComponent implements OnInit {
 
     ngOnInit() {
         if (!this.auth.checkAuth()) {
-            this.router.navigate([ '/allRecipes' ]);
+            this.router.navigate([
+                '/allRecipes'
+            ]);
         } else if (this.updateRecipe != null) {
             this.fillEditor();
             this.recipeId = this.updateRecipe.id;
@@ -93,8 +88,9 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     addTags() {
+        console.log(this.appliedTags);
         this.appliedTags.forEach((tag) =>
-            this.http.get(`${API_BASE}/recipe/insert/tag/${this.recipeId}/"${this.escapeText(tag.name)}"/`)
+            this.http.get(`${API_BASE}/recipe/insert/tag/${this.recipeId}/'${this.escapeText(tag.name)}'/`)
         );
     }
 
@@ -105,25 +101,36 @@ export class RecipeEditorComponent implements OnInit {
     addIngredients() {
         this.ingredients.forEach((ingredient) =>
             this.http.get(
-                `${API_BASE}/recipe/insert/ingredient/${this.recipeId}/"${this.escapeText(
-                    ingredient.quantity
-                )}"/"${this.escapeText(ingredient.ingredient.name)}"`
+                `${API_BASE}/recipe/insert/ingredient/
+                ${this.recipeId}/
+                '${this.escapeText(ingredient.quantity)}'/
+                '${this.escapeText(ingredient.ingredient.name)}'`
             )
         );
     }
 
     addRecipe() {
+        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}/attributes`).subscribe(() => this.insertRecipe());
+    }
+
+    insertRecipe() {
         this.http
             .get(
-                `${API_BASE}/recipe/insert/${this.recipeId}/"${this.escapeText(this.title)}"/"${this.escapeText(
-                    this.description
-                )}"/${this.author.id}`
+                `${API_BASE}/recipe/insert/
+                ${this.recipeId}/'
+                ${this.escapeText(this.title)}'/'
+                ${this.escapeText(this.description)}'/
+                ${this.author.id}`
             )
-            .subscribe((res: { id: number }) => {
-                this.recipeId = res[0].id;
+            .subscribe((res: any) => {
+                this.recipeId = res[0][0].id;
                 this.addTags();
                 this.addIngredients();
             });
+    }
+
+    deleteRecipe() {
+        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`);
     }
 
     getAuthor() {
