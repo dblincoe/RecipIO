@@ -69,9 +69,9 @@ app.get(fakeAPI + '/recipe/insert/step/:recipeId/:stepNum/:stepText', (req, res)
 /**
  * Insert a new ingredient and amount for a specified recipe id
  */
-app.get(fakeAPI + '/recipe/insert/ingredient/:recipeId/:ingredientValue/:ingredientAmount', (req, res) => {
+app.get(fakeAPI + '/recipe/insert/ingredient/:recipeId/:ingredientName/:ingredientAmount', (req, res) => {
     pool.query(
-        `CALL RecipeIngredients_SAVE(${req.params.recipeId}, ${req.params.ingredientValue}, ${req.params
+        `CALL RecipeIngredients_SAVE(${req.params.recipeId}, ${req.params.ingredientName}, ${req.params
             .ingredientAmount})`,
         (err, resultsSet) => {
             res.json(resultsSet);
@@ -165,7 +165,7 @@ app.get(fakeAPI + '/recipe/:recipeId/:userId/:vote', (req, res) => {
     pool.query(
         `CALL RecipeVotes_SAVE(${req.params.recipeId}, ${req.params.userId}, ${req.params.vote})`,
         (err, resultsSet) => {
-            res.json(resultsSet);
+            res.json(resultsSet[0]);
         }
     );
 });
@@ -183,7 +183,16 @@ app.get(fakeAPI + '/recipe/:recipeId/view', (req, res) => {
  * Deletes a recipe
  */
 app.get(fakeAPI + '/recipe/delete/:recipeId', (req, res) => {
+    console.log('deleting');
     pool.query(`CALL Recipes_DELETE(${req.params.recipeId})`, (err, resultsSet) => res.json(resultsSet));
+});
+
+/**
+ * Deletes a recipe's attributes
+ */
+app.get(fakeAPI + '/recipe/delete/:recipeId/attributes', (req, res) => {
+    console.log('deleting' + req.params.recipeId);
+    pool.query(`CALL RecipeAttributes_DELETE(${req.params.recipeId})`, (err, resultsSet) => res.json(resultsSet));
 });
 
 /**
