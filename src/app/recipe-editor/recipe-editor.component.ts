@@ -22,6 +22,7 @@ export class RecipeEditorComponent implements OnInit {
 
     updateRecipe: Recipe;
 
+    recipeId: number;
     title: string;
     author: User;
     description: string;
@@ -76,6 +77,7 @@ export class RecipeEditorComponent implements OnInit {
         if (this.updateRecipe != null) {
             this.fillEditor();
         } else {
+            this.recipeId = -1;
             this.getAuthor();
             this.steps = new Array<RecipeStep>();
         }
@@ -83,6 +85,7 @@ export class RecipeEditorComponent implements OnInit {
 
     fillEditor() {
         this.updateRecipe = JSON.parse(JSON.stringify(this.updateRecipe));
+        this.recipeId = this.updateRecipe.id;
         this.title = this.updateRecipe.title;
         this.author = this.updateRecipe.author;
         this.description = this.updateRecipe.description;
@@ -90,6 +93,14 @@ export class RecipeEditorComponent implements OnInit {
         this.steps = this.updateRecipe.steps;
         this.getAppliedTags();
         this.getAppliedIngredients();
+    }
+
+    insertRecipe() {
+        this.http
+            .get(`${API_BASE}/recipe/insert/${this.recipeId}/'${this.title}'/'${this.description}'/${this.author.id}`)
+            .subscribe((response) => {
+                this.recipeId = response[0].id;
+            });
     }
 
     getAuthor() {

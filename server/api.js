@@ -162,6 +162,7 @@ app.get(fakeAPI + '/recipe/insert/:recipeId/:title/:description/:userId', (req, 
             ${req.params.userId})`,
         (err, resultsSet) => {
             res.json(resultsSet);
+            console.log(resultsSet[0]);
         }
     );
 });
