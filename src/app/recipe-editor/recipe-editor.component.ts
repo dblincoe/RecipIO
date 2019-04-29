@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { User } from 'src/data-types/user';
 import { RecipeIngredient } from 'src/data-types/recipe-ingredient';
+import { Ingredient } from 'src/data-types/ingredient';
 
 @Component({
     selector: 'app-recipe-editor',
@@ -32,6 +33,11 @@ export class RecipeEditorComponent implements OnInit {
     allTagsReady = false;
     appliedTagsReady = false;
 
+    allIngredients: Ingredient[];
+    appliedIngredients: Ingredient[];
+    ingredientPlaceholder = 'New Ingredient...';
+    allIngredientsReady = false;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
         private auth: AuthService,
@@ -40,10 +46,13 @@ export class RecipeEditorComponent implements OnInit {
     ) {
         this.updateRecipe = this.data.recipe;
 
+        this.allIngredients = [];
+        this.appliedIngredients = [];
         this.allTags = [];
         this.appliedTags = [];
 
         this.getAllTags();
+        this.getAllIngredients();
     }
 
     ngOnInit() {
@@ -67,6 +76,7 @@ export class RecipeEditorComponent implements OnInit {
         this.ingredients = this.updateRecipe.ingredients;
         this.steps = this.updateRecipe.steps;
         this.getAppliedTags();
+        this.getAppliedIngredients();
     }
 
     getAuthor() {
@@ -101,6 +111,17 @@ export class RecipeEditorComponent implements OnInit {
             this.appliedTags = tags;
             this.appliedTagsReady = true;
         });
+    }
+
+    getAllIngredients(): void {
+        this.http.get<Ingredient[]>(`${API_BASE}/ingredients`).subscribe((ingredients) => {
+            this.allIngredients = ingredients;
+            this.allIngredientsReady = true;
+        });
+    }
+
+    getAppliedIngredients() {
+        this.appliedIngredients = this.ingredients.map((e) => e.ingredient);
     }
 }
 

@@ -20,7 +20,6 @@ export class RecipeListComponent implements OnInit {
 
     ngOnInit() {
         this.recipeList = [];
-        console.log();
         if (this.endpoint === 'user/save') {
             this.getSavedRecipes();
         } else if (this.endpoint === 'user/recipes') {
@@ -59,7 +58,6 @@ export class RecipeListComponent implements OnInit {
     }
 
     getAuthor(response: any) {
-        console.log(response);
         this.http.get(`${API_BASE}/user/${response.author_id}`).subscribe((authorResponse) => {
             response.author = new User(authorResponse[0]);
             this.getViewCount(response);

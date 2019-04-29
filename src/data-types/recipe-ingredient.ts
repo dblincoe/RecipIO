@@ -5,7 +5,7 @@ export class RecipeIngredient {
     quantity: string;
 
     constructor(response: any) {
-        this.ingredient = new Ingredient(response.id, response.ingredient_name);
+        this.ingredient = new Ingredient(response.id, response.name);
         this.quantity = response.amountText;
     }
 }

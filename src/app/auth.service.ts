@@ -11,7 +11,6 @@ export class AuthService {
 
     login(email: string, password: string): void {
         this.http.get(`${API_BASE}/auth/${email}/${password}`).subscribe((auth) => {
-            console.log(auth);
             if (+auth[0].authenticated === 1) {
                 localStorage.setItem('access_id', auth[0].id);
                 localStorage.setItem('access_email', email);

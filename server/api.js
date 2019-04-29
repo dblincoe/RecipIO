@@ -277,6 +277,15 @@ app.get(fakeAPI + '/auth/:userEmail/:userPassword', (req, res) => {
     });
 });
 
+/**
+ * Gets all ingredients
+ */
+app.get(fakeAPI + '/ingredients', (req, res) => {
+    pool.query(`CALL Ingredients_SELECT()`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
 if (debug) {
     const port = 3000;
     app.listen(port, () => {
