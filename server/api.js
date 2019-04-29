@@ -27,12 +27,6 @@ if (debug) {
     });
 }
 
-app.get(fakeAPI + '/', (req, res) => {
-    pool.query('SELECT * FROM Users', (err, resultsSet) => {
-        res.json(resultsSet);
-    });
-});
-
 /**
  * get a list of all tags
  */
@@ -271,8 +265,8 @@ app.get(fakeAPI + '/comment/:commentId/:userId/:vote', (req, res) => {
  * Select a specific user
  */
 app.get(fakeAPI + '/user/:userId', (req, res) => {
-    pool.query(`SELECT * FROM Users WHERE id = ${req.params.userId}`, (err, resultsSet) => {
-        res.json(resultsSet);
+    pool.query(`CALL Users_SELECT_byid(${req.params.userId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
     });
 });
 

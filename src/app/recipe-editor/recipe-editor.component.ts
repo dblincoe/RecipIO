@@ -15,9 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-recipe-editor',
     templateUrl: './recipe-editor.component.html',
-    styleUrls: [
-        './recipe-editor.component.css'
-    ]
+    styleUrls: [ './recipe-editor.component.css' ]
 })
 export class RecipeEditorComponent implements OnInit {
     pageTitle = 'Recipe Editor';
@@ -57,27 +55,26 @@ export class RecipeEditorComponent implements OnInit {
         this.allTags = [];
         this.appliedTags = [];
 
+        this.steps = [];
+        this.recipeId = -1;
+
         this.getAllTags();
         this.getAllIngredients();
     }
 
     ngOnInit() {
         if (!this.auth.checkAuth()) {
-            this.router.navigate([
-                '/allRecipes'
-            ]);
+            this.router.navigate([ '/allRecipes' ]);
         } else if (this.updateRecipe != null) {
             this.fillEditor();
-            this.recipeId = this.updateRecipe.id;
         } else {
-            this.recipeId = -1;
             this.getAuthor();
-            this.steps = new Array<RecipeStep>();
         }
     }
 
     fillEditor() {
         this.updateRecipe = JSON.parse(JSON.stringify(this.updateRecipe));
+        this.recipeId = this.updateRecipe.id;
         this.title = this.updateRecipe.title;
         this.author = this.updateRecipe.author;
         this.description = this.updateRecipe.description;
@@ -87,26 +84,38 @@ export class RecipeEditorComponent implements OnInit {
         this.getAppliedIngredients();
     }
 
-    addTags() {
-        console.log(this.appliedTags);
-        this.appliedTags.forEach((tag) =>
-            this.http.get(`${API_BASE}/recipe/insert/tag/${this.recipeId}/'${this.escapeText(tag.name)}'/`)
-        );
+    escapeText(input: string): string {
+        return encodeURIComponent(input).replace(/[!'()*]/g, escape).trim();
     }
 
-    escapeText(input: string): string {
-        return encodeURIComponent(input).replace(/[!'()*]/g, escape);
+    addTags() {
+        this.appliedTags.forEach((tag) => {
+            this.http
+                .get(`${API_BASE}/recipe/insert/tag/${this.recipeId}/"${this.escapeText(tag.name)}"`)
+                .subscribe((response) => response);
+        });
     }
 
     addIngredients() {
         this.ingredients.forEach((ingredient) =>
-            this.http.get(
-                `${API_BASE}/recipe/insert/ingredient/
-                ${this.recipeId}/
-                '${this.escapeText(ingredient.quantity)}'/
-                '${this.escapeText(ingredient.ingredient.name)}'`
-            )
+            this.http
+                .get(
+                    `${API_BASE}/recipe/insert/ingredient/${this.recipeId}/"${this.escapeText(
+                        ingredient.quantity
+                    )}"/"${this.escapeText(ingredient.ingredient.name)}"`
+                )
+                .subscribe((response) => response)
         );
+    }
+
+    addSteps() {
+        console.log(this.steps);
+        this.steps.forEach((step) => {
+            console.log(step);
+            this.http
+                .get(`${API_BASE}/recipe/insert/step/${this.recipeId}/${step.stepNum}/"${this.escapeText(step.text)}"`)
+                .subscribe((response) => response);
+        });
     }
 
     addRecipe() {
@@ -116,21 +125,21 @@ export class RecipeEditorComponent implements OnInit {
     insertRecipe() {
         this.http
             .get(
-                `${API_BASE}/recipe/insert/
-                ${this.recipeId}/'
-                ${this.escapeText(this.title)}'/'
-                ${this.escapeText(this.description)}'/
-                ${this.author.id}`
+                `${API_BASE}/recipe/insert/${this.recipeId}/"${this.escapeText(this.title)}"/"${this.escapeText(
+                    this.description
+                )}"/${this.author.id}`
             )
             .subscribe((res: any) => {
                 this.recipeId = res[0][0].id;
+                console.log(this.recipeId);
                 this.addTags();
                 this.addIngredients();
+                this.addSteps();
             });
     }
 
     deleteRecipe() {
-        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`);
+        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`).subscribe((response) => response);
     }
 
     getAuthor() {
