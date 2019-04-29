@@ -66,7 +66,7 @@ export class CommentListComponent implements OnInit {
     }
 
     getComments(): void {
-        const userId = this.auth.getId() != null ? this.auth.getId() : -1;
+        const userId = this.auth.getId();
         this.http.get<any[]>(`${API_BASE}/comment/select/${this.recipe.id}/${userId}`).subscribe((commentsResponse) => {
             commentsResponse.forEach((commentResponse) => {
                 this.getAuthor(commentResponse);
