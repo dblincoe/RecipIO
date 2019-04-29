@@ -59,9 +59,9 @@ app.get(fakeAPI + '/recipe/insert/tag/:recipeId/:tagValue/', (req, res) => {
  */
 app.get(fakeAPI + '/recipe/insert/step/:recipeId/:stepNum/:stepText', (req, res) => {
     pool.query(
-        `CALL RecipeTags_SAVE(${req.params.recipeId}, ${req.params.stepNum}, ${req.params.stepText})`,
+        `CALL RecipeSteps_SAVE(${req.params.recipeId}, ${req.params.stepNum}, ${req.params.stepText})`,
         (err, resultsSet) => {
-            res.json(resultsSet[0]);
+            res.json(resultsSet);
         }
     );
 });
