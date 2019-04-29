@@ -3,16 +3,19 @@
     <mat-form-field>
         <input matInput type="text" placeholder="Recipe Title" [(ngModel)]="title">
     </mat-form-field>
+</div>
+<div class="form">
     <mat-form-field>
         <textarea matInput cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="5"
-            placeholder="Step {{i + 1}}"
             placeholder="Recipe Description"
             [(ngModel)]="description">
         </textarea>
     </mat-form-field>
+</div>
+<div class="form">
     <div class="steps-header">
         <h1 class="mat-display-1">Steps</h1>
         <div>
@@ -28,28 +31,14 @@
             [(ngModel)]="step.text">
         </textarea>
     </mat-form-field>
-
-    <mat-form-field>
-        <mat-chip-list #tagList>
-            <mat-chip
-                *ngFor="let tag of appliedTags"
-                (removed)="removeTag(tag)">
-                {{tag.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <input
-                placeholder="New tag..."
-                #tagInput
-                [formControl]="tagCtrl"
-                [matAutocomplete]="auto"
-                [matChipInputFor]="tagList"
-                (matChipInputTokenEnd)="addTag($event)">
-        </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedTag($event)">
-            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-            {{tag.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+</div>
+<div class="form">
+    <div *ngIf="(allTagsReady && appliedTagsReady) || (updatedRecipe == null)">
+        <app-chip-autocomplete [placeholder]="tagPlaceholder" [(appliedChips)]="appliedTags" [(allChips)]="allTags">
+        </app-chip-autocomplete>
+    </div>
+</div>
+<div class="form">
     <button mat-raised-button color="primary" (click)="submit()">Submit Recipe</button>
+    <button mat-raised-button color="primary" (click)="submit()" *ngIf="updatedRecipe !== null">Delete Recipe</button>
 </div>

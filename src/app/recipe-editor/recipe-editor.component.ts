@@ -1,12 +1,6 @@
-import { Component, OnInit, Input, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Recipe } from 'src/data-types/recipe';
-import {
-    MatDialogRef,
-    MAT_DIALOG_DATA,
-    MatChipInputEvent,
-    MatAutocomplete,
-    MatAutocompleteSelectedEvent
-} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { RecipeStep } from 'src/data-types/recipe-step';
 import { Tag } from 'src/data-types/tag';
 import { HttpClient } from '@angular/common/http';
@@ -15,9 +9,6 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { User } from 'src/data-types/user';
 import { RecipeIngredient } from 'src/data-types/recipe-ingredient';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-recipe-editor',
@@ -35,22 +26,22 @@ export class RecipeEditorComponent implements OnInit {
     ingredients: RecipeIngredient[];
     steps: RecipeStep[];
 
-    tagCtrl = new FormControl();
-    filteredTags: Observable<Tag[]>;
     allTags: Tag[];
     appliedTags: Tag[];
-
-    @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
-    @ViewChild('auto') matAutocomplete: MatAutocomplete;
+    tagPlaceholder = 'New Tag...';
+    allTagsReady = false;
+    appliedTagsReady = false;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
-        private dialogRef: MatDialogRef<RecipeEditorComponent>,
         private auth: AuthService,
         private http: HttpClient,
         private router: Router
     ) {
         this.updateRecipe = this.data.recipe;
+
+        this.allTags = [];
+        this.appliedTags = [];
 
         this.getAllTags();
     }
@@ -101,73 +92,15 @@ export class RecipeEditorComponent implements OnInit {
     getAllTags(): void {
         this.http.get<Tag[]>(`${API_BASE}/tag`).subscribe((tags) => {
             this.allTags = tags;
-
-            this.filteredTags = this.tagCtrl.valueChanges.pipe(
-                startWith(null),
-                map((tag: string | null) => (tag ? this._filterTags(tag) : this.allTags.slice()))
-            );
-
-            console.log(tags);
+            this.allTagsReady = true;
         });
     }
 
     getAppliedTags() {
         this.http.get<Tag[]>(`${API_BASE}/recipeTag/${this.updateRecipe.id}`).subscribe((tags) => {
             this.appliedTags = tags;
+            this.appliedTagsReady = true;
         });
-    }
-
-    addTag(event: MatChipInputEvent): void {
-        if (!this.matAutocomplete.isOpen) {
-            const input = event.input;
-            const value = event.value.trim();
-
-            if (value.trim() && this.appliedTags.filter((e) => e.name === value).length === 0) {
-                const allTagElement = this.allTags.filter((e) => e.name === value);
-                console.log(allTagElement);
-                if (allTagElement.length === 0) {
-                    this.appliedTags.push(new Tag(-1, value));
-                } else {
-                    this.appliedTags.push(allTagElement[0]);
-                }
-            }
-
-            if (input) {
-                input.value = '';
-            }
-
-            console.log(this.appliedTags);
-
-            this.tagCtrl.setValue(null);
-        }
-    }
-
-    removeTag(tag): void {
-        const index = this.appliedTags.indexOf(tag);
-
-        if (index >= 0) {
-            this.appliedTags.splice(index, 1);
-        }
-    }
-
-    selectedTag(event: MatAutocompleteSelectedEvent): void {
-        const value = event.option.viewValue;
-
-        if (this.appliedTags.filter((e) => e.name === value).length === 0) {
-            const tag = this.allTags.filter((e) => e.name === value);
-            if (tag.length === 0) {
-                this.appliedTags.push(new Tag(-1, value));
-            } else {
-                this.appliedTags.push(tag[0]);
-            }
-        }
-
-        this.tagInput.nativeElement.value = '';
-        this.tagCtrl.setValue(null);
-    }
-
-    private _filterTags(value: string): Tag[] {
-        return this.allTags.filter((tag) => tag.name.indexOf(value) === 0);
     }
 }
 

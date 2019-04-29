@@ -1,9 +1,3 @@
-export class Ingredient {
-    id: number;
-    name: string;
+import { RecipeAttribute } from './recipe-attribute';
 
-    constructor(response: any) {
-        this.id = response.id;
-        this.name = response.ingredient_name;
-    }
-}
+export class Ingredient extends RecipeAttribute {}

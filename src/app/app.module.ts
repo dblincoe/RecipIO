@@ -17,6 +17,7 @@ import { AllRecipesComponent } from './all-recipes/all-recipes.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentDetailComponent } from './comment-detail/comment-detail.component';
 import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
+import { ChipAutocompleteComponent } from './chip-autocomplete/chip-autocomplete.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
         AllRecipesComponent,
         CommentListComponent,
         CommentDetailComponent,
-        RecipeEditorComponent
+        RecipeEditorComponent,
+        ChipAutocompleteComponent
     ],
     imports: [
         BrowserModule,

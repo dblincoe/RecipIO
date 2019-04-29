@@ -1,9 +1,3 @@
-export class Tag {
-    id: number;
-    name: string;
+import { RecipeAttribute } from './recipe-attribute';
 
-    constructor(id: number, name: string) {
-        this.id = id;
-        this.name = name;
-    }
-}
+export class Tag extends RecipeAttribute {}

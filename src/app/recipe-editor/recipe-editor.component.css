@@ -22,3 +22,7 @@ button {
 .steps-header div {
     margin-top: 22px;
 }
+
+.steps-header h1 {
+    margin: 30px 0 0 0;
+}
