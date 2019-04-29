@@ -77,6 +77,6 @@ export class ChipAutocompleteComponent implements OnInit {
     }
 
     private _filterChips(value: string): RecipeAttribute[] {
-        return this.allChips.filter((chip) => chip.name.indexOf(value) === 0);
+        return this.allChips.filter((chip) => chip.name.toLowerCase().includes(value.toLowerCase()));
     }
 }
