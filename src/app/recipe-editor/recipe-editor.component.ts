@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/data-types/user';
 import { RecipeIngredient } from 'src/data-types/recipe-ingredient';
 import { Ingredient } from 'src/data-types/ingredient';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-recipe-editor',
@@ -38,11 +39,16 @@ export class RecipeEditorComponent implements OnInit {
     ingredientPlaceholder = 'New Ingredient...';
     allIngredientsReady = false;
 
+    ingredientFirstFormGroup: FormGroup;
+    ingredientSecondFormGroup: FormGroup;
+    isLinear: true;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
         private auth: AuthService,
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private _formBuilder: FormBuilder
     ) {
         this.updateRecipe = this.data.recipe;
 
@@ -50,6 +56,13 @@ export class RecipeEditorComponent implements OnInit {
         this.appliedIngredients = [];
         this.allTags = [];
         this.appliedTags = [];
+
+        this.ingredientFirstFormGroup = this._formBuilder.group({
+            firstCtrl: [ '', Validators.required ]
+        });
+        this.ingredientSecondFormGroup = this._formBuilder.group({
+            secondCtrl: [ '', Validators.required ]
+        });
 
         this.getAllTags();
         this.getAllIngredients();
@@ -127,6 +140,9 @@ export class RecipeEditorComponent implements OnInit {
     updateIngredients() {
         const tempIngredients = [];
         this.appliedIngredients.forEach((appliedIngredient) => {
+            if (!this.ingredients) {
+                this.ingredients = [];
+            }
             const ingredientElement = this.ingredients.filter((e) => e.ingredient.name === appliedIngredient.name);
             if (ingredientElement.length === 0) {
                 tempIngredients.push(
@@ -140,7 +156,6 @@ export class RecipeEditorComponent implements OnInit {
                 tempIngredients.push(ingredientElement[0]);
             }
         });
-        console.log(tempIngredients);
         this.ingredients = tempIngredients;
     }
 }

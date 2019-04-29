@@ -15,19 +15,37 @@
         </textarea>
     </mat-form-field>
 </div>
+
 <div class="form">
-    <h1 class="mat-display-1">Recipes</h1>
-    <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
-        <app-chip-autocomplete [placeholder]="ingredientPlaceholder"
-            [(appliedChips)]="appliedIngredients"
-            [(allChips)]="allIngredients">
-        </app-chip-autocomplete>
-    </div>
-    <mat-form-field *ngFor="let ingredient of ingredients">
-        <input matInput type="text" [(ngModel)]="ingredient.quantity">
-        <p>{{ingredient.ingredient.name}}</p>
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="updateIngredients()">Submit Ingredients</button>
+    <h1 class="mat-display-1 ingredient-header">Ingredients</h1>
+    <mat-vertical-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="ingredientFirstFormGroup">
+            <ng-template matStepLabel>Input your ingredients:</ng-template>
+            <form [formGroup]="ingredientFirstFormGroup">
+                <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
+                    <app-chip-autocomplete [placeholder]="ingredientPlaceholder"
+                        [(appliedChips)]="appliedIngredients"
+                        [(allChips)]="allIngredients">
+                    </app-chip-autocomplete>
+                </div>
+                <div>
+                    <button mat-button matStepperNext (click)="updateIngredients()">Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="ingredientSecondFormGroup">
+            <ng-template matStepLabel>Input your ingredient amounts:</ng-template>
+            <form [formGroup]="ingredientSecondFormGroup">
+                <mat-form-field *ngFor="let ingredient of ingredients">
+                        <input matInput type="text" [(ngModel)]="ingredient.quantity" [ngModelOptions]="{standalone: true}">
+                        <p>{{ingredient.ingredient.name}}</p>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                </div>
+            </form>
+        </mat-step>
+    </mat-vertical-stepper>
 </div>
 
 <div class="form">
@@ -47,20 +65,15 @@
         </textarea>
     </mat-form-field>
 </div>
+
 <div class="form">
+    <h1 class="mat-display-1 tag-header">Tags</h1>
     <div *ngIf="(allTagsReady && appliedTagsReady) || (updatedRecipe == null)">
         <app-chip-autocomplete [placeholder]="tagPlaceholder" [(appliedChips)]="appliedTags" [(allChips)]="allTags">
         </app-chip-autocomplete>
     </div>
 </div>
-<div class="form">
-    <div *ngIf="(allIngredientsReady) || (updatedRecipe == null)">
-        <app-chip-autocomplete [placeholder]="ingredientPlaceholder"
-            [(appliedChips)]="appliedIngredients"
-            [(allChips)]="allIngredients">
-        </app-chip-autocomplete>
-    </div>
-</div>
+
 <div class="form">
     <button mat-raised-button color="primary" (click)="submit()">Submit Recipe</button>
     <button mat-raised-button color="primary" (click)="submit()" *ngIf="updateRecipe !== null">Delete Recipe</button>
