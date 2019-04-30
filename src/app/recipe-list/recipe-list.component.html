@@ -1,3 +1,7 @@
+<mat-form-field class="search">
+    <input matInput [(ngModel)]="searchText">
+    <button mat-raised-button (click)="getSearchRecipes()">Search</button>
+</mat-form-field>
 <mat-accordion style="margin: 20px;">
     <mat-expansion-panel *ngFor="let recipe of recipeList">
         <mat-expansion-panel-header>

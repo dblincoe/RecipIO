@@ -107,6 +107,15 @@ app.get(fakeAPI + '/recipe/user/:userId/:authorId', (req, res) => {
 });
 
 /**
+ * return list of all recipes by a specific user
+ */
+app.get(fakeAPI + '/recipe/search/:searchText/:authorId', (req, res) => {
+    pool.query(`CALL Recipes_SELECT_search(${req.params.searchText},${req.params.authorId})`, (err, resultsSet) => {
+        res.json(resultsSet[0]);
+    });
+});
+
+/**
  * Deletes a recipe
  */
 app.get(fakeAPI + '/recipe/delete/:recipeId', (req, res) => {

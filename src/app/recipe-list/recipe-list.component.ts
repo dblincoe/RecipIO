@@ -15,11 +15,14 @@ import { API_BASE } from '../api-url';
 export class RecipeListComponent implements OnInit {
     title = 'Recipes';
     recipeList: Recipe[];
+    searchText: string;
+
     @Input() endpoint: string;
     constructor(private http: HttpClient, private location: PlatformLocation, private auth: AuthService) {}
 
     ngOnInit() {
         this.recipeList = [];
+        this.searchText = '';
         if (this.endpoint === 'user/save') {
             this.getSavedRecipes();
         } else if (this.endpoint === 'user/recipes') {
@@ -27,6 +30,19 @@ export class RecipeListComponent implements OnInit {
         } else {
             this.getAllRecipes();
         }
+    }
+
+    escapeText(input: string): string {
+        return encodeURIComponent(input).replace(/[!'()*]/g, escape).trim();
+    }
+
+    getSearchRecipes() {
+        this.recipeList = [];
+        this.http
+            .get<any[]>(`${API_BASE}/recipe/search/"${this.escapeText(this.searchText)}"/${this.auth.getId()}`)
+            .subscribe((recipesResponse) => {
+                this.recipePromiseRecurse(recipesResponse.reverse());
+            });
     }
 
     getPersonalRecipes(): void {

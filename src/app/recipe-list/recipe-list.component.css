@@ -6,3 +6,9 @@ mat-panel-title {
     font-weight: 500;
     font-size: 1.2em;
 }
+
+.search {
+    display: flex;
+    flex-flow: row;
+    justify-content: end;
+}
