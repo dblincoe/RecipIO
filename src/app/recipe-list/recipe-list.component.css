@@ -16,7 +16,7 @@ mat-form-field {
 }
 
 mat-form-field button {
-    margin-bottom: 20px;
+    bottom: 10px;
 }
 
 mat-form-field input {
