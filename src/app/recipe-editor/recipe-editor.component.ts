@@ -173,7 +173,7 @@ export class RecipeEditorComponent implements OnInit {
 
     deleteRecipe() {
         this.closeEditor();
-        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`).subscribe((response) => response);
+        this.http.get(`${API_BASE}/recipe/delete/${this.recipeId}`).subscribe((response) => window.location.reload());
     }
 
     getAuthor() {

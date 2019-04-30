@@ -1,3 +1,8 @@
 mat-expansion-panel {
     min-width: 800px;
 }
+
+mat-panel-title {
+    font-weight: 500;
+    font-size: 1.2em;
+}
