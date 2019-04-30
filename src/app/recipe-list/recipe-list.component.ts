@@ -10,8 +10,11 @@ import { API_BASE } from '../api-url';
 @Component({
     selector: 'app-recipe-list',
     templateUrl: './recipe-list.component.html',
-    styleUrls: [ './recipe-list.component.css' ]
+    styleUrls: [
+        './recipe-list.component.css'
+    ]
 })
+enum SearchType {}
 export class RecipeListComponent implements OnInit {
     title = 'Recipes';
     recipeList: Recipe[];
