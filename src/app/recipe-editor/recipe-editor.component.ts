@@ -43,6 +43,10 @@ export class RecipeEditorComponent implements OnInit {
     ingredientSecondFormGroup: FormGroup;
     isLinear: true;
 
+    tagsCounter = 0;
+    ingredientCounter = 0;
+    stepsCounter = 0;
+
     constructor(
         public dialogRef: MatDialogRef<RecipeEditorComponent>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -94,31 +98,55 @@ export class RecipeEditorComponent implements OnInit {
     }
 
     addTags() {
-        this.appliedTags.forEach((tag) => {
-            this.http
-                .get(`${API_BASE}/recipe/insert/tag/${this.recipeId}/"${this.escapeText(tag.name)}"`)
-                .subscribe((response) => response);
+        return new Promise((resolve, reject) => {
+            this.appliedTags.forEach((tag) =>
+                this.http
+                    .get(`${API_BASE}/recipe/insert/tag/${this.recipeId}/"${this.escapeText(tag.name)}"`)
+                    .subscribe((response) => {
+                        if (++this.tagsCounter === this.appliedTags.length) {
+                            resolve(true);
+                            console.log('Tags done');
+                        }
+                    })
+            );
         });
     }
 
     addIngredients() {
-        this.ingredients.forEach((ingredient) =>
-            this.http
-                .get(
-                    `${API_BASE}/recipe/insert/ingredient/${this.recipeId}/"${this.escapeText(
-                        ingredient.ingredient.name
-                    )}"/"${this.escapeText(ingredient.quantity)}"`
-                )
-                .subscribe((response) => response)
-        );
+        return new Promise((resolve, reject) => {
+            this.ingredients.forEach((ingredient) =>
+                this.http
+                    .get(
+                        `${API_BASE}/recipe/insert/ingredient/${this.recipeId}/"${this.escapeText(
+                            ingredient.ingredient.name
+                        )}"/"${this.escapeText(ingredient.quantity)}"`
+                    )
+                    .subscribe((response) => {
+                        if (++this.ingredientCounter === this.ingredients.length) {
+                            resolve(true);
+                            console.log('Ingredients done');
+                        }
+                    })
+            );
+        });
     }
 
     addSteps() {
-        this.steps.forEach((step) => {
-            console.log(step);
-            this.http
-                .get(`${API_BASE}/recipe/insert/step/${this.recipeId}/${step.stepNum}/"${this.escapeText(step.text)}"`)
-                .subscribe((response) => response);
+        return new Promise((resolve, reject) => {
+            this.steps.forEach((step) =>
+                this.http
+                    .get(
+                        `${API_BASE}/recipe/insert/step/${this.recipeId}/${step.stepNum}/"${this.escapeText(
+                            step.text
+                        )}"`
+                    )
+                    .subscribe((response) => {
+                        if (++this.stepsCounter === this.steps.length) {
+                            resolve(true);
+                            console.log('Steps done');
+                        }
+                    })
+            );
         });
     }
 
@@ -137,9 +165,9 @@ export class RecipeEditorComponent implements OnInit {
             )
             .subscribe((res: any) => {
                 this.recipeId = res[0][0].id;
-                this.addTags();
-                this.addIngredients();
-                this.addSteps();
+                Promise.all([ this.addSteps(), this.addIngredients(), this.addTags() ]).then(function(values) {
+                    window.location.reload();
+                });
             });
     }
 
