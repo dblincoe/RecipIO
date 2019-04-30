@@ -33,17 +33,13 @@ export class RecipeListComponent implements OnInit {
         this.http
             .get<any[]>(`${API_BASE}/recipe/user/${this.auth.getId()}/${this.auth.getId()}`)
             .subscribe((recipesResponse) => {
-                recipesResponse.forEach((recipeResponse) => {
-                    this.getAuthor(recipeResponse);
-                });
+                this.recipePromiseRecurse(recipesResponse.reverse());
             });
     }
 
     getSavedRecipes(): void {
         this.http.get<any[]>(`${API_BASE}/user/save/${this.auth.getId()}`).subscribe((recipesResponse) => {
-            recipesResponse.forEach((recipeResponse) => {
-                this.getAuthor(recipeResponse);
-            });
+            this.recipePromiseRecurse(recipesResponse.reverse());
         });
     }
 

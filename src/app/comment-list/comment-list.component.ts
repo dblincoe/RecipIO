@@ -65,19 +65,30 @@ export class CommentListComponent implements OnInit {
         this.getComments();
     }
 
+    commentPromiseRecurse(commentsResponse: any[]) {
+        if (commentsResponse.length === 0) {
+            return Promise.resolve();
+        }
+
+        return this.getAuthor(commentsResponse.pop()).then(() => {
+            return this.commentPromiseRecurse(commentsResponse);
+        });
+    }
+
     getComments(): void {
         const userId = this.auth.getId();
         this.http.get<any[]>(`${API_BASE}/comment/select/${this.recipe.id}/${userId}`).subscribe((commentsResponse) => {
-            commentsResponse.forEach((commentResponse) => {
-                this.getAuthor(commentResponse);
-            });
+            this.commentPromiseRecurse(commentsResponse.reverse());
         });
     }
 
     getAuthor(response: any) {
-        this.http.get(`${API_BASE}/user/${response.user_id}`).subscribe((authorResponse) => {
-            response.author = new User(authorResponse[0]);
-            this.commentList.push(new Comment(response));
+        return new Promise((resolve, reject) => {
+            this.http.get(`${API_BASE}/user/${response.user_id}`).subscribe((authorResponse) => {
+                response.author = new User(authorResponse[0]);
+                this.commentList.push(new Comment(response));
+                resolve();
+            });
         });
     }
 }
