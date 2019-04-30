@@ -1,5 +1,9 @@
-mat-expansion-panel {
+div {
     min-width: 800px;
+}
+
+mat-expansion-panel {
+    width: 100%;
 }
 
 mat-panel-title {
@@ -7,8 +11,15 @@ mat-panel-title {
     font-size: 1.2em;
 }
 
-.search {
-    display: flex;
-    flex-flow: row;
-    justify-content: end;
+mat-form-field {
+    width: 100%;
+}
+
+mat-form-field button {
+    margin-bottom: 20px;
+}
+
+mat-form-field input {
+    font-weight: 400;
+    font-size: 1.2em;
 }

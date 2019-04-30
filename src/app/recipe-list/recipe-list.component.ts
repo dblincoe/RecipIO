@@ -14,8 +14,11 @@ import { API_BASE } from '../api-url';
 })
 export class RecipeListComponent implements OnInit {
     title = 'Recipes';
+
     recipeList: Recipe[];
+
     searchText: string;
+    searchPlaceholder = 'Input your Search...';
 
     @Input() endpoint: string;
     constructor(private http: HttpClient, private location: PlatformLocation, private auth: AuthService) {}

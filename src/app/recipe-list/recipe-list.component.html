@@ -1,20 +1,22 @@
-<mat-form-field class="search">
-    <input matInput [(ngModel)]="searchText">
-    <button mat-raised-button (click)="getSearchRecipes()">Search</button>
-</mat-form-field>
-<mat-accordion style="margin: 20px;">
-    <mat-expansion-panel *ngFor="let recipe of recipeList">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                {{recipe.title}}
-            </mat-panel-title>
-            <mat-panel-description>
-                {{recipe.description}}
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <ng-template matExpansionPanelContent>
-            <app-recipe-detail [(recipe)]="recipe">
-            </app-recipe-detail>
-        </ng-template>
-    </mat-expansion-panel>
-</mat-accordion>
+<div>
+    <mat-form-field class="search">
+        <input matInput [(ngModel)]="searchText" [placeholder]="searchPlaceholder">
+        <button matSuffix mat-raised-button (click)="getSearchRecipes()">Search</button>
+    </mat-form-field>
+    <mat-accordion style="margin: 20px;">
+        <mat-expansion-panel *ngFor="let recipe of recipeList">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{recipe.title}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{recipe.description}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+                <app-recipe-detail [(recipe)]="recipe">
+                </app-recipe-detail>
+            </ng-template>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
