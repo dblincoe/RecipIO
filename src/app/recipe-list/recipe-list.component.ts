@@ -7,14 +7,12 @@ import { RecipeStep } from 'src/data-types/recipe-step';
 import { RecipeIngredient } from 'src/data-types/recipe-ingredient';
 import { AuthService } from '../auth.service';
 import { API_BASE } from '../api-url';
+
 @Component({
     selector: 'app-recipe-list',
     templateUrl: './recipe-list.component.html',
-    styleUrls: [
-        './recipe-list.component.css'
-    ]
+    styleUrls: [ './recipe-list.component.css' ]
 })
-enum SearchType {}
 export class RecipeListComponent implements OnInit {
     title = 'Recipes';
 
