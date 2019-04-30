@@ -165,7 +165,7 @@ export class RecipeEditorComponent implements OnInit {
             )
             .subscribe((res: any) => {
                 this.recipeId = res[0][0].id;
-                Promise.all([ this.addSteps(), this.addIngredients(), this.addTags() ]).then(function(values) {
+                Promise.all([ this.addSteps(), this.addIngredients(), this.addTags() ]).then((values) => {
                     window.location.reload();
                 });
             });
