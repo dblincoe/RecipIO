@@ -9,7 +9,9 @@ import { API_BASE } from '../api-url';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
-    styleUrls: [ './registration.component.css' ]
+    styleUrls: [
+        './registration.component.css'
+    ]
 })
 export class RegistrationComponent implements OnInit {
     title = 'Create an Account';
@@ -26,6 +28,10 @@ export class RegistrationComponent implements OnInit {
     ) {}
 
     ngOnInit() {}
+
+    escapeText(input: string): string {
+        return encodeURIComponent(input).replace(/[!'()*]/g, escape).trim();
+    }
 
     register(user?: User): void {
         this.http.get(`${API_BASE}/register/${this.email}`).subscribe((checkEmail) => {
