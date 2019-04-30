@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Recipe } from 'src/data-types/recipe';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RecipeStep } from 'src/data-types/recipe-step';
@@ -15,7 +15,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-recipe-editor',
     templateUrl: './recipe-editor.component.html',
-    styleUrls: [ './recipe-editor.component.css' ]
+    styleUrls: [
+        './recipe-editor.component.css'
+    ]
 })
 export class RecipeEditorComponent implements OnInit {
     pageTitle = 'Recipe Editor';
@@ -69,7 +71,9 @@ export class RecipeEditorComponent implements OnInit {
 
     ngOnInit() {
         if (!this.auth.checkAuth()) {
-            this.router.navigate([ '/allRecipes' ]);
+            this.router.navigate([
+                '/allRecipes'
+            ]);
         } else if (this.updateRecipe != null) {
             this.fillEditor();
         } else {
@@ -165,7 +169,11 @@ export class RecipeEditorComponent implements OnInit {
             )
             .subscribe((res: any) => {
                 this.recipeId = res[0][0].id;
-                Promise.all([ this.addSteps(), this.addIngredients(), this.addTags() ]).then((values) => {
+                Promise.all([
+                    this.addSteps(),
+                    this.addIngredients(),
+                    this.addTags()
+                ]).then((values) => {
                     window.location.reload();
                 });
             });

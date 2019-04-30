@@ -1,7 +1,9 @@
+<h1>{{title()}}</h1>
 <div>
-    <mat-form-field class="search">
-        <input matInput [(ngModel)]="searchText" [placeholder]="searchPlaceholder">
-        <button matSuffix mat-raised-button (click)="getSearchRecipes()">Search</button>
+    <mat-form-field (keyup.enter)="getSearchRecipes()" *ngIf="listName === 'allRecipes'" class="search">
+        <input id="search" matInput [(ngModel)]="searchText" [placeholder]="searchPlaceholder">
+        <button id="searchBtn" type="submit" matSuffix mat-raised-button color="primary"
+            (click)="getSearchRecipes()">Search</button>
     </mat-form-field>
     <mat-accordion style="margin: 20px;">
         <mat-expansion-panel *ngFor="let recipe of recipeList">

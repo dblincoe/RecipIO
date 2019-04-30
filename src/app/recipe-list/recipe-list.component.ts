@@ -11,42 +11,53 @@ import { API_BASE } from '../api-url';
 @Component({
     selector: 'app-recipe-list',
     templateUrl: './recipe-list.component.html',
-    styleUrls: [ './recipe-list.component.css' ]
+    styleUrls: [
+        './recipe-list.component.css'
+    ]
 })
 export class RecipeListComponent implements OnInit {
-    title = 'Recipes';
-
+    listTitle: string;
     recipeList: Recipe[];
-
     searchText: string;
     searchPlaceholder = 'Input your Search...';
+    showSearch = false;
+    @Input() listName: string;
 
-    @Input() endpoint: string;
     constructor(private http: HttpClient, private location: PlatformLocation, private auth: AuthService) {}
 
     ngOnInit() {
         this.recipeList = [];
         this.searchText = '';
-        if (this.endpoint === 'user/save') {
+        if (this.listName === 'saved') {
+            this.listTitle = 'Saved Recipes';
             this.getSavedRecipes();
-        } else if (this.endpoint === 'user/recipes') {
+        } else if (this.listName === 'personal') {
+            this.listTitle = 'My Recipes';
             this.getPersonalRecipes();
         } else {
+            this.listTitle = 'Top Recipes';
             this.getAllRecipes();
         }
     }
 
+    title() {
+        return this.searchText.trim().length > 0 ? 'Search Results:' : this.listTitle;
+    }
     escapeText(input: string): string {
         return encodeURIComponent(input).replace(/[!'()*]/g, escape).trim();
     }
 
     getSearchRecipes() {
-        this.recipeList = [];
-        this.http
-            .get<any[]>(`${API_BASE}/recipe/search/"${this.escapeText(this.searchText)}"/${this.auth.getId()}`)
-            .subscribe((recipesResponse) => {
-                this.recipePromiseRecurse(recipesResponse.reverse());
-            });
+        if (this.searchText.trim().length > 0) {
+            this.recipeList = [];
+            this.http
+                .get<any[]>(
+                    `${API_BASE}/recipe/search/"${this.escapeText(this.searchText.trim())}"/${this.auth.getId()}`
+                )
+                .subscribe((recipesResponse) => {
+                    this.recipePromiseRecurse(recipesResponse.reverse());
+                });
+        }
     }
 
     getPersonalRecipes(): void {

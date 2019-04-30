@@ -1,14 +1,14 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
         <div>
-
             <button mat-raised-button type="button" color="primary" (click)="drawer.toggle()">
                 <i class="fas fa-bars fa-2x"></i>
             </button>
             <span style="margin-left: 20px; margin-right: 20px;">RecipIO</span>
         </div>
         <div>
-            <button mat-raised-button color="accent" (click)="openEditor()">
+            <button matTooltipPosition="left" matTooltip="New Recipe" mat-raised-button color="accent"
+                (click)="openEditor()">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
