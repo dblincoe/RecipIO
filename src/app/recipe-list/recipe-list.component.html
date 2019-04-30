@@ -1,5 +1,5 @@
 <div>
-    <mat-form-field class="search">
+    <mat-form-field class="search" *ngIf="endpoint === 'allRecipes'">
         <input matInput [(ngModel)]="searchText" [placeholder]="searchPlaceholder">
         <button matSuffix mat-raised-button (click)="getSearchRecipes()">Search</button>
     </mat-form-field>
