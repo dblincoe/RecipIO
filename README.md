@@ -1,27 +1,44 @@
-# EECS341Project
+# EECS341 Final Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
+Kennan LeJeune, David Blincoe, Ellis Saupe, and Sam Jenkins
 
-## Development server
+## Overview:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Recipio is a recipe sharing and discussion forum written using Angular 7 (frontend), Node.js, and Express.js (backend).  Users are able to create accounts, upload recipes, write comments, and vote on recipes and comments. Users can additionally search for recipes based on recipe ingredients, tags, name, description, or author.  The website displays recipes sorted by user vote ratings.  All API endpoints are supported on the server side with stored procedures within the required MySQL database.
 
-## Code scaffolding
+## Project Requirements
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### CRUD requirements
 
-## Build
+- Create: rows are created whenever a new user account is created or when a new recipe is uploaded
+- Read: Whenever the page displays a recipe or comment, it will be reading that information from the database
+- Update: Users can edit both comments and recipes, which will update the corresponding row in the database
+- Delete: Users can delete comments or recipes, which delete the corresponding row in the database, as well as the voting information tied to those entries 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Aggregate Query requirements:
 
-## Running unit tests
+- Used to count the number of likes a recipe or comment has, as well as displaying cumulative ratings. 
+Aggregate queries are also used in the search function in order to determine which recipes the user has ingredients for
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Beyond Requirements:
+- Prevented SQL injection by escaping input parameters
+- Used stored procedures to standardize and streamline queries
+- Used views to cache expensive procedures from aggregate queries discussed above
 
-## Running end-to-end tests
+## Team Member Contributions:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+- David and Kennan - Developed Material Design UI and an API server using Node.js and Express.js to host both the back end API and front end components from the same port.
+- Ellis and Sam - created database structure and configuration.  Wrote stored procedures to be called by the API
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Lessons & Challenges
+
+- Passing strings to stored procedures requires manually adding quotation wrapping in order to correctly execute the query, or else the stored procedure fails silently. Debugging this was...unpleasant. 
+- We found that good API design is crucial. Without careful thought, certain endpoints can overlap with each other, making for a confusing experience when debugging.
+- We learned how to create and use stored procedures, and quickly realized how they are useful when constructing an API. By providing an abstracted layer, we were able to completely change the function of our application by modifying a stored procedure without ever touching the client side codebase.
+- Learned how to create a temporary table and how to parse a delimited string in SQL for more complex queries
+
+## Deployment
+
+Run `ng build` to build the project. The build artifacts are stored in /dist/.  To run the application, run `node server.js` from the root project directory.  The resulting server can be accessed at `localhost:33201`.
+
