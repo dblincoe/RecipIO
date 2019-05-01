@@ -42,5 +42,27 @@ RecipIO is a recipe sharing and discussion forum written using Angular 7 (fronte
 
 ## Deployment
 
-Run `ng build` to build the project. The build artifacts are stored in /dist/.  To run the application, run `node server.js` from the root project directory.  The resulting server can be accessed at `localhost:33201`.
+### Prerequisites
+
+This project requires nodejs, npm, and the Angular command line tools. These can be installed on linux systems with 
+
+```bash
+sudo apt install npm
+sudo npm install @angular/cli -g
+```
+
+From the project directory, run the following to install the dependencies and build the project. 
+
+```bash
+npm install
+ng build
+```
+
+The build artifacts are stored in /dist.  To deploy the application, run 
+
+```bash
+node server.js
+```
+
+from the root project directory. The application can be accessed at `localhost:33201`.
 
