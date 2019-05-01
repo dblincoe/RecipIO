@@ -4,7 +4,7 @@ Kennan LeJeune, David Blincoe, Ellis Saupe, and Sam Jenkins
 
 ## Overview:
 
-Recipio is a recipe sharing and discussion forum written using Angular 7 (frontend), Node.js, and Express.js (backend).  Users are able to create accounts, upload recipes, write comments, and vote on recipes and comments. Users can additionally search for recipes based on recipe ingredients, tags, name, description, or author.  The website displays recipes sorted by user vote ratings.  All API endpoints are supported on the server side with stored procedures within the required MySQL database.
+RecipIO is a recipe sharing and discussion forum written using Angular 7 (frontend), Node.js, and Express.js (backend). Users are able to create accounts, upload recipes, write comments, and vote on recipes and comments. Users can additionally search for recipes based on recipe ingredients, tags, name, description, or author. The website displays recipes sorted by user vote ratings. All API endpoints are supported on the server side with stored procedures within the required MySQL database.
 
 ## Project Requirements
 
