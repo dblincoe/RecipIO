@@ -18,12 +18,14 @@ Recipio is a recipe sharing and discussion forum written using Angular 7 (fronte
 ### Aggregate Query requirements:
 
 - Used to count the number of likes a recipe or comment has, as well as displaying cumulative ratings. 
-Aggregate queries are also used in the search function in order to determine which recipes the user has ingredients for
+- Search function uses aggregate query in order to determine which recipes match user input
 
-## Beyond Requirements:
+### Beyond Requirements:
+
 - Prevented SQL injection by escaping input parameters
 - Used stored procedures to standardize and streamline queries
 - Used views to cache expensive procedures from aggregate queries discussed above
+- Material Design UI for better user experience
 
 ## Team Member Contributions:
 
