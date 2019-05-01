@@ -13,7 +13,7 @@ var pool = mysql.createPool({
     password: 'b3e84b91'
 });
 
-var debug = true;
+var debug = false;
 var fakeAPI = debug ? '/api' : '';
 
 /**
